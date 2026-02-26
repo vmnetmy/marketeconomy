@@ -161,6 +161,7 @@ export function resolveMediaUrl(media?: CMSMedia | string | null): string | null
 export async function getPageBySlug(slug: string): Promise<PageDoc | null> {
   const params = new URLSearchParams({
     'where[slug][equals]': slug,
+    'where[_status][equals]': 'published',
     depth: '3',
     limit: '1',
   })
