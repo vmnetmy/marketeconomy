@@ -1,0 +1,12 @@
+diff --git a/dist/layouts/Root/index.js b/dist/layouts/Root/index.js
+index 0018235a27d6f72e39b2f9975a24167b3cd04c57..a8e441c7e17e835be218821c5fa4d5e08e0d46a0 100644
+--- a/dist/layouts/Root/index.js
++++ b/dist/layouts/Root/index.js
+@@ -83,6 +83,7 @@ export const RootLayout = async ({
+     ...htmlProps,
+     children: [/*#__PURE__*/_jsx("head", {
+       children: /*#__PURE__*/_jsx("style", {
++        suppressHydrationWarning: true,
+         children: `@layer payload-default, payload;`
+       })
+     }), /*#__PURE__*/_jsxs("body", {
