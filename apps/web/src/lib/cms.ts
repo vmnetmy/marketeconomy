@@ -141,7 +141,7 @@ function buildUrl(path: string): string {
 
 async function fetchJSON<T>(path: string): Promise<T> {
   const res = await fetch(buildUrl(path), {
-    cache: 'no-store',
+    cache: 'force-cache',
   })
 
   if (!res.ok) {
@@ -210,6 +210,32 @@ export async function getAllPageSlugs(): Promise<string[]> {
   return (data.docs || [])
     .map((doc) => doc.slug)
     .filter((slug): slug is string => typeof slug === 'string' && slug.length > 0)
+}
+
+export async function getAllPostSlugs(): Promise<string[]> {
+  const slugs: string[] = []
+  let page = 1
+  let hasNextPage = true
+
+  while (hasNextPage) {
+    const params = new URLSearchParams({
+      'where[_status][equals]': 'published',
+      depth: '0',
+      limit: '100',
+      page: String(page),
+    })
+
+    const data = await fetchJSON<CollectionResponse<{ slug?: string | null }>>(`/api/posts?${params.toString()}`)
+    const pageSlugs =
+      data.docs
+        ?.map((doc) => doc.slug)
+        .filter((slug): slug is string => typeof slug === 'string' && slug.length > 0) ?? []
+    slugs.push(...pageSlugs)
+    hasNextPage = data.hasNextPage
+    page += 1
+  }
+
+  return slugs
 }
 
 export async function getHeader(): Promise<HeaderGlobal | null> {

@@ -1,14 +1,21 @@
 import { notFound } from 'next/navigation'
 
 import { BlockRenderer } from '../../components/blocks/BlockRenderer'
-import { getPageBySlug } from '../../lib/cms'
+import { getAllPageSlugs, getPageBySlug } from '../../lib/cms'
 
 type PageProps = {
-  params: Promise<{ slug: string }>
+  params: { slug: string }
+}
+
+export const dynamicParams = false
+
+export async function generateStaticParams() {
+  const slugs = await getAllPageSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 export default async function Page({ params }: PageProps) {
-  const { slug } = await params
+  const { slug } = params
   const page = await getPageBySlug(slug)
   if (!page) return notFound()
 

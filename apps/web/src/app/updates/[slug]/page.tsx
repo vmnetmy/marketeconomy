@@ -3,7 +3,14 @@ import type { SerializedEditorState } from 'lexical'
 import { notFound } from 'next/navigation'
 
 import { BlockRenderer } from '../../../components/blocks/BlockRenderer'
-import { getPostBySlug } from '../../../lib/cms'
+import { getAllPostSlugs, getPostBySlug } from '../../../lib/cms'
+
+export const dynamicParams = false
+
+export async function generateStaticParams() {
+  const slugs = await getAllPostSlugs()
+  return slugs.map((slug) => ({ slug }))
+}
 
 const renderRichText = (content?: SerializedEditorState | null) => {
   if (!content) return null
@@ -11,8 +18,8 @@ const renderRichText = (content?: SerializedEditorState | null) => {
   return <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
 }
 
-export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
+export default async function PostPage({ params }: { params: { slug: string } }) {
+  const { slug } = params
   const post = await getPostBySlug(slug)
   if (!post) return notFound()
 
