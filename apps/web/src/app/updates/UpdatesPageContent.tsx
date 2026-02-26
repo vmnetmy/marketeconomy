@@ -21,29 +21,22 @@ const renderRichText = (content?: SerializedEditorState | null) => {
   return <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
 }
 
-const getIntroFromPage = (page?: { layout?: Array<{ blockType?: string; content?: unknown }> }) => {
+const getIntroFromPage = (page?: { layout?: Array<{ blockType?: string; content?: unknown }> } | null) => {
   const firstRichText = page?.layout?.find((block) => block.blockType === 'richText')
   return firstRichText?.content as SerializedEditorState | null | undefined
 }
-
-const buildPageHref = (page: number) => (page <= 1 ? '/updates' : `/updates/page/${page}`)
 
 export async function UpdatesPageContent({ currentPage }: { currentPage: number }) {
   const pageToRender = Math.max(1, currentPage)
 
   const [pageData, postsData, sidebarData] = await Promise.all([
     getPageBySlug('updates'),
-    getPostsPage({ page: pageToRender, limit: 10 }),
+    getPostsPage({ page: pageToRender, limit: 50 }),
     getUpdatesSidebar(),
   ])
 
   const intro = getIntroFromPage(pageData)
   const heading = pageData?.title ?? 'Latest posts'
-
-  const totalPages = postsData.totalPages ?? 1
-  const pageStart = Math.max(1, pageToRender - 2)
-  const pageEnd = Math.min(totalPages, pageToRender + 2)
-  const pageNumbers = Array.from({ length: pageEnd - pageStart + 1 }, (_, i) => pageStart + i)
 
   const featuredLimit = Math.max(1, sidebarData?.featuredLimit ?? 3)
   const featuredPosts = await getFeaturedPosts(featuredLimit)
@@ -128,43 +121,6 @@ export async function UpdatesPageContent({ currentPage }: { currentPage: number 
               </div>
             )}
 
-            {totalPages > 1 ? (
-              <nav className="flex flex-wrap items-center justify-center gap-2">
-                <a
-                  href={buildPageHref(pageToRender - 1)}
-                  className={`rounded-full border px-4 py-2 text-sm font-semibold ${
-                    pageToRender === 1
-                      ? 'pointer-events-none border-slate-200 text-slate-400'
-                      : 'border-slate-300 text-slate-700 hover:border-slate-400'
-                  }`}
-                >
-                  Prev
-                </a>
-                {pageNumbers.map((pageNumber) => (
-                  <a
-                    key={pageNumber}
-                    href={buildPageHref(pageNumber)}
-                    className={`rounded-full border px-4 py-2 text-sm font-semibold ${
-                      pageNumber === pageToRender
-                        ? 'border-slate-900 bg-slate-900 text-white'
-                        : 'border-slate-300 text-slate-700 hover:border-slate-400'
-                    }`}
-                  >
-                    {pageNumber}
-                  </a>
-                ))}
-                <a
-                  href={buildPageHref(pageToRender + 1)}
-                  className={`rounded-full border px-4 py-2 text-sm font-semibold ${
-                    pageToRender >= totalPages
-                      ? 'pointer-events-none border-slate-200 text-slate-400'
-                      : 'border-slate-300 text-slate-700 hover:border-slate-400'
-                  }`}
-                >
-                  Next
-                </a>
-              </nav>
-            ) : null}
           </div>
 
           <div className="mt-10 lg:sticky lg:top-24 lg:mt-0">

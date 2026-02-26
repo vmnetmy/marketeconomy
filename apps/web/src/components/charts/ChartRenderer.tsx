@@ -67,9 +67,9 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
     case 'stackedBar':
     case 'groupedBar': {
       if (!config.indexBy || !config.valueKeys?.length) return null
-      const data = rows.map((row) => {
-        const item: Record<string, unknown> = {
-          [config.indexBy as string]: row[config.indexBy as string] ?? '',
+      const data: Array<Record<string, string | number>> = rows.map((row) => {
+        const item: Record<string, string | number> = {
+          [config.indexBy as string]: toString(row[config.indexBy as string]),
         }
         config.valueKeys?.forEach((key) => {
           item[key] = toNumber(row[key])
@@ -92,7 +92,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
             enableLabel={false}
             legends={
               showLegend
-                ? [
+                ? ([
                     {
                       anchor: 'bottom',
                       direction: 'row',
@@ -101,7 +101,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
                       itemHeight: 18,
                       symbolSize: 12,
                     },
-                  ]
+                  ] as any)
                 : []
             }
           />
@@ -134,7 +134,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
             useMesh
             legends={
               showLegend
-                ? [
+                ? ([
                     {
                       anchor: 'bottom',
                       direction: 'row',
@@ -143,7 +143,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
                       itemHeight: 18,
                       symbolSize: 12,
                     },
-                  ]
+                  ] as any)
                 : []
             }
           />
@@ -170,7 +170,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
             margin={{ top: 20, right: 20, bottom: 60, left: 20 }}
             legends={
               showLegend
-                ? [
+                ? ([
                     {
                       anchor: 'bottom',
                       direction: 'row',
@@ -179,7 +179,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
                       itemHeight: 18,
                       symbolSize: 12,
                     },
-                  ]
+                  ] as any)
                 : []
             }
           />
@@ -209,7 +209,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
             axisLeft={{ tickSize: 0, tickPadding: 8 }}
             legends={
               showLegend
-                ? [
+                ? ([
                     {
                       anchor: 'bottom',
                       direction: 'row',
@@ -218,7 +218,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
                       itemHeight: 18,
                       symbolSize: 12,
                     },
-                  ]
+                  ] as any)
                 : []
             }
           />
@@ -227,9 +227,9 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
     }
     case 'radar': {
       if (!config.indexBy || !config.valueKeys?.length) return null
-      const data = rows.map((row) => {
-        const item: Record<string, unknown> = {
-          [config.indexBy as string]: row[config.indexBy as string] ?? '',
+      const data: Array<Record<string, string | number>> = rows.map((row) => {
+        const item: Record<string, string | number> = {
+          [config.indexBy as string]: toString(row[config.indexBy as string]),
         }
         config.valueKeys?.forEach((key) => {
           item[key] = toNumber(row[key])
@@ -247,7 +247,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
             gridLabelOffset={18}
             legends={
               showLegend
-                ? [
+                ? ([
                     {
                       anchor: 'bottom',
                       direction: 'row',
@@ -256,7 +256,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
                       itemHeight: 18,
                       symbolSize: 12,
                     },
-                  ]
+                  ] as any)
                 : []
             }
           />
@@ -285,7 +285,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
             axisLeft={{ tickSize: 0, tickPadding: 8 }}
             legends={
               showLegend
-                ? [
+                ? ([
                     {
                       anchor: 'bottom',
                       direction: 'row',
@@ -294,7 +294,7 @@ export function ChartRenderer({ dataset, config }: { dataset: Dataset; config: C
                       itemHeight: 18,
                       symbolSize: 12,
                     },
-                  ]
+                  ] as any)
                 : []
             }
           />
