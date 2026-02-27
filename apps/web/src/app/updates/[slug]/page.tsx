@@ -14,8 +14,24 @@ const renderRichText = (content?: SerializedEditorState | null) => {
   return <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
 }
 
-export default async function PostPage({ params }: { params: { slug: string } }) {
-  const slug = decodeURIComponent(params.slug)
+export default async function PostPage({ params }: { params: { slug?: string } }) {
+  const requestHeaders = await headers()
+  const requestPath =
+    requestHeaders.get('x-original-url') ||
+    requestHeaders.get('x-original-uri') ||
+    requestHeaders.get('x-envoy-original-path') ||
+    requestHeaders.get('x-rewrite-url') ||
+    requestHeaders.get('x-forwarded-uri') ||
+    requestHeaders.get('x-forwarded-path') ||
+    requestHeaders.get('x-url') ||
+    null
+
+  const rawSlug = typeof params.slug === 'string' ? params.slug : ''
+  let slug = rawSlug ? decodeURIComponent(rawSlug) : ''
+  if (!slug || slug === 'undefined') {
+    const match = requestPath?.match(/\/updates\/([^/?#]+)(?:\/|$)/)
+    if (match?.[1]) slug = decodeURIComponent(match[1])
+  }
   let post = await getPostBySlug(slug)
 
   if (!post) {
@@ -25,13 +41,10 @@ export default async function PostPage({ params }: { params: { slug: string } })
 
   if (!post) {
     try {
-      const requestHeaders = await headers()
-      const requestPath =
-        requestHeaders.get('x-original-url') ||
-        requestHeaders.get('x-url') ||
-        requestHeaders.get('x-forwarded-uri') ||
-        requestHeaders.get('x-forwarded-path')
       const userAgent = requestHeaders.get('user-agent')
+      const headerKeys = Array.from(requestHeaders.keys()).filter(
+        (key) => key !== 'cookie' && key !== 'authorization',
+      )
       const debugParams = new URLSearchParams({
         'where[slug][equals]': slug,
         'where[_status][equals]': 'published',
@@ -52,6 +65,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
           slug,
           requestPath,
           userAgent: userAgent?.slice(0, 80) ?? null,
+          headerKeys,
           cmsUrl: CMS_URL,
           status: res.status,
           docsCount,
