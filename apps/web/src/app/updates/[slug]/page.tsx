@@ -25,7 +25,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
 
   if (!post) {
     try {
-      const requestHeaders = headers()
+      const requestHeaders = await headers()
       const requestPath =
         requestHeaders.get('x-original-url') ||
         requestHeaders.get('x-url') ||
