@@ -3,7 +3,7 @@ import type { SerializedEditorState } from 'lexical'
 import { notFound } from 'next/navigation'
 
 import { BlockRenderer } from '../../../components/blocks/BlockRenderer'
-import { getPostBySlug } from '../../../lib/cms'
+import { getPostBySlug, getPostsPage } from '../../../lib/cms'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,8 +14,13 @@ const renderRichText = (content?: SerializedEditorState | null) => {
 }
 
 export default async function PostPage({ params }: { params: { slug: string } }) {
-  const { slug } = params
-  const post = await getPostBySlug(slug)
+  const slug = decodeURIComponent(params.slug)
+  let post = await getPostBySlug(slug)
+
+  if (!post) {
+    const fallback = await getPostsPage({ page: 1, limit: 200 })
+    post = fallback.docs.find((doc) => doc.slug === slug) ?? null
+  }
   if (!post) return notFound()
 
   return (
