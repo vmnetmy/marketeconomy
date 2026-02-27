@@ -1,0 +1,8 @@
+<svg width="480" height="120" viewBox="0 0 480 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="480" height="120" rx="20" fill="#0F172A"/>
+  <rect x="24" y="24" width="72" height="72" rx="16" fill="#2563EB"/>
+  <path d="M44 76V44H52L60 60L68 44H76V76H68V58L60 72L52 58V76H44Z" fill="white"/>
+  <path d="M90 76V44H98L106 60L114 44H122V76H114V58L106 72L98 58V76H90Z" fill="white"/>
+  <text x="120" y="58" fill="white" font-family="'Geist', 'Inter', sans-serif" font-size="20" font-weight="600" letter-spacing="0.18em">MARKET ECONOMY</text>
+  <text x="120" y="84" fill="#CBD5F5" font-family="'Geist', 'Inter', sans-serif" font-size="12" font-weight="500" letter-spacing="0.4em">NETWORK</text>
+</svg>
