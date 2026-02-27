@@ -1,6 +1,7 @@
 import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
 import type { SerializedEditorState } from 'lexical'
 import { notFound } from 'next/navigation'
+import { headers } from 'next/headers'
 
 import { BlockRenderer } from '../../../components/blocks/BlockRenderer'
 import { CMS_URL, getPostBySlug, getPostsPage } from '../../../lib/cms'
@@ -24,6 +25,13 @@ export default async function PostPage({ params }: { params: { slug: string } })
 
   if (!post) {
     try {
+      const requestHeaders = headers()
+      const requestPath =
+        requestHeaders.get('x-original-url') ||
+        requestHeaders.get('x-url') ||
+        requestHeaders.get('x-forwarded-uri') ||
+        requestHeaders.get('x-forwarded-path')
+      const userAgent = requestHeaders.get('user-agent')
       const debugParams = new URLSearchParams({
         'where[slug][equals]': slug,
         'where[_status][equals]': 'published',
@@ -39,12 +47,20 @@ export default async function PostPage({ params }: { params: { slug: string } })
       }
       console.error(
         `[updates-slug] not found`,
-        JSON.stringify({ slug, cmsUrl: CMS_URL, status: res.status, docsCount }),
+        JSON.stringify({
+          params,
+          slug,
+          requestPath,
+          userAgent: userAgent?.slice(0, 80) ?? null,
+          cmsUrl: CMS_URL,
+          status: res.status,
+          docsCount,
+        }),
       )
     } catch (error) {
       console.error(
         `[updates-slug] debug fetch failed`,
-        JSON.stringify({ slug, cmsUrl: CMS_URL, error: String(error) }),
+        JSON.stringify({ params, slug, cmsUrl: CMS_URL, error: String(error) }),
       )
     }
   }
