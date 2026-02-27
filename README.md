@@ -33,6 +33,10 @@ Create `apps/cms/.env`:
 ```
 DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/DB
 PAYLOAD_SECRET=change_me
+GCS_BUCKET=your-bucket-name
+GCS_PROJECT_ID=your-gcp-project-id
+# Optional (custom endpoint for GCS-compatible storage)
+# GCS_ENDPOINT=https://storage.googleapis.com
 ```
 
 Optional (web app, defaults to `http://localhost:3000`):
@@ -87,6 +91,7 @@ From `apps/cms`:
 
 - A pnpm patch is applied to `@payloadcms/next` to suppress a known admin hydration mismatch.
 - If the admin UI shows hydration errors after changes, run:
+ - Media uploads use Google Cloud Storage when `GCS_BUCKET` and `GCS_PROJECT_ID` are set; otherwise local storage is used.
 
 ```bash
 pnpm -C apps/cms devsafe

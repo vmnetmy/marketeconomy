@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { gcsStorage } from '@payloadcms/storage-gcs'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -18,6 +19,10 @@ import { Footer, Header, SiteSettings, UpdatesSidebar } from './globals'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+const gcsBucket = process.env.GCS_BUCKET || ''
+const gcsProjectId = process.env.GCS_PROJECT_ID || ''
+const gcsEndpoint = process.env.GCS_ENDPOINT
+const gcsEnabled = Boolean(gcsBucket && gcsProjectId)
 
 export default buildConfig({
   admin: {
@@ -40,5 +45,18 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    gcsStorage({
+      enabled: gcsEnabled,
+      acl: 'Public',
+      bucket: gcsBucket,
+      options: {
+        projectId: gcsProjectId,
+        ...(gcsEndpoint ? { apiEndpoint: gcsEndpoint } : {}),
+      },
+      collections: {
+        media: true,
+      },
+    }),
+  ],
 })
