@@ -17,6 +17,7 @@ const renderRichText = (content?: SerializedEditorState | null) => {
 export default async function PostPage({ params }: { params: { slug?: string } }) {
   const requestHeaders = await headers()
   const requestPath =
+    requestHeaders.get('x-pathname') ||
     requestHeaders.get('x-original-url') ||
     requestHeaders.get('x-original-uri') ||
     requestHeaders.get('x-envoy-original-path') ||
