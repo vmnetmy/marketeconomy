@@ -108,7 +108,7 @@ const upsertDataset = async (payload: Awaited<ReturnType<typeof getPayload>>, da
     title: dataset.title,
     slug: dataset.slug,
     description: dataset.description,
-    _status: 'published',
+    _status: 'published' as const,
   }
 
   if (existing.docs[0]) {
@@ -142,13 +142,13 @@ const upsertPage = async (
     return payload.update({
       collection: 'pages',
       id: existing.docs[0].id,
-      data: { ...data, _status: 'published' },
+      data: { ...data, _status: 'published' as const } as any,
     })
   }
 
   return payload.create({
     collection: 'pages',
-    data: { ...data, _status: 'published' },
+    data: { ...data, _status: 'published' as const } as any,
   })
 }
 
@@ -166,13 +166,13 @@ const upsertPost = async (
     return payload.update({
       collection: 'posts',
       id: existing.docs[0].id,
-      data: { ...data, _status: 'published' },
+      data: { ...data, _status: 'published' as const } as any,
     })
   }
 
   return payload.create({
     collection: 'posts',
-    data: { ...data, _status: 'published' },
+    data: { ...data, _status: 'published' as const } as any,
   })
 }
 

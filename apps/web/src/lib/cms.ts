@@ -1,4 +1,5 @@
-export const CMS_URL = process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000'
+const REVALIDATE_SECONDS = 60
+export const CMS_URL = process.env.CMS_URL || process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000'
 
 export type CMSMedia = {
   url?: string | null
@@ -141,7 +142,7 @@ function buildUrl(path: string): string {
 
 async function fetchJSON<T>(path: string): Promise<T> {
   const res = await fetch(buildUrl(path), {
-    cache: 'force-cache',
+    next: { revalidate: REVALIDATE_SECONDS },
   })
 
   if (!res.ok) {

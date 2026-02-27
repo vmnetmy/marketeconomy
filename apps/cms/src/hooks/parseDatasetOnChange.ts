@@ -1,10 +1,10 @@
 import path from 'path'
-import type { AfterChangeHook } from 'payload'
+import type { CollectionAfterChangeHook } from 'payload'
 
 import { DATASET_UPLOAD_DIR } from '../util/datasetPaths'
 import { parseDataset } from '../util/parseDataset'
 
-export const parseDatasetOnChange: AfterChangeHook = async ({ doc, previousDoc, req }) => {
+export const parseDatasetOnChange: CollectionAfterChangeHook = async ({ doc, previousDoc, req }) => {
   if (req.context?.skipDatasetParse) return doc
 
   const filename = doc?.filename

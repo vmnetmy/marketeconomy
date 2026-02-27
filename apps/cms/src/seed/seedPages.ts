@@ -223,20 +223,20 @@ const upsertPage = async (payload: Awaited<ReturnType<typeof getPayload>>, data:
     return payload.update({
       collection: 'pages',
       id: existing.docs[0].id,
-      data: { ...data, _status: 'published' },
+      data: { ...data, _status: 'published' as const } as any,
     })
   }
 
   return payload.create({
     collection: 'pages',
-    data: { ...data, _status: 'published' },
+    data: { ...data, _status: 'published' as const } as any,
   })
 }
 
 const findPageIdBySlug = async (
   payload: Awaited<ReturnType<typeof getPayload>>,
   slug: string,
-): Promise<string | null> => {
+): Promise<number | null> => {
   const result = await payload.find({
     collection: 'pages',
     where: { slug: { equals: slug } },
@@ -267,7 +267,7 @@ const run = async () => {
     if (pageId) {
       navWithIds.push({
         label: item.label,
-        linkType: 'internal',
+        linkType: 'internal' as const,
         page: pageId,
       })
     }
@@ -276,7 +276,7 @@ const run = async () => {
   await payload.updateGlobal({
     slug: 'header',
     data: {
-      navItems: navWithIds,
+      navItems: navWithIds as any,
     },
   })
 
@@ -288,7 +288,7 @@ const run = async () => {
           title: 'Navigation',
           links: navWithIds.map((item) => ({
             label: item.label,
-            linkType: 'internal',
+            linkType: 'internal' as const,
             page: item.page,
           })),
         },

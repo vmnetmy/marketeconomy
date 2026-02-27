@@ -59,11 +59,15 @@ export default function DatasetPreview() {
         <tbody>
           {previewRows.map((row, index) => (
             <tr key={`row-${index}`}>
-              {columns.map((column) => (
-                <td key={`${column.key ?? column.label}-${index}`} style={cellStyle}>
-                  {row[column.key ?? ''] ?? ''}
-                </td>
-              ))}
+              {columns.map((column) => {
+                const rawValue = row[column.key ?? '']
+                const displayValue = rawValue === null || rawValue === undefined ? '' : String(rawValue)
+                return (
+                  <td key={`${column.key ?? column.label}-${index}`} style={cellStyle}>
+                    {displayValue}
+                  </td>
+                )
+              })}
             </tr>
           ))}
         </tbody>

@@ -251,7 +251,11 @@ const IconOptionLabel = ({ icon, label }: { icon?: IconComponent; label: string 
   const Icon = icon
   return (
     <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-      {Icon ? <Icon className="icon-select__icon" style={iconStyle} /> : null}
+      {Icon ? (
+        <span style={iconStyle}>
+          <Icon className="icon-select__icon" />
+        </span>
+      ) : null}
       <span>{label}</span>
     </span>
   )
@@ -284,7 +288,6 @@ const IconSelect: React.FC<IconSelectProps> = (props) => {
     onChange: onChangeFromProps,
     path: pathFromProps,
     readOnly,
-    validate,
   } = props
 
   const normalizedOptions = useMemo<IconSelectOption[]>(() => {
@@ -307,21 +310,6 @@ const IconSelect: React.FC<IconSelectProps> = (props) => {
     [normalizedOptions],
   )
 
-  const memoizedValidate = useCallback(
-    (value: unknown, validationOptions: Parameters<SelectFieldValidation>[1]) => {
-      if (typeof validate === 'function') {
-        return validate(value as string | string[] | null, {
-          ...validationOptions,
-          hasMany,
-          options,
-          required,
-        })
-      }
-      return true
-    },
-    [validate, required, hasMany, options],
-  )
-
   const {
     customComponents: { AfterInput, BeforeInput, Description, Error, Label } = {},
     disabled,
@@ -331,7 +319,6 @@ const IconSelect: React.FC<IconSelectProps> = (props) => {
     value,
   } = useField({
     potentiallyStalePath: pathFromProps,
-    validate: memoizedValidate,
   })
 
   const resolveOption = useCallback(
@@ -350,9 +337,9 @@ const IconSelect: React.FC<IconSelectProps> = (props) => {
   const valueToRender = useMemo(() => {
     if (hasMany) {
       if (!Array.isArray(value)) return []
-      return value.map((val) => resolveOption(val))
+      return value.map((val) => resolveOption(String(val)))
     }
-    if (!value || Array.isArray(value)) return null
+    if (typeof value !== 'string') return null
     return resolveOption(value)
   }, [hasMany, resolveOption, value])
 
@@ -400,14 +387,14 @@ const IconSelect: React.FC<IconSelectProps> = (props) => {
           disabled={readOnly || disabled}
           filterOption={filterOption}
           id={name}
-          isClearable={isClearable}
+          isClearable={Boolean(isClearable)}
           isSearchable
-          isSortable={isSortable}
-          onChange={onChange}
+          isSortable={Boolean(isSortable)}
+          onChange={onChange as unknown as (value: unknown) => void}
           options={options}
-          placeholder={placeholder ?? 'Select an icon'}
+          placeholder={typeof placeholder === 'string' ? placeholder : 'Select an icon'}
           showError={showError}
-          value={valueToRender}
+          value={valueToRender ?? undefined}
         />
         {AfterInput}
       </div>

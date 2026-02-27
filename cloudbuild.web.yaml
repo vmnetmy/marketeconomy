@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'apps/web/Dockerfile.cloudrun'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/marketeconomy/web/web:latest'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_CMS_URL=https://cms.marketeconomy.org'
+      - '.'
+images:
+  - 'us-central1-docker.pkg.dev/marketeconomy/web/web:latest'

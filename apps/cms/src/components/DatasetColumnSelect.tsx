@@ -22,16 +22,16 @@ type ColumnSelectProps = {
   readonly value?: string | string[] | null
   readonly field: {
     name: string
-    label?: unknown
+    label?: string
     localized?: boolean
     required?: boolean
     hasMany?: boolean
     admin?: {
       className?: string
-      description?: unknown
+      description?: string
       isClearable?: boolean
       isSortable?: boolean
-      placeholder?: unknown
+      placeholder?: string
     }
   }
 } & Omit<ClientComponentProps, 'customComponents' | 'field'>
@@ -60,7 +60,6 @@ const DatasetColumnSelect: React.FC<ColumnSelectProps> = (props) => {
     onChange: onChangeFromProps,
     path: pathFromProps,
     readOnly,
-    validate,
   } = props
 
   const datasetPath = useMemo(() => buildDatasetPath(pathFromProps), [pathFromProps])
@@ -120,23 +119,8 @@ const DatasetColumnSelect: React.FC<ColumnSelectProps> = (props) => {
     }
   }, [datasetId])
 
-  const memoizedValidate = useCallback(
-    (value: unknown, validationOptions: Parameters<SelectFieldValidation>[1]) => {
-      if (typeof validate === 'function') {
-        return validate(value as string | string[] | null, {
-          ...validationOptions,
-          hasMany,
-          options,
-          required,
-        })
-      }
-      return true
-    },
-    [validate, required, hasMany, options],
-  )
-
   const {
-    customComponents: { AfterInput, BeforeInput, Description, Error, Label } = {},
+    customComponents: { AfterInput, BeforeInput, Description, Error: ErrorComponent, Label } = {},
     disabled,
     path,
     setValue,
@@ -144,7 +128,6 @@ const DatasetColumnSelect: React.FC<ColumnSelectProps> = (props) => {
     value,
   } = useField({
     potentiallyStalePath: pathFromProps,
-    validate: memoizedValidate,
   })
 
   const onChange = useCallback(
@@ -183,7 +166,7 @@ const DatasetColumnSelect: React.FC<ColumnSelectProps> = (props) => {
         Fallback={<FieldLabel label={label} localized={localized} path={path} required={required} />}
       />
       <div className={`${fieldBaseClass}__wrap`}>
-        <RenderCustomComponent CustomComponent={Error} Fallback={<FieldError path={path} showError={showError} />} />
+        <RenderCustomComponent CustomComponent={ErrorComponent} Fallback={<FieldError path={path} showError={showError} />} />
         {BeforeInput}
         <SelectInput
           className="react-select"
@@ -191,7 +174,7 @@ const DatasetColumnSelect: React.FC<ColumnSelectProps> = (props) => {
           isClearable={isClearable}
           isSortable={isSortable}
           name={name}
-          onChange={onChange}
+          onChange={onChange as unknown as (value: unknown) => void}
           options={options}
           path={path}
           placeholder={computedPlaceholder}

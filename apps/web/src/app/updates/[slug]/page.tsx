@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { BlockRenderer } from '../../../components/blocks/BlockRenderer'
 import { getAllPostSlugs, getPostBySlug } from '../../../lib/cms'
 
-export const dynamicParams = false
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs()

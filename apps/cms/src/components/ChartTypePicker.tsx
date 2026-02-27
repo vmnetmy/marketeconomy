@@ -24,12 +24,12 @@ type ChartTypePickerProps = {
   readonly value?: string | null
   readonly field: {
     name: string
-    label?: unknown
+    label?: string
     localized?: boolean
     required?: boolean
     admin?: {
       className?: string
-      description?: unknown
+      description?: string
     }
   }
 } & Omit<ClientComponentProps, 'customComponents' | 'field'>
