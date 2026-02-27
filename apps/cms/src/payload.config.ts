@@ -23,6 +23,7 @@ const gcsBucket = process.env.GCS_BUCKET || ''
 const gcsProjectId = process.env.GCS_PROJECT_ID || ''
 const gcsEndpoint = process.env.GCS_ENDPOINT
 const gcsEnabled = Boolean(gcsBucket && gcsProjectId)
+const isProduction = process.env.NODE_ENV === 'production'
 
 export default buildConfig({
   admin: {
@@ -59,4 +60,12 @@ export default buildConfig({
       },
     }),
   ],
+  onInit: async (payload) => {
+    if (isProduction && !gcsEnabled) {
+      payload.logger.error(
+        'GCS storage is not configured. Set GCS_BUCKET and GCS_PROJECT_ID to avoid local media uploads in production.',
+      )
+      throw new Error('Missing GCS_BUCKET/GCS_PROJECT_ID in production.')
+    }
+  },
 })

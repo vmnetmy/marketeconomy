@@ -91,7 +91,8 @@ From `apps/cms`:
 
 - A pnpm patch is applied to `@payloadcms/next` to suppress a known admin hydration mismatch.
 - If the admin UI shows hydration errors after changes, run:
- - Media uploads use Google Cloud Storage when `GCS_BUCKET` and `GCS_PROJECT_ID` are set; otherwise local storage is used.
+  - Media uploads use Google Cloud Storage when `GCS_BUCKET` and `GCS_PROJECT_ID` are set.
+  - In production, the CMS refuses to start without these two values to avoid local uploads.
 
 ```bash
 pnpm -C apps/cms devsafe
