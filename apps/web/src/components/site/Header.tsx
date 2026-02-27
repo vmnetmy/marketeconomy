@@ -1,6 +1,7 @@
 'use client'
 
 import type { NavItem, SiteSettingsGlobal } from '../../lib/cms'
+import { resolveMediaUrl } from '../../lib/cms'
 import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -27,9 +28,10 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const isHome = pathname === '/'
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
+    const handleScroll = () => setScrolled(window.scrollY > 50)
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -40,33 +42,55 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
   }, [pathname])
 
   const headerClass = useMemo(() => {
-    if (variant === 'transparent' && !scrolled) {
+    if (variant === 'transparent' && isHome && !scrolled) {
       return 'border-transparent bg-transparent'
     }
     return 'border-slate-200/70 bg-white/85 shadow-sm backdrop-blur-md'
-  }, [scrolled, variant])
+  }, [isHome, scrolled, variant])
 
   const displayName = site?.siteName ?? 'Network for Market Economy'
+  const logoUrl = resolveMediaUrl(site?.logo)
+  const isFloating = variant === 'transparent' && isHome && !scrolled
+  const navTextClass = isFloating ? 'text-white/80 hover:text-white' : 'text-slate-500 hover:text-slate-900'
+  const activeTextClass = isFloating ? 'text-white' : 'text-blue-600'
+  const brandTextClass = isFloating ? 'text-white/90' : 'text-slate-700'
+  const markClass = isFloating ? 'bg-white text-slate-950' : 'bg-slate-950 text-white'
+  const ctaClass = isFloating
+    ? 'bg-white text-slate-900 hover:bg-slate-100'
+    : 'bg-slate-950 text-white hover:bg-blue-600'
+  const logoClass = isFloating ? 'invert brightness-0' : ''
 
   return (
-    <header className={`fixed top-0 z-50 w-full border-b transition-all duration-300 ${headerClass}`}>
+    <header className={`header-transition fixed top-0 z-50 w-full border-b ${headerClass}`}>
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 md:py-5">
         <Link href="/" className="group flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-950 text-lg font-semibold text-white transition-transform group-hover:scale-110">
-            N
-          </span>
-          <span className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-700 md:text-sm">
+          {logoUrl ? (
+            <img
+              alt={displayName}
+              className={`h-9 w-auto transition-all ${logoClass}`}
+              height={36}
+              src={logoUrl}
+              width={144}
+            />
+          ) : (
+            <span
+              className={`flex h-9 w-9 items-center justify-center rounded-xl text-lg font-semibold transition-transform group-hover:scale-110 ${markClass}`}
+            >
+              N
+            </span>
+          )}
+          <span className={`text-xs font-semibold uppercase tracking-[0.28em] md:text-sm ${brandTextClass}`}>
             {displayName}
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 text-[12px] font-semibold uppercase tracking-[0.2em] text-slate-500 md:flex">
+        <nav className="hidden items-center gap-8 text-[12px] font-semibold uppercase tracking-[0.2em] md:flex">
           {(navItems || []).map((item, index) => {
             const href = resolveHref(item)
             if (!href || !item.label) return null
             const external = isExternalHref(href)
             const isActive = !external && (pathname === href || (href !== '/' && pathname?.startsWith(`${href}/`)))
-            const linkClass = isActive ? 'text-blue-600' : 'text-slate-500 hover:text-slate-900'
+            const linkClass = isActive ? activeTextClass : navTextClass
 
             if (external) {
               return (
@@ -90,7 +114,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
           })}
           <Link
             href="/contact"
-            className="rounded-full bg-slate-950 px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white transition-all hover:bg-blue-600 hover:shadow-lg active:scale-95"
+            className={`rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition-all hover:shadow-lg active:scale-95 ${ctaClass}`}
           >
             Get Involved
           </Link>
@@ -115,7 +139,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
               if (!href || !item.label) return null
               const external = isExternalHref(href)
               const linkClass =
-                'border-b border-slate-100 py-4 text-base font-medium text-slate-900 transition hover:text-blue-600'
+                'menu-item-stagger min-h-[44px] border-b border-slate-100 py-4 text-base font-medium text-slate-900 transition hover:text-blue-600'
 
               if (external) {
                 return (
@@ -125,6 +149,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
                     href={href}
                     rel="noreferrer"
                     target="_blank"
+                    style={{ transitionDelay: `${index * 60}ms` }}
                   >
                     {item.label}
                   </a>
@@ -132,14 +157,20 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
               }
 
               return (
-                <Link key={`${item.label}-${index}`} className={linkClass} href={href}>
+                <Link
+                  key={`${item.label}-${index}`}
+                  className={linkClass}
+                  href={href}
+                  style={{ transitionDelay: `${index * 60}ms` }}
+                >
                   {item.label}
                 </Link>
               )
             })}
             <Link
-              className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-blue-600"
+              className="menu-item-stagger mt-6 inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-blue-600"
               href="/contact"
+              style={{ transitionDelay: `${(navItems?.length ?? 0) * 60}ms` }}
             >
               Get Involved
             </Link>

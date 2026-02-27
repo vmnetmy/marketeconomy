@@ -24,3 +24,23 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+.header-transition {
+  transition:
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-item-stagger {
+  opacity: 0;
+  transform: translateX(-12px);
+  animation: menu-item-in 280ms ease-out forwards;
+}
+
+@keyframes menu-item-in {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
