@@ -1,18 +1,13 @@
 import { notFound } from 'next/navigation'
 
 import { BlockRenderer } from '../../components/blocks/BlockRenderer'
-import { getAllPageSlugs, getPageBySlug } from '../../lib/cms'
+import { getPageBySlug } from '../../lib/cms'
 
 type PageProps = {
   params: { slug: string }
 }
 
-export const dynamicParams = true
-
-export async function generateStaticParams() {
-  const slugs = await getAllPageSlugs()
-  return slugs.map((slug) => ({ slug }))
-}
+export const dynamic = 'force-dynamic'
 
 export default async function Page({ params }: PageProps) {
   const { slug } = params

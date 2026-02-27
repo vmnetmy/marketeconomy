@@ -3,14 +3,9 @@ import type { SerializedEditorState } from 'lexical'
 import { notFound } from 'next/navigation'
 
 import { BlockRenderer } from '../../../components/blocks/BlockRenderer'
-import { getAllPostSlugs, getPostBySlug } from '../../../lib/cms'
+import { getPostBySlug } from '../../../lib/cms'
 
-export const dynamicParams = true
-
-export async function generateStaticParams() {
-  const slugs = await getAllPostSlugs()
-  return slugs.map((slug) => ({ slug }))
-}
+export const dynamic = 'force-dynamic'
 
 const renderRichText = (content?: SerializedEditorState | null) => {
   if (!content) return null
