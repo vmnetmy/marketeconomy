@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 import { iconOptions } from '../util/iconOptions'
 
 export const Cards: Block = {

@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const Pricing: Block = {
   slug: 'pricing',
