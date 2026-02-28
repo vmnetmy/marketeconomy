@@ -33,7 +33,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <Header site={site} navItems={header?.navItems} variant="transparent" />
-        <main className="min-h-screen pt-20 md:pt-24">{children}</main>
+        <main className="min-h-screen">{children}</main>
         <Footer footer={footer} site={site} />
       </body>
     </html>

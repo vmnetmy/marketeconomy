@@ -37,7 +37,7 @@ export async function UpdatesPageContent({ currentPage }: { currentPage: number 
   const featuredPosts = await getFeaturedPosts(featuredLimit)
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-6 pb-12 pt-24 text-slate-900 md:pt-28">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
         <header className="space-y-3">
           <h1 className="text-3xl font-semibold">{heading}</h1>
