@@ -63,9 +63,6 @@ export const Hero: Block = {
     {
       name: 'advanced',
       type: 'group',
-      admin: {
-        initCollapsed: true,
-      },
       fields: [
         {
           name: 'anchorId',

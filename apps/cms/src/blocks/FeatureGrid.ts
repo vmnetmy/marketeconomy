@@ -70,9 +70,6 @@ export const FeatureGrid: Block = {
     {
       name: 'advanced',
       type: 'group',
-      admin: {
-        initCollapsed: true,
-      },
       fields: [
         {
           name: 'anchorId',

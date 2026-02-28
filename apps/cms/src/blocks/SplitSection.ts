@@ -38,9 +38,6 @@ export const SplitSection: Block = {
     {
       name: 'advanced',
       type: 'group',
-      admin: {
-        initCollapsed: true,
-      },
       fields: [
         {
           name: 'anchorId',
