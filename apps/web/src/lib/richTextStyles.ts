@@ -121,26 +121,26 @@ export function getRichTextStyles(advanced?: RichTextAdvancedSettings): RichText
     proseClasses.push('rt-columns-2')
   }
 
-  const styleVars: CSSProperties = {}
+  const styleVars: Record<string, string> = {}
 
   if (layout?.columnGap) {
-    styleVars['--rt-column-gap' as any] = columnGapMap[layout.columnGap] ?? columnGapMap.md
+    styleVars['--rt-column-gap'] = columnGapMap[layout.columnGap] ?? columnGapMap.md
   }
 
   if (!colors?.backgroundColor && container?.surface === 'soft') {
-    styleVars['--rt-bg' as any] = '#f8fafc'
+    styleVars['--rt-bg'] = '#f8fafc'
   }
 
   if (!colors?.backgroundColor && container?.surface === 'outline') {
-    styleVars['--rt-bg' as any] = 'transparent'
+    styleVars['--rt-bg'] = 'transparent'
   }
 
-  if (colors?.textColor) styleVars['--rt-text' as any] = colors.textColor
-  if (colors?.headingColor) styleVars['--rt-heading' as any] = colors.headingColor
-  if (colors?.linkColor) styleVars['--rt-link' as any] = colors.linkColor
-  if (colors?.accentColor) styleVars['--rt-accent' as any] = colors.accentColor
-  if (colors?.backgroundColor) styleVars['--rt-bg' as any] = colors.backgroundColor
-  if (colors?.borderColor) styleVars['--rt-border' as any] = colors.borderColor
+  if (colors?.textColor) styleVars['--rt-text'] = colors.textColor
+  if (colors?.headingColor) styleVars['--rt-heading'] = colors.headingColor
+  if (colors?.linkColor) styleVars['--rt-link'] = colors.linkColor
+  if (colors?.accentColor) styleVars['--rt-accent'] = colors.accentColor
+  if (colors?.backgroundColor) styleVars['--rt-bg'] = colors.backgroundColor
+  if (colors?.borderColor) styleVars['--rt-border'] = colors.borderColor
 
   let calloutClass: string | undefined
   if (callouts?.highlightMode === 'leftBar') calloutClass = 'rt-highlight-bar'
@@ -151,7 +151,7 @@ export function getRichTextStyles(advanced?: RichTextAdvancedSettings): RichText
   return {
     wrapperClass: wrapperClasses.filter(Boolean).join(' '),
     proseClass: proseClasses.filter(Boolean).join(' '),
-    styleVars,
+    styleVars: styleVars as CSSProperties,
     calloutClass,
     calloutText,
   }
