@@ -248,6 +248,14 @@ export interface Page {
               url?: string | null;
             };
             alignment?: ('left' | 'center' | 'right' | 'split') | null;
+            advanced?: {
+              anchorId?: string | null;
+              tone?: ('dark' | 'light') | null;
+              minHeight?: ('short' | 'medium' | 'tall') | null;
+              padding?: ('compact' | 'standard' | 'large') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'hero';
@@ -566,6 +574,14 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'featureGrid';
@@ -589,6 +605,13 @@ export interface Page {
             media?: (number | null) | Media;
             mediaPosition?: ('left' | 'right') | null;
             background?: ('none' | 'light' | 'dark') | null;
+            advanced?: {
+              anchorId?: string | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'splitSection';
@@ -821,6 +844,14 @@ export interface Post {
               url?: string | null;
             };
             alignment?: ('left' | 'center' | 'right' | 'split') | null;
+            advanced?: {
+              anchorId?: string | null;
+              tone?: ('dark' | 'light') | null;
+              minHeight?: ('short' | 'medium' | 'tall') | null;
+              padding?: ('compact' | 'standard' | 'large') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'hero';
@@ -1139,6 +1170,14 @@ export interface Post {
                   id?: string | null;
                 }[]
               | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'featureGrid';
@@ -1162,6 +1201,13 @@ export interface Post {
             media?: (number | null) | Media;
             mediaPosition?: ('left' | 'right') | null;
             background?: ('none' | 'light' | 'dark') | null;
+            advanced?: {
+              anchorId?: string | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'splitSection';
@@ -1683,6 +1729,16 @@ export interface PagesSelect<T extends boolean = true> {
                     url?: T;
                   };
               alignment?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    tone?: T;
+                    minHeight?: T;
+                    padding?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1778,6 +1834,16 @@ export interface PagesSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1788,6 +1854,15 @@ export interface PagesSelect<T extends boolean = true> {
               media?: T;
               mediaPosition?: T;
               background?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1979,6 +2054,16 @@ export interface PostsSelect<T extends boolean = true> {
                     url?: T;
                   };
               alignment?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    tone?: T;
+                    minHeight?: T;
+                    padding?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2074,6 +2159,16 @@ export interface PostsSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2084,6 +2179,15 @@ export interface PostsSelect<T extends boolean = true> {
               media?: T;
               mediaPosition?: T;
               background?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };

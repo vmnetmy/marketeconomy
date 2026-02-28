@@ -8,14 +8,35 @@ type FeatureGridBlock = CMSBlock & {
   intro?: string
   columns?: string
   features?: Array<{ title?: string; description?: string; icon?: string; link?: { label?: string; url?: string } }>
+  advanced?: {
+    anchorId?: string
+    background?: 'none' | 'light' | 'dark'
+    padding?: 'none' | 'compact' | 'standard' | 'large'
+    width?: 'standard' | 'wide' | 'full'
+    hideOnMobile?: boolean
+    hideOnDesktop?: boolean
+  }
 }
 
 export function FeatureGridBlock({ block }: { block: FeatureGridBlock }) {
   const columns = Number(block.columns ?? 3)
   const gridCols = columns === 2 ? 'lg:grid-cols-2' : columns === 4 ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-3'
+  const advanced = block.advanced ?? {}
+  const visibilityClass = [
+    advanced.hideOnMobile ? 'hidden md:block' : '',
+    advanced.hideOnDesktop ? 'block md:hidden' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   return (
-    <SectionWrapper>
+    <SectionWrapper
+      id={advanced.anchorId}
+      background={advanced.background}
+      padding={advanced.padding}
+      width={advanced.width}
+      className={visibilityClass}
+    >
       <div className="mb-16 max-w-3xl space-y-4">
         {block.headline ? (
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{block.headline}</h2>

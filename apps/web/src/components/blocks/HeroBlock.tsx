@@ -7,11 +7,51 @@ type HeroBlock = CMSBlock & {
   backgroundImage?: CMSMedia | string | null
   primaryCTA?: { label?: string; url?: string }
   secondaryCTA?: { label?: string; url?: string }
+  alignment?: 'left' | 'center' | 'right' | 'split'
+  advanced?: {
+    anchorId?: string
+    tone?: 'dark' | 'light'
+    minHeight?: 'short' | 'medium' | 'tall'
+    padding?: 'compact' | 'standard' | 'large'
+    hideOnMobile?: boolean
+    hideOnDesktop?: boolean
+  }
 }
 
 export function HeroBlock({ block }: { block: HeroBlock }) {
+  const advanced = block.advanced ?? {}
+  const tone = advanced.tone ?? 'dark'
+  const minHeightClass =
+    advanced.minHeight === 'short' ? 'min-h-[60vh]' : advanced.minHeight === 'medium' ? 'min-h-[75vh]' : 'min-h-[85vh]'
+  const paddingClass =
+    advanced.padding === 'compact' ? 'pt-24 pb-16 md:pt-28' : advanced.padding === 'large' ? 'pt-40 pb-24 md:pt-48' : 'pt-32 pb-20 md:pt-40'
+  const alignment = block.alignment ?? 'center'
+  const contentAlignClass =
+    alignment === 'left' ? 'items-start text-left' : alignment === 'right' ? 'items-end text-right' : 'items-center text-center'
+  const visibilityClass = [
+    advanced.hideOnMobile ? 'hidden md:flex' : '',
+    advanced.hideOnDesktop ? 'flex md:hidden' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
+  const baseToneClasses =
+    tone === 'light' ? 'bg-white text-slate-900' : 'bg-slate-950 text-white'
+  const subheadlineClass = tone === 'light' ? 'text-slate-600' : 'text-slate-300'
+  const primaryCtaClass =
+    tone === 'light'
+      ? 'rounded-full bg-slate-900 px-8 py-4 text-sm font-semibold tracking-wide text-white transition-all hover:bg-slate-800 active:scale-95'
+      : 'rounded-full bg-blue-600 px-8 py-4 text-sm font-semibold tracking-wide text-white transition-all hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-600/30 active:scale-95'
+  const secondaryCtaClass =
+    tone === 'light'
+      ? 'rounded-full border border-slate-300 bg-white px-8 py-4 text-sm font-semibold tracking-wide text-slate-700 transition-all hover:bg-slate-50 active:scale-95'
+      : 'rounded-full border border-slate-400/30 bg-white/5 px-8 py-4 text-sm font-semibold tracking-wide text-white backdrop-blur-md transition-all hover:bg-white/10 active:scale-95'
+
   return (
-    <section className="relative flex min-h-[85vh] w-full flex-col items-center justify-center overflow-hidden bg-slate-950 px-6 pb-24 pt-40 text-white md:pt-48">
+    <section
+      id={advanced.anchorId}
+      className={`relative flex w-full flex-col justify-center overflow-hidden px-6 ${minHeightClass} ${paddingClass} ${baseToneClasses} ${visibilityClass}`.trim()}
+    >
       {block.backgroundImage ? (
         <>
           <div className="absolute inset-0 z-0">
@@ -22,26 +62,32 @@ export function HeroBlock({ block }: { block: HeroBlock }) {
               className="object-cover opacity-50 mix-blend-luminosity"
             />
           </div>
-          <div className="absolute inset-0 z-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent" />
+          <div
+            className={`absolute inset-0 z-0 ${
+              tone === 'light'
+                ? 'bg-gradient-to-t from-white via-white/80 to-transparent'
+                : 'bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent'
+            }`}
+          />
         </>
       ) : null}
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl space-y-8 text-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl">
-          {block.headline}
-        </h1>
+      <div
+        className={`relative z-10 mx-auto flex w-full max-w-4xl flex-col space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 ${contentAlignClass}`}
+      >
+        <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">{block.headline}</h1>
 
         {block.subheadline ? (
-          <p className="mx-auto max-w-2xl text-lg font-medium leading-relaxed text-slate-300 sm:text-xl">
+          <p className={`max-w-2xl text-lg font-medium leading-relaxed sm:text-xl ${subheadlineClass}`}>
             {block.subheadline}
           </p>
         ) : null}
 
-        <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+        <div className={`flex flex-wrap gap-4 pt-4 ${alignment === 'left' ? 'justify-start' : alignment === 'right' ? 'justify-end' : 'justify-center'}`}>
           {block.primaryCTA?.label && block.primaryCTA?.url ? (
             <a
               href={block.primaryCTA.url}
-              className="rounded-full bg-blue-600 px-8 py-4 text-sm font-semibold tracking-wide text-white transition-all hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-600/30 active:scale-95"
+              className={primaryCtaClass}
             >
               {block.primaryCTA.label}
             </a>
@@ -49,7 +95,7 @@ export function HeroBlock({ block }: { block: HeroBlock }) {
           {block.secondaryCTA?.label && block.secondaryCTA?.url ? (
             <a
               href={block.secondaryCTA.url}
-              className="rounded-full border border-slate-400/30 bg-white/5 px-8 py-4 text-sm font-semibold tracking-wide text-white backdrop-blur-md transition-all hover:bg-white/10 active:scale-95"
+              className={secondaryCtaClass}
             >
               {block.secondaryCTA.label}
             </a>

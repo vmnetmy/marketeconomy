@@ -60,5 +60,60 @@ export const Hero: Block = {
         { label: 'Split', value: 'split' },
       ],
     },
+    {
+      name: 'advanced',
+      type: 'group',
+      admin: {
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'anchorId',
+          type: 'text',
+          admin: {
+            placeholder: 'e.g. hero',
+          },
+        },
+        {
+          name: 'tone',
+          type: 'select',
+          defaultValue: 'dark',
+          options: [
+            { label: 'Dark', value: 'dark' },
+            { label: 'Light', value: 'light' },
+          ],
+        },
+        {
+          name: 'minHeight',
+          type: 'select',
+          defaultValue: 'tall',
+          options: [
+            { label: 'Short', value: 'short' },
+            { label: 'Medium', value: 'medium' },
+            { label: 'Tall', value: 'tall' },
+          ],
+        },
+        {
+          name: 'padding',
+          type: 'select',
+          defaultValue: 'standard',
+          options: [
+            { label: 'Compact', value: 'compact' },
+            { label: 'Standard', value: 'standard' },
+            { label: 'Large', value: 'large' },
+          ],
+        },
+        {
+          name: 'hideOnMobile',
+          type: 'checkbox',
+          defaultValue: false,
+        },
+        {
+          name: 'hideOnDesktop',
+          type: 'checkbox',
+          defaultValue: false,
+        },
+      ],
+    },
   ],
 }
