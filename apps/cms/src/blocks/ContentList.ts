@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildContentListAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const ContentList: Block = {
   slug: 'contentList',
@@ -38,6 +38,6 @@ export const ContentList: Block = {
       type: 'text',
     },
     enableAdvancedField,
-    buildAdvancedGroup({ anchorPlaceholder: 'e.g. latest-updates' }),
+    buildContentListAdvancedGroup(),
   ],
 }

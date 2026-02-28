@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildVideoEmbedAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const VideoEmbed: Block = {
   slug: 'videoEmbed',
@@ -33,6 +33,6 @@ export const VideoEmbed: Block = {
       ],
     },
     enableAdvancedField,
-    buildAdvancedGroup({ anchorPlaceholder: 'e.g. video' }),
+    buildVideoEmbedAdvancedGroup(),
   ],
 }

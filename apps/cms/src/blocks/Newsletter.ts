@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildNewsletterAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const Newsletter: Block = {
   slug: 'newsletter',
@@ -36,6 +36,6 @@ export const Newsletter: Block = {
       type: 'text',
     },
     enableAdvancedField,
-    buildAdvancedGroup({ anchorPlaceholder: 'e.g. newsletter' }),
+    buildNewsletterAdvancedGroup(),
   ],
 }

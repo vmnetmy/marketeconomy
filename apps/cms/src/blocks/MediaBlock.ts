@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildMediaBlockAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const MediaBlock: Block = {
   slug: 'mediaBlock',
@@ -31,6 +31,6 @@ export const MediaBlock: Block = {
       ],
     },
     enableAdvancedField,
-    buildAdvancedGroup({ anchorPlaceholder: 'e.g. media' }),
+    buildMediaBlockAdvancedGroup(),
   ],
 }

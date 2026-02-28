@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildStatsAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const Stats: Block = {
   slug: 'stats',
@@ -47,20 +47,6 @@ export const Stats: Block = {
       ],
     },
     enableAdvancedField,
-    buildAdvancedGroup({
-      anchorPlaceholder: 'e.g. impact',
-      extraFields: [
-        {
-          name: 'numberSize',
-          type: 'select',
-          defaultValue: 'md',
-          options: [
-            { label: 'Small', value: 'sm' },
-            { label: 'Medium', value: 'md' },
-            { label: 'Large', value: 'lg' },
-          ],
-        },
-      ],
-    }),
+    buildStatsAdvancedGroup(),
   ],
 }

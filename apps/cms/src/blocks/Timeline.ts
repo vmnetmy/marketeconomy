@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildTimelineAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const Timeline: Block = {
   slug: 'timeline',
@@ -33,6 +33,6 @@ export const Timeline: Block = {
       ],
     },
     enableAdvancedField,
-    buildAdvancedGroup({ anchorPlaceholder: 'e.g. timeline' }),
+    buildTimelineAdvancedGroup(),
   ],
 }

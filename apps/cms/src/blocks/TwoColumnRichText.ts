@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildTwoColumnRichTextAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const TwoColumnRichText: Block = {
   slug: 'twoColumnRichText',
@@ -28,6 +28,6 @@ export const TwoColumnRichText: Block = {
       ],
     },
     enableAdvancedField,
-    buildAdvancedGroup({ anchorPlaceholder: 'e.g. overview' }),
+    buildTwoColumnRichTextAdvancedGroup(),
   ],
 }

@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildDataVizAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 const isChart = (types: string[]) => {
   return (_: unknown, siblingData: { chartType?: string }) => {
@@ -147,6 +147,6 @@ export const DataViz: Block = {
       defaultValue: true,
     },
     enableAdvancedField,
-    buildAdvancedGroup({ anchorPlaceholder: 'e.g. data-viz' }),
+    buildDataVizAdvancedGroup(),
   ],
 }

@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildPricingAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const Pricing: Block = {
   slug: 'pricing',
@@ -60,6 +60,6 @@ export const Pricing: Block = {
       ],
     },
     enableAdvancedField,
-    buildAdvancedGroup({ anchorPlaceholder: 'e.g. pricing' }),
+    buildPricingAdvancedGroup(),
   ],
 }

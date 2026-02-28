@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildFAQAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const FAQ: Block = {
   slug: 'faq',
@@ -25,6 +25,6 @@ export const FAQ: Block = {
       ],
     },
     enableAdvancedField,
-    buildAdvancedGroup({ anchorPlaceholder: 'e.g. faq' }),
+    buildFAQAdvancedGroup(),
   ],
 }

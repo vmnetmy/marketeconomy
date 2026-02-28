@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildLogoCloudAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const LogoCloud: Block = {
   slug: 'logoCloud',
@@ -33,6 +33,6 @@ export const LogoCloud: Block = {
       ],
     },
     enableAdvancedField,
-    buildAdvancedGroup({ anchorPlaceholder: 'e.g. partners' }),
+    buildLogoCloudAdvancedGroup(),
   ],
 }
