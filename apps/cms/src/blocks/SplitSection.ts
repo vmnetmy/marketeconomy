@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildSplitSectionAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 
 export const SplitSection: Block = {
   slug: 'splitSection',
@@ -38,25 +38,6 @@ export const SplitSection: Block = {
       ],
     },
     enableAdvancedField,
-    buildAdvancedGroup({
-      anchorPlaceholder: 'e.g. mission',
-      extraFields: [
-        {
-          name: 'imageSize',
-          type: 'select',
-          defaultValue: 'medium',
-          options: [
-            { label: 'Small', value: 'small' },
-            { label: 'Medium', value: 'medium' },
-            { label: 'Large', value: 'large' },
-          ],
-        },
-        {
-          name: 'reverseOnMobile',
-          type: 'checkbox',
-          defaultValue: false,
-        },
-      ],
-    }),
+    buildSplitSectionAdvancedGroup(),
   ],
 }

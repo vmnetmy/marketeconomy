@@ -1,3 +1,8 @@
 export type { AdvancedGroupOptions } from './common'
 export { buildAdvancedGroup, enableAdvancedField, validateColor } from './common'
+export { buildCTASectionAdvancedGroup } from './ctaSectionAdvancedField'
+export { buildFeatureGridAdvancedGroup } from './featureGridAdvancedField'
+export { buildHeroAdvancedGroup } from './heroAdvancedField'
 export { buildRichTextAdvancedGroup } from './richTextAdvancedField'
+export { buildSplitSectionAdvancedGroup } from './splitSectionAdvancedField'
+export { buildTestimonialsAdvancedGroup } from './testimonialsAdvancedField'

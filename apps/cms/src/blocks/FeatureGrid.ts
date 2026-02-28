@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buildAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { buildFeatureGridAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 import { iconOptions } from '../util/iconOptions'
 
 export const FeatureGrid: Block = {
@@ -69,19 +69,6 @@ export const FeatureGrid: Block = {
       ],
     },
     enableAdvancedField,
-    buildAdvancedGroup({
-      anchorPlaceholder: 'e.g. key-activities',
-      extraFields: [
-        {
-          name: 'cardStyle',
-          type: 'select',
-          defaultValue: 'raised',
-          options: [
-            { label: 'Flat', value: 'flat' },
-            { label: 'Raised', value: 'raised' },
-          ],
-        },
-      ],
-    }),
+    buildFeatureGridAdvancedGroup(),
   ],
 }
