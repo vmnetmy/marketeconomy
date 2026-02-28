@@ -4,25 +4,39 @@ import { getPayload } from 'payload'
 
 import config from '../payload.config'
 
+type TextNode = {
+  type: 'text'
+  text: string
+  detail: number
+  format: number
+  mode: 'normal'
+  style: string
+  version: number
+}
+
+type ParagraphNode = {
+  type: 'paragraph'
+  children: TextNode[]
+  direction: 'ltr'
+  format: string
+  indent: number
+  version: number
+}
+
+type HeadingNode = {
+  type: 'heading'
+  tag: 'h2' | 'h3'
+  children: TextNode[]
+  direction: 'ltr'
+  format: string
+  indent: number
+  version: number
+}
+
 type LexicalEditorState = {
   root: {
     type: 'root'
-    children: Array<{
-      type: 'paragraph'
-      children: Array<{
-        type: 'text'
-        text: string
-        detail: number
-        format: number
-        mode: 'normal'
-        style: string
-        version: number
-      }>
-      direction: 'ltr'
-      format: string
-      indent: number
-      version: number
-    }>
+    children: Array<ParagraphNode | HeadingNode>
     direction: 'ltr'
     format: string
     indent: number
@@ -30,27 +44,60 @@ type LexicalEditorState = {
   }
 }
 
+const makeParagraphNode = (text: string): ParagraphNode => ({
+  type: 'paragraph',
+  children: [
+    {
+      type: 'text',
+      text,
+      detail: 0,
+      format: 0,
+      mode: 'normal',
+      style: '',
+      version: 1,
+    },
+  ],
+  direction: 'ltr',
+  format: '',
+  indent: 0,
+  version: 1,
+})
+
+const makeHeadingNode = (text: string, tag: HeadingNode['tag'] = 'h2'): HeadingNode => ({
+  type: 'heading',
+  tag,
+  children: [
+    {
+      type: 'text',
+      text,
+      detail: 0,
+      format: 0,
+      mode: 'normal',
+      style: '',
+      version: 1,
+    },
+  ],
+  direction: 'ltr',
+  format: '',
+  indent: 0,
+  version: 1,
+})
+
 const makeRichText = (paragraphs: string[]): LexicalEditorState => ({
   root: {
     type: 'root',
-    children: paragraphs.map((text) => ({
-      type: 'paragraph',
-      children: [
-        {
-          type: 'text',
-          text,
-          detail: 0,
-          format: 0,
-          mode: 'normal',
-          style: '',
-          version: 1,
-        },
-      ],
-      direction: 'ltr',
-      format: '',
-      indent: 0,
-      version: 1,
-    })),
+    children: paragraphs.map((text) => makeParagraphNode(text)),
+    direction: 'ltr',
+    format: '',
+    indent: 0,
+    version: 1,
+  },
+})
+
+const makeRichTextWithHeading = (heading: string, paragraphs: string[]): LexicalEditorState => ({
+  root: {
+    type: 'root',
+    children: [makeHeadingNode(heading), ...paragraphs.map((text) => makeParagraphNode(text))],
     direction: 'ltr',
     format: '',
     indent: 0,
@@ -70,6 +117,10 @@ const introParagraphs = [
 const stayConnectedParagraphs = [
   'We welcome policymakers, industry leaders, and community partners to keep in touch with our network for upcoming briefings, dialogues, and opportunities for collaboration in advancing practical, market-oriented policy solutions.',
 ]
+
+const missionParagraphs = introParagraphs.slice(0, 2)
+const comparisonLeft = introParagraphs.slice(1, 3)
+const comparisonRight = introParagraphs.slice(3, 6)
 
 const keyActivities = [
   {
@@ -101,6 +152,59 @@ const keyActivities = [
     description:
       'Supporting local businesses, community leaders, and civic groups with clear, practical materials that help translate free market principles into everyday economic concerns, strengthening bottom-up understanding and support for market-oriented policies.',
     icon: 'megaphone',
+  },
+]
+
+const logoCloud = [
+  { name: 'Policy Research Council' },
+  { name: 'Regional Economic Forum' },
+  { name: 'Industry Roundtable' },
+  { name: 'Academic Network' },
+  { name: 'SME Coalition' },
+  { name: 'Trade & Investment Group' },
+  { name: 'Business Association' },
+  { name: 'Civic Partners' },
+]
+
+const contactCards = [
+  {
+    title: 'Media Inquiries',
+    description: 'Press interviews, comments, and media requests.',
+    icon: 'megaphone',
+    link: { label: 'press@marketeconomy.org', url: 'mailto:press@marketeconomy.org' },
+  },
+  {
+    title: 'Partnerships',
+    description: 'Collaborate on research, briefings, or roundtables.',
+    icon: 'briefcase',
+    link: { label: 'Start a partnership', url: '/contact' },
+  },
+  {
+    title: 'General Enquiries',
+    description: 'Questions about our work or how to get involved.',
+    icon: 'atSymbol',
+    link: { label: 'hello@marketeconomy.org', url: 'mailto:hello@marketeconomy.org' },
+  },
+]
+
+const faqItems = [
+  {
+    question: 'How can my SME participate?',
+    answer: makeRichText([
+      'You can join briefings, attend roundtables, or request advocacy resources tailored to your sector.',
+    ]),
+  },
+  {
+    question: 'Do you charge for policy briefings?',
+    answer: makeRichText([
+      'Most briefings are offered as part of our public engagement work. For custom sessions, we will discuss scope and costs.',
+    ]),
+  },
+  {
+    question: 'Can we request a policy brief?',
+    answer: makeRichText([
+      'Yes. Share your topic and audience needs, and we will advise on timelines and feasibility.',
+    ]),
   },
 ]
 
@@ -140,8 +244,21 @@ const pages = [
     slug: 'about',
     layout: [
       {
-        blockType: 'richText',
-        content: makeRichText(introParagraphs),
+        blockType: 'splitSection',
+        content: makeRichTextWithHeading('Our Mission', missionParagraphs),
+        mediaPosition: 'right',
+        background: 'light',
+      },
+      {
+        blockType: 'twoColumnRichText',
+        left: makeRichText(comparisonLeft),
+        right: makeRichText(comparisonRight),
+        background: 'none',
+      },
+      {
+        blockType: 'logoCloud',
+        headline: 'Our Network',
+        logos: logoCloud,
       },
     ],
   },
@@ -150,13 +267,24 @@ const pages = [
     slug: 'activities',
     layout: [
       {
-        blockType: 'richText',
-        content: makeRichText([introParagraphs[introParagraphs.length - 1]]),
+        blockType: 'hero',
+        headline: 'Driving Market-Oriented Reforms',
+        subheadline: introParagraphs[introParagraphs.length - 1],
       },
       {
-        blockType: 'cards',
-        sectionTitle: 'Key Activities',
-        cards: keyActivities,
+        blockType: 'featureGrid',
+        headline: 'Key Activities',
+        intro: 'Our work focuses on research, dialogue, and practical advocacy to keep markets open and competitive.',
+        columns: '2',
+        features: keyActivities,
+      },
+      {
+        blockType: 'ctaSection',
+        title: 'Partner With Us on Our Next Roundtable',
+        description: 'Work with us to convene leaders and advance practical market reforms.',
+        buttonLabel: 'Contact Us',
+        buttonURL: '/contact',
+        theme: 'dark',
       },
     ],
   },
@@ -165,10 +293,10 @@ const pages = [
     slug: 'updates',
     layout: [
       {
-        blockType: 'contentList',
-        source: 'posts',
-        limit: 6,
-        layout: 'list',
+        blockType: 'richText',
+        content: makeRichText([
+          'Latest announcements, research updates, and highlights from our briefings and roundtables.',
+        ]),
       },
     ],
   },
@@ -177,10 +305,24 @@ const pages = [
     slug: 'policy-briefs',
     layout: [
       {
+        blockType: 'hero',
+        headline: 'Research & Policy Briefs',
+        subheadline: 'Actionable insights for lawmakers, business leaders, and community partners.',
+      },
+      {
         blockType: 'contentList',
         source: 'policyBriefs',
-        limit: 6,
-        layout: 'list',
+        limit: 9,
+        layout: 'grid',
+      },
+      {
+        blockType: 'newsletter',
+        headline: 'Stay Informed',
+        description: 'Get the latest briefs delivered to your inbox.',
+        inputPlaceholder: 'Enter your email',
+        buttonLabel: 'Subscribe',
+        formAction: '',
+        finePrint: 'We will only email you when new briefs are published.',
       },
     ],
   },
@@ -197,16 +339,12 @@ const pages = [
       {
         blockType: 'cards',
         sectionTitle: 'Ways to Engage',
-        cards: keyActivities,
+        sectionIntro: 'Choose the best channel and we will respond quickly.',
+        cards: contactCards,
       },
       {
-        blockType: 'newsletter',
-        headline: 'Stay Connected',
-        description: stayConnectedParagraphs[0],
-        inputPlaceholder: 'Enter your email',
-        buttonLabel: 'Subscribe',
-        formAction: '',
-        finePrint: 'We will only use your email to share updates and invitations.',
+        blockType: 'faq',
+        items: faqItems,
       },
     ],
   },

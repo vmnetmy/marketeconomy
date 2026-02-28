@@ -40,7 +40,7 @@ export async function UpdatesPageContent({ currentPage }: { currentPage: number 
     <main className="min-h-screen bg-slate-50 px-6 pb-12 pt-24 text-slate-900 md:pt-28">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
         <header className="space-y-3">
-          <h1 className="text-3xl font-semibold">{heading}</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">{heading}</h1>
           <RichText content={intro} />
         </header>
 
@@ -61,20 +61,21 @@ export async function UpdatesPageContent({ currentPage }: { currentPage: number 
                   return (
                     <article
                       key={post.id}
-                      className="grid gap-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md md:grid-cols-[220px_1fr]"
+                      className="grid gap-5 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/50 transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 md:grid-cols-[220px_1fr]"
                     >
                       <a href={`/updates/${post.slug}`} className="block">
                         {post.coverImage ? (
-                          <CMSImage
-                            media={post.coverImage}
-                            alt={post.title}
-                            className="h-44 w-full rounded-2xl object-cover"
-                            height={176}
-                            sizes="(max-width: 768px) 100vw, 220px"
-                            width={352}
-                          />
+                          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-slate-100">
+                            <CMSImage
+                              media={post.coverImage}
+                              alt={post.title}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 100vw, 220px"
+                            />
+                          </div>
                         ) : (
-                          <div className="h-44 w-full rounded-2xl bg-gradient-to-br from-slate-200 via-slate-100 to-slate-50" />
+                          <div className="aspect-[4/3] w-full rounded-2xl bg-gradient-to-br from-slate-200 via-slate-100 to-slate-50" />
                         )}
                       </a>
                       <div className="flex flex-col justify-between gap-4">
