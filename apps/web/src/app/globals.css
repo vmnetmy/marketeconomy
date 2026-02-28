@@ -3,6 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --rt-text: #0f172a;
+  --rt-heading: #0f172a;
+  --rt-link: #2563eb;
+  --rt-accent: #2563eb;
+  --rt-bg: #ffffff;
+  --rt-border: #e2e8f0;
+  --rt-column-gap: 2rem;
 }
 
 @theme inline {
@@ -36,6 +43,105 @@ body {
   opacity: 0;
   transform: translateX(-12px);
   animation: menu-item-in 280ms ease-out forwards;
+}
+
+.rt-prose {
+  --tw-prose-body: var(--rt-text);
+  --tw-prose-headings: var(--rt-heading);
+  --tw-prose-links: var(--rt-link);
+  --tw-prose-bold: var(--rt-heading);
+  --tw-prose-quotes: var(--rt-text);
+  --tw-prose-quote-borders: var(--rt-border);
+  --tw-prose-counters: var(--rt-text);
+  --tw-prose-bullets: var(--rt-text);
+  --tw-prose-hr: var(--rt-border);
+  --tw-prose-captions: var(--rt-text);
+  --tw-prose-code: var(--rt-text);
+  color: var(--rt-text);
+}
+
+.rt-prose a {
+  color: var(--rt-link);
+}
+
+.rt-prose a:hover {
+  opacity: 0.85;
+}
+
+.rt-lead p:first-of-type {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+}
+
+.rt-dropcap-subtle p:first-of-type::first-letter {
+  float: left;
+  font-size: 3rem;
+  line-height: 1;
+  padding-right: 0.5rem;
+  font-weight: 600;
+  color: var(--rt-accent);
+}
+
+.rt-dropcap-strong p:first-of-type::first-letter {
+  float: left;
+  font-size: 3.75rem;
+  line-height: 1;
+  padding-right: 0.6rem;
+  font-weight: 700;
+  color: var(--rt-accent);
+}
+
+.rt-columns-2 {
+  column-count: 2;
+  column-gap: var(--rt-column-gap);
+}
+
+@media (max-width: 768px) {
+  .rt-columns-2 {
+    column-count: 1;
+  }
+}
+
+.rt-surface-soft {
+  background-color: var(--rt-bg);
+}
+
+.rt-surface-card {
+  background-color: var(--rt-bg);
+}
+
+.rt-surface-outline {
+  background-color: var(--rt-bg, transparent);
+  border: 1px solid var(--rt-border);
+}
+
+.rt-surface-gradient {
+  background-color: var(--rt-bg);
+  background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.06), rgba(15, 23, 42, 0));
+  border: 1px solid var(--rt-border);
+}
+
+.rt-border-subtle {
+  border: 1px solid var(--rt-border);
+}
+
+.rt-border-strong {
+  border: 2px solid var(--rt-border);
+}
+
+.rt-highlight-bar {
+  border-left: 4px solid var(--rt-accent);
+  padding-left: 1rem;
+  color: var(--rt-text);
+}
+
+.rt-highlight-box {
+  background-color: var(--rt-bg);
+  border: 1px solid var(--rt-border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--rt-text);
 }
 
 @keyframes menu-item-in {

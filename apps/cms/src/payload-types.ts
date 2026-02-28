@@ -290,6 +290,37 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              typography?: {
+                textSize?: ('sm' | 'md' | 'lg') | null;
+                lineHeight?: ('snug' | 'normal' | 'relaxed') | null;
+                textAlign?: ('left' | 'center' | 'right') | null;
+                leadStyle?: ('none' | 'lead') | null;
+                dropCap?: ('none' | 'subtle' | 'strong') | null;
+              };
+              layout?: {
+                columns?: ('1' | '2') | null;
+                columnGap?: ('sm' | 'md' | 'lg') | null;
+                maxWidth?: ('narrow' | 'standard' | 'wide' | 'full') | null;
+              };
+              container?: {
+                surface?: ('none' | 'soft' | 'card' | 'outline' | 'gradient') | null;
+                radius?: ('sm' | 'md' | 'lg') | null;
+                shadow?: ('none' | 'soft' | 'medium') | null;
+                innerPadding?: ('compact' | 'standard' | 'large') | null;
+                borderStyle?: ('none' | 'subtle' | 'strong') | null;
+              };
+              callouts?: {
+                highlightMode?: ('none' | 'leftBar' | 'noteBox') | null;
+                highlightText?: string | null;
+              };
+              colors?: {
+                textColor?: string | null;
+                headingColor?: string | null;
+                linkColor?: string | null;
+                accentColor?: string | null;
+                backgroundColor?: string | null;
+                borderColor?: string | null;
+              };
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1085,6 +1116,37 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              typography?: {
+                textSize?: ('sm' | 'md' | 'lg') | null;
+                lineHeight?: ('snug' | 'normal' | 'relaxed') | null;
+                textAlign?: ('left' | 'center' | 'right') | null;
+                leadStyle?: ('none' | 'lead') | null;
+                dropCap?: ('none' | 'subtle' | 'strong') | null;
+              };
+              layout?: {
+                columns?: ('1' | '2') | null;
+                columnGap?: ('sm' | 'md' | 'lg') | null;
+                maxWidth?: ('narrow' | 'standard' | 'wide' | 'full') | null;
+              };
+              container?: {
+                surface?: ('none' | 'soft' | 'card' | 'outline' | 'gradient') | null;
+                radius?: ('sm' | 'md' | 'lg') | null;
+                shadow?: ('none' | 'soft' | 'medium') | null;
+                innerPadding?: ('compact' | 'standard' | 'large') | null;
+                borderStyle?: ('none' | 'subtle' | 'strong') | null;
+              };
+              callouts?: {
+                highlightMode?: ('none' | 'leftBar' | 'noteBox') | null;
+                highlightText?: string | null;
+              };
+              colors?: {
+                textColor?: string | null;
+                headingColor?: string | null;
+                linkColor?: string | null;
+                accentColor?: string | null;
+                backgroundColor?: string | null;
+                borderColor?: string | null;
+              };
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -2154,6 +2216,47 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    typography?:
+                      | T
+                      | {
+                          textSize?: T;
+                          lineHeight?: T;
+                          textAlign?: T;
+                          leadStyle?: T;
+                          dropCap?: T;
+                        };
+                    layout?:
+                      | T
+                      | {
+                          columns?: T;
+                          columnGap?: T;
+                          maxWidth?: T;
+                        };
+                    container?:
+                      | T
+                      | {
+                          surface?: T;
+                          radius?: T;
+                          shadow?: T;
+                          innerPadding?: T;
+                          borderStyle?: T;
+                        };
+                    callouts?:
+                      | T
+                      | {
+                          highlightMode?: T;
+                          highlightText?: T;
+                        };
+                    colors?:
+                      | T
+                      | {
+                          textColor?: T;
+                          headingColor?: T;
+                          linkColor?: T;
+                          accentColor?: T;
+                          backgroundColor?: T;
+                          borderColor?: T;
+                        };
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2654,6 +2757,47 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    typography?:
+                      | T
+                      | {
+                          textSize?: T;
+                          lineHeight?: T;
+                          textAlign?: T;
+                          leadStyle?: T;
+                          dropCap?: T;
+                        };
+                    layout?:
+                      | T
+                      | {
+                          columns?: T;
+                          columnGap?: T;
+                          maxWidth?: T;
+                        };
+                    container?:
+                      | T
+                      | {
+                          surface?: T;
+                          radius?: T;
+                          shadow?: T;
+                          innerPadding?: T;
+                          borderStyle?: T;
+                        };
+                    callouts?:
+                      | T
+                      | {
+                          highlightMode?: T;
+                          highlightText?: T;
+                        };
+                    colors?:
+                      | T
+                      | {
+                          textColor?: T;
+                          headingColor?: T;
+                          linkColor?: T;
+                          accentColor?: T;
+                          backgroundColor?: T;
+                          borderColor?: T;
+                        };
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };

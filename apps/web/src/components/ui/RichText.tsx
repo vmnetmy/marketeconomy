@@ -11,7 +11,7 @@ export function RichText({ content, className = '' }: RichTextProps) {
   const html = convertLexicalToHTML({ data: content })
   return (
     <div
-      className={`prose prose-slate max-w-none prose-a:text-blue-600 ${className}`.trim()}
+      className={`rt-prose prose max-w-none ${className}`.trim()}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   )

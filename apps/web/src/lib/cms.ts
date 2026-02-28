@@ -31,6 +31,40 @@ export type AdvancedSettings = {
   hideOnDesktop?: boolean | null
 }
 
+export type RichTextAdvancedSettings = AdvancedSettings & {
+  typography?: {
+    textSize?: 'sm' | 'md' | 'lg' | null
+    lineHeight?: 'snug' | 'normal' | 'relaxed' | null
+    textAlign?: 'left' | 'center' | 'right' | null
+    leadStyle?: 'none' | 'lead' | null
+    dropCap?: 'none' | 'subtle' | 'strong' | null
+  } | null
+  layout?: {
+    columns?: '1' | '2' | null
+    columnGap?: 'sm' | 'md' | 'lg' | null
+    maxWidth?: 'narrow' | 'standard' | 'wide' | 'full' | null
+  } | null
+  container?: {
+    surface?: 'none' | 'soft' | 'card' | 'outline' | 'gradient' | null
+    radius?: 'sm' | 'md' | 'lg' | null
+    shadow?: 'none' | 'soft' | 'medium' | null
+    innerPadding?: 'compact' | 'standard' | 'large' | null
+    borderStyle?: 'none' | 'subtle' | 'strong' | null
+  } | null
+  callouts?: {
+    highlightMode?: 'none' | 'leftBar' | 'noteBox' | null
+    highlightText?: string | null
+  } | null
+  colors?: {
+    textColor?: string | null
+    headingColor?: string | null
+    linkColor?: string | null
+    accentColor?: string | null
+    backgroundColor?: string | null
+    borderColor?: string | null
+  } | null
+}
+
 export type DatasetColumn = {
   key?: string | null
   label?: string | null
