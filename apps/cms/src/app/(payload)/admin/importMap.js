@@ -25,6 +25,7 @@ import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { default as default_9dbfe5a5bff71da262204e972c35a902 } from '../../../components/IconSelect'
 import { default as default_3bde8b574f2ddc77e6507ffc00181eb3 } from '../../../components/ChartTypePicker'
 import { default as default_722bc2f5d2c9fdec54da84263fe55014 } from '../../../components/DatasetColumnSelect'
+import { GcsClientUploadHandler as GcsClientUploadHandler_06e62ca02c7c441053a9b643e5545934 } from '@payloadcms/storage-gcs/client'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
@@ -55,5 +56,6 @@ export const importMap = {
   "/components/IconSelect#default": default_9dbfe5a5bff71da262204e972c35a902,
   "/components/ChartTypePicker#default": default_3bde8b574f2ddc77e6507ffc00181eb3,
   "/components/DatasetColumnSelect#default": default_722bc2f5d2c9fdec54da84263fe55014,
+  "@payloadcms/storage-gcs/client#GcsClientUploadHandler": GcsClientUploadHandler_06e62ca02c7c441053a9b643e5545934,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
