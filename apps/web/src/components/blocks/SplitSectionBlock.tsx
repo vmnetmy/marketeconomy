@@ -13,29 +13,35 @@ type SplitSectionBlock = CMSBlock & {
 }
 
 export function SplitSectionBlock({ block }: { block: SplitSectionBlock }) {
-  const sectionBackground = block.background ?? 'none'
-  const isDark = sectionBackground === 'dark'
+  const isDark = block.background === 'dark'
 
-  const content = (
-    <div className="space-y-4">
-      <RichText content={block.content} className={isDark ? 'prose-invert' : ''} />
+  const contentArea = (
+    <div className={`space-y-6 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+      <RichText content={block.content} />
     </div>
   )
 
-  const media = block.media ? (
-    <CMSImage
-      media={block.media}
-      className="w-full rounded-2xl border border-slate-200"
-      sizes="(max-width: 768px) 100vw, 50vw"
-    />
+  const mediaArea = block.media ? (
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-2xl ring-1 ring-slate-900/5">
+      <CMSImage media={block.media} fill className="object-cover" />
+    </div>
   ) : null
 
   return (
-    <SectionWrapper background={sectionBackground}>
-      <section className="grid gap-8 md:grid-cols-2 md:items-center">
-        {block.mediaPosition === 'left' ? media : content}
-        {block.mediaPosition === 'left' ? content : media}
-      </section>
+    <SectionWrapper background={block.background}>
+      <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+        {block.mediaPosition === 'left' ? (
+          <>
+            {mediaArea}
+            {contentArea}
+          </>
+        ) : (
+          <>
+            {contentArea}
+            {mediaArea}
+          </>
+        )}
+      </div>
     </SectionWrapper>
   )
 }
