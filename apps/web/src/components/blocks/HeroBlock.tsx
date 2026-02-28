@@ -31,6 +31,7 @@ export function HeroBlock({ block }: { block: HeroBlock }) {
   const contentAlignClass =
     alignment === 'left' ? 'items-start text-left' : alignment === 'right' ? 'items-end text-right' : 'items-center text-center'
   const visibilityClass = advanced.hideOnMobile ? 'hidden md:flex' : advanced.hideOnDesktop ? 'flex md:hidden' : ''
+  const anchorId = advanced.anchorId || undefined
   const overlayStrength = advanced.overlayStrength ?? 'medium'
   const overlayOpacity =
     overlayStrength === 'light' ? 'opacity-40' : overlayStrength === 'strong' ? 'opacity-70' : 'opacity-55'
@@ -61,7 +62,7 @@ export function HeroBlock({ block }: { block: HeroBlock }) {
 
   return (
     <section
-      id={advanced.anchorId}
+      id={anchorId}
       className={`relative flex w-full flex-col justify-center overflow-hidden px-6 ${minHeightClass} ${paddingClass} ${baseToneClasses} ${visibilityClass}`.trim()}
     >
       {block.backgroundImage ? (
