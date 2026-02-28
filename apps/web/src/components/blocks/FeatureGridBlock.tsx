@@ -1,6 +1,6 @@
-import type { AdvancedSettings, CMSBlock } from '../../lib/cms'
+import type { CMSBlock, FeatureGridAdvancedSettings } from '../../lib/cms'
 
-import { getSectionProps } from '../../lib/blocks'
+import { getFeatureGridStyles, getSectionProps } from '../../lib/blocks'
 import { SectionWrapper } from '../layout/SectionWrapper'
 import { IconBadge } from '../ui/IconBadge'
 
@@ -9,9 +9,7 @@ type FeatureGridBlock = CMSBlock & {
   intro?: string
   columns?: string
   features?: Array<{ title?: string; description?: string; icon?: string; link?: { label?: string; url?: string } }>
-  advanced?: (AdvancedSettings & {
-    cardStyle?: 'flat' | 'raised'
-  })
+  advanced?: FeatureGridAdvancedSettings
 }
 
 export function FeatureGridBlock({ block }: { block: FeatureGridBlock }) {
@@ -19,11 +17,7 @@ export function FeatureGridBlock({ block }: { block: FeatureGridBlock }) {
   const gridCols = columns === 2 ? 'lg:grid-cols-2' : columns === 4 ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-3'
   const advanced = block.advanced ?? {}
   const sectionProps = getSectionProps(advanced)
-  const cardStyle = advanced.cardStyle ?? 'raised'
-  const cardClass =
-    cardStyle === 'flat'
-      ? 'bg-white ring-1 ring-slate-200/60'
-      : 'bg-slate-50 ring-1 ring-slate-200/50 transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50'
+  const { cardClass } = getFeatureGridStyles(advanced)
 
   return (
     <SectionWrapper {...sectionProps}>

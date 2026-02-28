@@ -1,6 +1,6 @@
-import type { AdvancedSettings, CMSBlock } from '../../lib/cms'
+import type { CMSBlock, NewsletterAdvancedSettings } from '../../lib/cms'
 
-import { getSectionProps } from '../../lib/blocks'
+import { getNewsletterStyles, getSectionProps } from '../../lib/blocks'
 import { SectionWrapper } from '../layout/SectionWrapper'
 
 type NewsletterBlock = CMSBlock & {
@@ -10,29 +10,30 @@ type NewsletterBlock = CMSBlock & {
   buttonLabel?: string
   formAction?: string
   finePrint?: string
-  advanced?: AdvancedSettings
+  advanced?: NewsletterAdvancedSettings
 }
 
 export function NewsletterBlock({ block }: { block: NewsletterBlock }) {
   const sectionProps = getSectionProps(block.advanced)
+  const { cardClass, formClass, inputClass, buttonClass, finePrintClass } = getNewsletterStyles(block.advanced)
 
   return (
     <SectionWrapper {...sectionProps}>
-      <section className="rounded-2xl border border-slate-200 bg-white p-6">
+      <section className={cardClass}>
         {block.headline ? <h2 className="text-2xl font-semibold">{block.headline}</h2> : null}
         {block.description ? <p className="mt-2 text-slate-600">{block.description}</p> : null}
-        <form className="mt-4 flex flex-col gap-3 sm:flex-row" action={block.formAction || '#'} method="post">
+        <form className={`mt-4 ${formClass}`} action={block.formAction || '#'} method="post">
           <input
             type="email"
             name="email"
             placeholder={block.inputPlaceholder || 'Enter your email'}
-            className="w-full rounded-full border border-slate-200 px-4 py-2 text-sm"
+            className={inputClass}
           />
-          <button type="submit" className="rounded-full bg-slate-900 px-6 py-2 text-sm font-semibold text-white">
+          <button type="submit" className={buttonClass}>
             {block.buttonLabel || 'Subscribe'}
           </button>
         </form>
-        {block.finePrint ? <p className="mt-2 text-xs text-slate-500">{block.finePrint}</p> : null}
+        {block.finePrint ? <p className={`mt-2 ${finePrintClass}`}>{block.finePrint}</p> : null}
       </section>
     </SectionWrapper>
   )

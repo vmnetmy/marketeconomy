@@ -1,6 +1,6 @@
-import type { AdvancedSettings, CMSBlock, DatasetDoc } from '../../lib/cms'
+import type { CMSBlock, DataVizAdvancedSettings, DatasetDoc } from '../../lib/cms'
 
-import { getSectionProps } from '../../lib/blocks'
+import { getDataVizStyles, getSectionProps } from '../../lib/blocks'
 import { ChartRenderer } from '../charts/ChartRenderer'
 import { DataTable } from '../charts/DataTable'
 import { SectionWrapper } from '../layout/SectionWrapper'
@@ -20,7 +20,7 @@ type DataVizBlock = CMSBlock & {
   colorScheme?: string
   height?: number
   showLegend?: boolean
-  advanced?: AdvancedSettings
+  advanced?: DataVizAdvancedSettings
 }
 
 export function DataVizBlock({ block }: { block: DataVizBlock }) {
@@ -37,10 +37,11 @@ export function DataVizBlock({ block }: { block: DataVizBlock }) {
   const showChart = viewMode === 'chart' || viewMode === 'chartAndTable'
   const showTable = viewMode === 'table' || viewMode === 'chartAndTable'
   const sectionProps = getSectionProps(block.advanced)
+  const { panelClass } = getDataVizStyles(block.advanced)
 
   return (
     <SectionWrapper {...sectionProps}>
-      <section className="space-y-6">
+      <section className={`space-y-6 ${panelClass}`.trim()}>
         {(block.headline || block.description) && (
           <div>
             {block.headline ? <h2 className="text-2xl font-semibold">{block.headline}</h2> : null}

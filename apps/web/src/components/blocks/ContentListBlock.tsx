@@ -1,6 +1,6 @@
-import type { AdvancedSettings, CMSBlock } from '../../lib/cms'
+import type { CMSBlock, ContentListAdvancedSettings } from '../../lib/cms'
 
-import { getSectionProps } from '../../lib/blocks'
+import { getContentListStyles, getSectionProps } from '../../lib/blocks'
 import { getContentList } from '../../lib/cms'
 import { CMSImage } from '../media/CMSImage'
 import { SectionWrapper } from '../layout/SectionWrapper'
@@ -10,7 +10,7 @@ type ContentListBlock = CMSBlock & {
   limit?: number
   layout?: 'list' | 'grid'
   filterTag?: string
-  advanced?: AdvancedSettings
+  advanced?: ContentListAdvancedSettings
 }
 
 export async function ContentListBlock({ block }: { block: ContentListBlock }) {
@@ -22,6 +22,7 @@ export async function ContentListBlock({ block }: { block: ContentListBlock }) {
 
   const isGrid = block.layout === 'grid'
   const sectionProps = getSectionProps(block.advanced)
+  const { cardClass, showImages, spacingClass } = getContentListStyles(block.advanced)
 
   const basePath =
     block.source === 'posts'
@@ -36,14 +37,14 @@ export async function ContentListBlock({ block }: { block: ContentListBlock }) {
     <SectionWrapper {...sectionProps}>
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">Latest {block.source}</h2>
-        <div className={isGrid ? 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3' : 'space-y-3'}>
+        <div className={isGrid ? 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3' : spacingClass}>
           {items.map((item) => (
             <a
               key={item.id}
               href={basePath && item.slug ? `${basePath}/${item.slug}` : undefined}
-              className="block rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+              className={`block rounded-2xl p-5 ${cardClass}`}
             >
-              {item.coverImage ? (
+              {showImages && item.coverImage ? (
                 <div className="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100">
                   <CMSImage
                     media={item.coverImage}

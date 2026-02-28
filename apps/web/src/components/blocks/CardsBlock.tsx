@@ -1,6 +1,6 @@
-import type { AdvancedSettings, CMSBlock } from '../../lib/cms'
+import type { CardsAdvancedSettings, CMSBlock } from '../../lib/cms'
 
-import { getSectionProps } from '../../lib/blocks'
+import { getCardsStyles, getSectionProps } from '../../lib/blocks'
 import { SectionWrapper } from '../layout/SectionWrapper'
 import { IconBadge } from '../ui/IconBadge'
 
@@ -8,11 +8,12 @@ type CardsBlock = CMSBlock & {
   sectionTitle?: string
   sectionIntro?: string
   cards?: Array<{ title?: string; description?: string; icon?: string; link?: { label?: string; url?: string } }>
-  advanced?: AdvancedSettings
+  advanced?: CardsAdvancedSettings
 }
 
 export function CardsBlock({ block }: { block: CardsBlock }) {
   const sectionProps = getSectionProps(block.advanced)
+  const { gridClass, cardClass } = getCardsStyles(block.advanced)
 
   return (
     <SectionWrapper {...sectionProps}>
@@ -21,11 +22,11 @@ export function CardsBlock({ block }: { block: CardsBlock }) {
           {block.sectionTitle ? <h2 className="text-2xl font-semibold">{block.sectionTitle}</h2> : null}
           {block.sectionIntro ? <p className="mt-2 text-slate-600">{block.sectionIntro}</p> : null}
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className={`grid gap-4 ${gridClass}`}>
           {(block.cards || []).map((card, index) => (
             <div
               key={`${card.title ?? 'card'}-${index}`}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+              className={`rounded-2xl p-5 ${cardClass}`}
             >
               <IconBadge name={card.icon} />
               {card.title ? <h3 className="text-lg font-semibold">{card.title}</h3> : null}

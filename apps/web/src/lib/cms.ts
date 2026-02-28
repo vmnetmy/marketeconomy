@@ -31,6 +31,94 @@ export type AdvancedSettings = {
   hideOnDesktop?: boolean | null
 }
 
+export type CardsAdvancedSettings = AdvancedSettings & {
+  cardStyle?: 'flat' | 'raised' | null
+  columns?: '2' | '3' | '4' | null
+}
+
+export type ContentListAdvancedSettings = AdvancedSettings & {
+  cardStyle?: 'flat' | 'raised' | null
+  showImages?: boolean | null
+  dense?: boolean | null
+}
+
+export type TimelineAdvancedSettings = AdvancedSettings & {
+  style?: 'cards' | 'minimal' | null
+  compact?: boolean | null
+}
+
+export type DataVizAdvancedSettings = AdvancedSettings & {
+  panelStyle?: 'none' | 'soft' | 'card' | null
+}
+
+export type MediaBlockAdvancedSettings = AdvancedSettings & {
+  frameStyle?: 'none' | 'outline' | 'card' | null
+  radius?: 'sm' | 'md' | 'lg' | null
+  shadow?: 'none' | 'soft' | 'medium' | null
+}
+
+export type FAQAdvancedSettings = AdvancedSettings & {
+  layout?: 'cards' | 'minimal' | null
+  columns?: '1' | '2' | null
+}
+
+export type LogoCloudAdvancedSettings = AdvancedSettings & {
+  cardStyle?: 'flat' | 'raised' | null
+  columns?: '2' | '3' | '4' | '6' | null
+}
+
+export type StatsAdvancedSettings = AdvancedSettings & {
+  numberSize?: 'sm' | 'md' | 'lg' | null
+  cardStyle?: 'flat' | 'raised' | null
+  columns?: '2' | '3' | '4' | null
+}
+
+export type VideoEmbedAdvancedSettings = AdvancedSettings & {
+  frameStyle?: 'none' | 'outline' | 'card' | null
+  radius?: 'sm' | 'md' | 'lg' | null
+  shadow?: 'none' | 'soft' | 'medium' | null
+}
+
+export type NewsletterAdvancedSettings = AdvancedSettings & {
+  tone?: 'light' | 'dark' | null
+  layout?: 'inline' | 'stacked' | null
+  cardStyle?: 'flat' | 'raised' | null
+}
+
+export type TwoColumnRichTextAdvancedSettings = AdvancedSettings & {
+  gap?: 'sm' | 'md' | 'lg' | null
+  verticalAlign?: 'top' | 'center' | null
+}
+
+export type PricingAdvancedSettings = AdvancedSettings & {
+  columns?: '2' | '3' | '4' | null
+  cardStyle?: 'flat' | 'raised' | null
+  highlightStyle?: 'solid' | 'outline' | null
+}
+
+export type FeatureGridAdvancedSettings = AdvancedSettings & {
+  cardStyle?: 'flat' | 'raised' | null
+}
+
+export type SplitSectionAdvancedSettings = AdvancedSettings & {
+  imageSize?: 'small' | 'medium' | 'large' | null
+  reverseOnMobile?: boolean | null
+}
+
+export type TestimonialsAdvancedSettings = AdvancedSettings & {
+  layout?: 'grid' | 'carousel' | null
+}
+
+export type HeroAdvancedSettings = AdvancedSettings & {
+  tone?: 'dark' | 'light' | null
+  minHeight?: 'short' | 'medium' | 'large' | null
+  overlayStrength?: 'light' | 'medium' | 'strong' | null
+}
+
+export type CTASectionAdvancedSettings = AdvancedSettings & {
+  align?: 'left' | 'center' | null
+}
+
 export type RichTextAdvancedSettings = AdvancedSettings & {
   typography?: {
     textSize?: 'sm' | 'md' | 'lg' | null

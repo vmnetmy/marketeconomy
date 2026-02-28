@@ -1,4 +1,4 @@
-import type { AdvancedSettings } from './cms'
+import type { AdvancedSettings } from '../cms'
 
 type SectionBackground = 'none' | 'light' | 'dark'
 type SectionPadding = 'none' | 'compact' | 'standard' | 'large'

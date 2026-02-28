@@ -1,23 +1,24 @@
-import type { AdvancedSettings, CMSBlock, CMSMedia } from '../../lib/cms'
+import type { CMSBlock, CMSMedia, LogoCloudAdvancedSettings } from '../../lib/cms'
 
-import { getSectionProps } from '../../lib/blocks'
+import { getLogoCloudStyles, getSectionProps } from '../../lib/blocks'
 import { CMSImage } from '../media/CMSImage'
 import { SectionWrapper } from '../layout/SectionWrapper'
 
 type LogoCloudBlock = CMSBlock & {
   headline?: string
   logos?: Array<{ logo?: CMSMedia | string | null; name?: string; url?: string }>
-  advanced?: AdvancedSettings
+  advanced?: LogoCloudAdvancedSettings
 }
 
 export function LogoCloudBlock({ block }: { block: LogoCloudBlock }) {
   const sectionProps = getSectionProps(block.advanced)
+  const { gridClass, cardClass } = getLogoCloudStyles(block.advanced)
 
   return (
     <SectionWrapper {...sectionProps}>
       <section className="space-y-6">
         {block.headline ? <h2 className="text-2xl font-semibold">{block.headline}</h2> : null}
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div className={`grid ${gridClass}`}>
           {(block.logos || []).map((logo, index) => {
             const content = logo.logo ? (
               <CMSImage
@@ -35,7 +36,7 @@ export function LogoCloudBlock({ block }: { block: LogoCloudBlock }) {
             return logo.url ? (
               <a
                 key={`${logo.name ?? 'logo'}-${index}`}
-                className="flex items-center justify-center rounded-2xl border border-slate-200 bg-white p-4"
+                className={`flex items-center justify-center ${cardClass}`}
                 href={logo.url}
               >
                 {content}
@@ -43,7 +44,7 @@ export function LogoCloudBlock({ block }: { block: LogoCloudBlock }) {
             ) : (
               <div
                 key={`${logo.name ?? 'logo'}-${index}`}
-                className="flex items-center justify-center rounded-2xl border border-slate-200 bg-white p-4"
+                className={`flex items-center justify-center ${cardClass}`}
               >
                 {content}
               </div>

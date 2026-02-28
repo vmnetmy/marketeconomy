@@ -1,6 +1,7 @@
-import type { AdvancedSettings, CMSBlock, CMSMedia } from '../../lib/cms'
+import type { CMSBlock, CMSMedia, HeroAdvancedSettings } from '../../lib/cms'
 
 import { CMSImage } from '../media/CMSImage'
+import { getHeroStyles, getVisibilityClass } from '../../lib/blocks'
 
 type HeroBlock = CMSBlock & {
   headline?: string
@@ -9,47 +10,25 @@ type HeroBlock = CMSBlock & {
   primaryCTA?: { label?: string; url?: string }
   secondaryCTA?: { label?: string; url?: string }
   alignment?: 'left' | 'center' | 'right' | 'split'
-  advanced?: (AdvancedSettings & {
-    tone?: 'dark' | 'light'
-    minHeight?: 'short' | 'medium' | 'large' | 'tall'
-    overlayStrength?: 'light' | 'medium' | 'strong'
-  })
+  advanced?: HeroAdvancedSettings
 }
 
 export function HeroBlock({ block }: { block: HeroBlock }) {
   const advanced = block.advanced ?? {}
   const tone = advanced.tone ?? 'dark'
-  const minHeightClass =
-    advanced.minHeight === 'short'
-      ? 'min-h-[60vh]'
-      : advanced.minHeight === 'medium'
-        ? 'min-h-[75vh]'
-        : 'min-h-[85vh]'
+  const { toneClass, minHeightClass, overlayClass } = getHeroStyles(advanced)
   const paddingClass =
     advanced.padding === 'compact' ? 'pt-24 pb-16 md:pt-28' : advanced.padding === 'large' ? 'pt-40 pb-24 md:pt-48' : 'pt-32 pb-20 md:pt-40'
   const alignment = block.alignment ?? 'center'
   const contentAlignClass =
     alignment === 'left' ? 'items-start text-left' : alignment === 'right' ? 'items-end text-right' : 'items-center text-center'
-  const visibilityClass = advanced.hideOnMobile ? 'hidden md:flex' : advanced.hideOnDesktop ? 'flex md:hidden' : ''
+  const visibilityClass = getVisibilityClass(advanced)
   const anchorId = advanced.anchorId || undefined
   const overlayStrength = advanced.overlayStrength ?? 'medium'
   const overlayOpacity =
     overlayStrength === 'light' ? 'opacity-40' : overlayStrength === 'strong' ? 'opacity-70' : 'opacity-55'
-  const gradientClass =
-    tone === 'light'
-      ? overlayStrength === 'strong'
-        ? 'bg-gradient-to-t from-white via-white/90 to-transparent'
-        : overlayStrength === 'light'
-          ? 'bg-gradient-to-t from-white via-white/70 to-transparent'
-          : 'bg-gradient-to-t from-white via-white/80 to-transparent'
-      : overlayStrength === 'strong'
-        ? 'bg-gradient-to-t from-slate-950 via-slate-900/80 to-transparent'
-        : overlayStrength === 'light'
-          ? 'bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent'
-          : 'bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent'
 
-  const baseToneClasses =
-    tone === 'light' ? 'bg-white text-slate-900' : 'bg-slate-950 text-white'
+  const baseToneClasses = toneClass
   const subheadlineClass = tone === 'light' ? 'text-slate-600' : 'text-slate-300'
   const primaryCtaClass =
     tone === 'light'
@@ -75,7 +54,7 @@ export function HeroBlock({ block }: { block: HeroBlock }) {
               className={`object-cover mix-blend-luminosity ${overlayOpacity}`}
             />
           </div>
-          <div className={`absolute inset-0 z-0 ${gradientClass}`} />
+          <div className={`absolute inset-0 z-0 ${overlayClass}`} />
         </>
       ) : null}
 

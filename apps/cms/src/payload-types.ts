@@ -455,6 +455,8 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              columns?: ('2' | '3' | '4') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -477,6 +479,7 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              align?: ('left' | 'center') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -497,6 +500,9 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              frameStyle?: ('none' | 'outline' | 'card') | null;
+              radius?: ('sm' | 'md' | 'lg') | null;
+              shadow?: ('none' | 'soft' | 'medium') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -535,6 +541,8 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              layout?: ('cards' | 'minimal') | null;
+              columns?: ('1' | '2') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -556,6 +564,9 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              showImages?: boolean | null;
+              dense?: boolean | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -757,7 +768,9 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              columns?: ('2' | '3' | '4') | null;
               numberSize?: ('sm' | 'md' | 'lg') | null;
+              cardStyle?: ('flat' | 'raised') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -784,6 +797,8 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              columns?: ('2' | '3' | '4' | '6') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -839,6 +854,8 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              style?: ('cards' | 'minimal') | null;
+              compact?: boolean | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -862,6 +879,9 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              tone?: ('light' | 'dark') | null;
+              layout?: ('inline' | 'stacked') | null;
+              cardStyle?: ('flat' | 'raised') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -910,6 +930,8 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              gap?: ('sm' | 'md' | 'lg') | null;
+              verticalAlign?: ('top' | 'center') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -946,6 +968,9 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              columns?: ('2' | '3' | '4') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              highlightStyle?: ('solid' | 'outline') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -967,6 +992,9 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              frameStyle?: ('none' | 'outline' | 'card') | null;
+              radius?: ('sm' | 'md' | 'lg') | null;
+              shadow?: ('none' | 'soft' | 'medium') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1017,6 +1045,7 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              panelStyle?: ('none' | 'soft' | 'card') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1281,6 +1310,8 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              columns?: ('2' | '3' | '4') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1303,6 +1334,7 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              align?: ('left' | 'center') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1323,6 +1355,9 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              frameStyle?: ('none' | 'outline' | 'card') | null;
+              radius?: ('sm' | 'md' | 'lg') | null;
+              shadow?: ('none' | 'soft' | 'medium') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1361,6 +1396,8 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              layout?: ('cards' | 'minimal') | null;
+              columns?: ('1' | '2') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1382,6 +1419,9 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              showImages?: boolean | null;
+              dense?: boolean | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1583,7 +1623,9 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              columns?: ('2' | '3' | '4') | null;
               numberSize?: ('sm' | 'md' | 'lg') | null;
+              cardStyle?: ('flat' | 'raised') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1610,6 +1652,8 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              columns?: ('2' | '3' | '4' | '6') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1665,6 +1709,8 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              style?: ('cards' | 'minimal') | null;
+              compact?: boolean | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1688,6 +1734,9 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              tone?: ('light' | 'dark') | null;
+              layout?: ('inline' | 'stacked') | null;
+              cardStyle?: ('flat' | 'raised') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1736,6 +1785,8 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              gap?: ('sm' | 'md' | 'lg') | null;
+              verticalAlign?: ('top' | 'center') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1772,6 +1823,9 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              columns?: ('2' | '3' | '4') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              highlightStyle?: ('solid' | 'outline') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1793,6 +1847,9 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              frameStyle?: ('none' | 'outline' | 'card') | null;
+              radius?: ('sm' | 'md' | 'lg') | null;
+              shadow?: ('none' | 'soft' | 'medium') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1843,6 +1900,7 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              panelStyle?: ('none' | 'soft' | 'card') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -2290,6 +2348,8 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    cardStyle?: T;
+                    columns?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2312,6 +2372,7 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    align?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2332,6 +2393,9 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    frameStyle?: T;
+                    radius?: T;
+                    shadow?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2356,6 +2420,8 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    layout?: T;
+                    columns?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2377,6 +2443,9 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    cardStyle?: T;
+                    showImages?: T;
+                    dense?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2463,7 +2532,9 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    columns?: T;
                     numberSize?: T;
+                    cardStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2490,6 +2561,8 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    cardStyle?: T;
+                    columns?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2545,6 +2618,8 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    style?: T;
+                    compact?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2568,6 +2643,9 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    tone?: T;
+                    layout?: T;
+                    cardStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2588,6 +2666,8 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    gap?: T;
+                    verticalAlign?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2624,6 +2704,9 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    columns?: T;
+                    cardStyle?: T;
+                    highlightStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2645,6 +2728,9 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    frameStyle?: T;
+                    radius?: T;
+                    shadow?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2681,6 +2767,7 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    panelStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2831,6 +2918,8 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    cardStyle?: T;
+                    columns?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2853,6 +2942,7 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    align?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2873,6 +2963,9 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    frameStyle?: T;
+                    radius?: T;
+                    shadow?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2897,6 +2990,8 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    layout?: T;
+                    columns?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2918,6 +3013,9 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    cardStyle?: T;
+                    showImages?: T;
+                    dense?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -3004,7 +3102,9 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    columns?: T;
                     numberSize?: T;
+                    cardStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -3031,6 +3131,8 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    cardStyle?: T;
+                    columns?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -3086,6 +3188,8 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    style?: T;
+                    compact?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -3109,6 +3213,9 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    tone?: T;
+                    layout?: T;
+                    cardStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -3129,6 +3236,8 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    gap?: T;
+                    verticalAlign?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -3165,6 +3274,9 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    columns?: T;
+                    cardStyle?: T;
+                    highlightStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -3186,6 +3298,9 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    frameStyle?: T;
+                    radius?: T;
+                    shadow?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -3222,6 +3337,7 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    panelStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
