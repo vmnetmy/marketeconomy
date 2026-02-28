@@ -8,10 +8,8 @@ export default async function PolicyBriefsPage() {
   if (!page) return notFound()
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-12">
-        <BlockRenderer blocks={page.layout} />
-      </div>
-    </main>
+    <div className="flex w-full flex-col">
+      <BlockRenderer blocks={page.layout} />
+    </div>
   )
 }

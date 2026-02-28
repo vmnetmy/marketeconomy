@@ -3,6 +3,7 @@
 import type { NavItem, SiteSettingsGlobal } from '../../lib/cms'
 import { resolveMediaUrl } from '../../lib/cms'
 import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
@@ -37,10 +38,6 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => {
-    setIsOpen(false)
-  }, [pathname])
-
   const headerClass = useMemo(() => {
     if (variant === 'transparent' && isHome && !scrolled) {
       return 'border-transparent bg-transparent'
@@ -65,10 +62,11 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4 md:py-5">
         <Link href="/" className="group flex items-center gap-3">
           {logoUrl ? (
-            <img
+            <Image
               alt={displayName}
               className={`h-9 w-auto transition-all ${logoClass}`}
               height={36}
+              priority
               src={logoUrl}
               width={144}
             />
@@ -150,6 +148,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
                     rel="noreferrer"
                     target="_blank"
                     style={{ transitionDelay: `${index * 60}ms` }}
+                    onClick={() => setIsOpen(false)}
                   >
                     {item.label}
                   </a>
@@ -162,6 +161,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
                   className={linkClass}
                   href={href}
                   style={{ transitionDelay: `${index * 60}ms` }}
+                  onClick={() => setIsOpen(false)}
                 >
                   {item.label}
                 </Link>
@@ -171,6 +171,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
               className="menu-item-stagger mt-6 inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-blue-600"
               href="/contact"
               style={{ transitionDelay: `${(navItems?.length ?? 0) * 60}ms` }}
+              onClick={() => setIsOpen(false)}
             >
               Get Involved
             </Link>

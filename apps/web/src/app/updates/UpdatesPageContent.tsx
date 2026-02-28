@@ -1,8 +1,9 @@
-import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
 import type { SerializedEditorState } from 'lexical'
 
 import { UpdatesSidebar } from '../../components/updates/UpdatesSidebar'
-import { getFeaturedPosts, getPageBySlug, getPostsPage, getUpdatesSidebar, resolveMediaUrl } from '../../lib/cms'
+import { CMSImage } from '../../components/media/CMSImage'
+import { RichText } from '../../components/ui/RichText'
+import { getFeaturedPosts, getPageBySlug, getPostsPage, getUpdatesSidebar } from '../../lib/cms'
 
 const formatDate = (value?: string | null): string | null => {
   if (!value) return null
@@ -13,12 +14,6 @@ const formatDate = (value?: string | null): string | null => {
     day: 'numeric',
     year: 'numeric',
   }).format(date)
-}
-
-const renderRichText = (content?: SerializedEditorState | null) => {
-  if (!content) return null
-  const html = convertLexicalToHTML({ data: content })
-  return <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
 }
 
 const getIntroFromPage = (page?: { layout?: Array<{ blockType?: string; content?: unknown }> } | null) => {
@@ -46,7 +41,7 @@ export async function UpdatesPageContent({ currentPage }: { currentPage: number 
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
         <header className="space-y-3">
           <h1 className="text-3xl font-semibold">{heading}</h1>
-          {renderRichText(intro)}
+          <RichText content={intro} />
         </header>
 
         <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10">
@@ -58,7 +53,6 @@ export async function UpdatesPageContent({ currentPage }: { currentPage: number 
             ) : (
               <div className="space-y-6">
                 {postsData.docs.map((post) => {
-                  const coverUrl = resolveMediaUrl(post.coverImage)
                   const published = formatDate(post.publishedAt)
                   const tags = (post.tags || [])
                     .map((tag) => tag?.tag)
@@ -70,11 +64,14 @@ export async function UpdatesPageContent({ currentPage }: { currentPage: number 
                       className="grid gap-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md md:grid-cols-[220px_1fr]"
                     >
                       <a href={`/updates/${post.slug}`} className="block">
-                        {coverUrl ? (
-                          <img
-                            src={coverUrl}
+                        {post.coverImage ? (
+                          <CMSImage
+                            media={post.coverImage}
                             alt={post.title}
                             className="h-44 w-full rounded-2xl object-cover"
+                            height={176}
+                            sizes="(max-width: 768px) 100vw, 220px"
+                            width={352}
                           />
                         ) : (
                           <div className="h-44 w-full rounded-2xl bg-gradient-to-br from-slate-200 via-slate-100 to-slate-50" />
