@@ -613,7 +613,7 @@ export interface Page {
             headline?: string | null;
             logos?:
               | {
-                  logo: number | Media;
+                  logo?: (number | null) | Media;
                   name?: string | null;
                   url?: string | null;
                   id?: string | null;
@@ -1186,7 +1186,7 @@ export interface Post {
             headline?: string | null;
             logos?:
               | {
-                  logo: number | Media;
+                  logo?: (number | null) | Media;
                   name?: string | null;
                   url?: string | null;
                   id?: string | null;

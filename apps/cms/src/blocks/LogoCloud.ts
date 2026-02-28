@@ -19,7 +19,6 @@ export const LogoCloud: Block = {
           name: 'logo',
           type: 'upload',
           relationTo: 'media',
-          required: true,
         },
         {
           name: 'name',
