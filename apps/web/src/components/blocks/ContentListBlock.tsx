@@ -45,7 +45,7 @@ export async function ContentListBlock({ block }: { block: ContentListBlock }) {
               className={`block rounded-2xl p-5 ${cardClass}`}
             >
               {showImages && item.coverImage ? (
-                <div className="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100">
+                <div className="relative mb-4 aspect-4/3 w-full overflow-hidden rounded-xl bg-slate-100">
                   <CMSImage
                     media={item.coverImage}
                     alt={item.title}

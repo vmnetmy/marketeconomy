@@ -1,0 +1,5 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-f', 'apps/cms/Dockerfile.migrate', '-t', 'us-central1-docker.pkg.dev/marketeconomy/cms/cms-migrate:latest', '.']
+images:
+  - 'us-central1-docker.pkg.dev/marketeconomy/cms/cms-migrate:latest'

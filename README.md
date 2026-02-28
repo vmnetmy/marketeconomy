@@ -98,6 +98,14 @@ From `apps/cms`:
 pnpm -C apps/cms devsafe
 ```
 
+## Operations
+
+See the runbooks in `docs/`:
+
+- `docs/DEPLOYMENT.md`
+- `docs/MIGRATIONS.md`
+- `docs/OPERATIONS.md`
+
 ## License
 
 MIT
