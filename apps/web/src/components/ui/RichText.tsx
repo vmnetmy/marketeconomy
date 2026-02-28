@@ -2,7 +2,7 @@ import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
 import type { SerializedEditorState } from 'lexical'
 
 type RichTextProps = {
-  content?: SerializedEditorState
+  content?: SerializedEditorState | null
   className?: string
 }
 
