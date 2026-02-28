@@ -1,5 +1,6 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
 import { iconOptions } from '../util/iconOptions'
 
 export const Cards: Block = {
@@ -58,5 +59,7 @@ export const Cards: Block = {
         },
       ],
     },
+    enableAdvancedField,
+    buildAdvancedGroup({ anchorPlaceholder: 'e.g. ways-to-engage' }),
   ],
 }

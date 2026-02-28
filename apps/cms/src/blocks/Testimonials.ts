@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+
 export const Testimonials: Block = {
   slug: 'testimonials',
   labels: {
@@ -40,5 +42,20 @@ export const Testimonials: Block = {
         },
       ],
     },
+    enableAdvancedField,
+    buildAdvancedGroup({
+      anchorPlaceholder: 'e.g. testimonials',
+      extraFields: [
+        {
+          name: 'layout',
+          type: 'select',
+          defaultValue: 'grid',
+          options: [
+            { label: 'Grid', value: 'grid' },
+            { label: 'Carousel', value: 'carousel' },
+          ],
+        },
+      ],
+    }),
   ],
 }

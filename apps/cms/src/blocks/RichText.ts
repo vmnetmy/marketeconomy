@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+
 export const RichTextBlock: Block = {
   slug: 'richText',
   labels: {
@@ -11,5 +13,7 @@ export const RichTextBlock: Block = {
       name: 'content',
       type: 'richText',
     },
+    enableAdvancedField,
+    buildAdvancedGroup({ anchorPlaceholder: 'e.g. content' }),
   ],
 }

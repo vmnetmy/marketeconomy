@@ -1,16 +1,20 @@
-import type { CMSBlock } from '../../lib/cms'
+import type { AdvancedSettings, CMSBlock } from '../../lib/cms'
 import type { SerializedEditorState } from 'lexical'
 
+import { getSectionProps } from '../../lib/blocks'
 import { SectionWrapper } from '../layout/SectionWrapper'
 import { RichText } from '../ui/RichText'
 
 type FAQBlock = CMSBlock & {
   items?: Array<{ question?: string; answer?: SerializedEditorState }>
+  advanced?: AdvancedSettings
 }
 
 export function FAQBlock({ block }: { block: FAQBlock }) {
+  const sectionProps = getSectionProps(block.advanced)
+
   return (
-    <SectionWrapper>
+    <SectionWrapper {...sectionProps}>
       <section className="space-y-4">
         {(block.items || []).map((item, index) => (
           <div key={`${item.question ?? 'faq'}-${index}`} className="rounded-xl border border-slate-200 bg-white p-4">

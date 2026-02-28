@@ -1,16 +1,20 @@
-import type { CMSBlock, CMSMedia } from '../../lib/cms'
+import type { AdvancedSettings, CMSBlock, CMSMedia } from '../../lib/cms'
 
+import { getSectionProps } from '../../lib/blocks'
 import { CMSImage } from '../media/CMSImage'
 import { SectionWrapper } from '../layout/SectionWrapper'
 
 type LogoCloudBlock = CMSBlock & {
   headline?: string
   logos?: Array<{ logo?: CMSMedia | string | null; name?: string; url?: string }>
+  advanced?: AdvancedSettings
 }
 
 export function LogoCloudBlock({ block }: { block: LogoCloudBlock }) {
+  const sectionProps = getSectionProps(block.advanced)
+
   return (
-    <SectionWrapper>
+    <SectionWrapper {...sectionProps}>
       <section className="space-y-6">
         {block.headline ? <h2 className="text-2xl font-semibold">{block.headline}</h2> : null}
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">

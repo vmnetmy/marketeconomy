@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+
 export const LogoCloud: Block = {
   slug: 'logoCloud',
   labels: {
@@ -30,5 +32,7 @@ export const LogoCloud: Block = {
         },
       ],
     },
+    enableAdvancedField,
+    buildAdvancedGroup({ anchorPlaceholder: 'e.g. partners' }),
   ],
 }

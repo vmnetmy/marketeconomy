@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+
 export const Hero: Block = {
   slug: 'hero',
   labels: {
@@ -60,17 +62,12 @@ export const Hero: Block = {
         { label: 'Split', value: 'split' },
       ],
     },
-    {
-      name: 'advanced',
-      type: 'group',
-      fields: [
-        {
-          name: 'anchorId',
-          type: 'text',
-          admin: {
-            placeholder: 'e.g. hero',
-          },
-        },
+    enableAdvancedField,
+    buildAdvancedGroup({
+      includeBackground: false,
+      includeWidth: false,
+      anchorPlaceholder: 'e.g. hero',
+      extraFields: [
         {
           name: 'tone',
           type: 'select',
@@ -83,34 +80,24 @@ export const Hero: Block = {
         {
           name: 'minHeight',
           type: 'select',
-          defaultValue: 'tall',
+          defaultValue: 'large',
           options: [
             { label: 'Short', value: 'short' },
             { label: 'Medium', value: 'medium' },
-            { label: 'Tall', value: 'tall' },
-          ],
-        },
-        {
-          name: 'padding',
-          type: 'select',
-          defaultValue: 'standard',
-          options: [
-            { label: 'Compact', value: 'compact' },
-            { label: 'Standard', value: 'standard' },
             { label: 'Large', value: 'large' },
           ],
         },
         {
-          name: 'hideOnMobile',
-          type: 'checkbox',
-          defaultValue: false,
-        },
-        {
-          name: 'hideOnDesktop',
-          type: 'checkbox',
-          defaultValue: false,
+          name: 'overlayStrength',
+          type: 'select',
+          defaultValue: 'medium',
+          options: [
+            { label: 'Light', value: 'light' },
+            { label: 'Medium', value: 'medium' },
+            { label: 'Strong', value: 'strong' },
+          ],
         },
       ],
-    },
+    }),
   ],
 }

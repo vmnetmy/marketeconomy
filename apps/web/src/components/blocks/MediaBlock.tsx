@@ -1,5 +1,6 @@
-import type { CMSBlock, CMSMedia } from '../../lib/cms'
+import type { AdvancedSettings, CMSBlock, CMSMedia } from '../../lib/cms'
 
+import { getSectionProps } from '../../lib/blocks'
 import { CMSImage } from '../media/CMSImage'
 import { SectionWrapper } from '../layout/SectionWrapper'
 
@@ -7,11 +8,14 @@ type MediaBlock = CMSBlock & {
   media?: CMSMedia | string | null
   caption?: string
   alignment?: string
+  advanced?: AdvancedSettings
 }
 
 export function MediaBlock({ block }: { block: MediaBlock }) {
+  const sectionProps = getSectionProps(block.advanced)
+
   return (
-    <SectionWrapper>
+    <SectionWrapper {...sectionProps}>
       <section className="space-y-3">
         {block.media ? (
           <CMSImage media={block.media} className="w-full rounded-2xl border border-slate-200" />

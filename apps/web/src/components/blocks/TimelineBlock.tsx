@@ -1,15 +1,19 @@
-import type { CMSBlock } from '../../lib/cms'
+import type { AdvancedSettings, CMSBlock } from '../../lib/cms'
 
+import { getSectionProps } from '../../lib/blocks'
 import { SectionWrapper } from '../layout/SectionWrapper'
 
 type TimelineBlock = CMSBlock & {
   headline?: string
   items?: Array<{ title?: string; date?: string; description?: string }>
+  advanced?: AdvancedSettings
 }
 
 export function TimelineBlock({ block }: { block: TimelineBlock }) {
+  const sectionProps = getSectionProps(block.advanced)
+
   return (
-    <SectionWrapper>
+    <SectionWrapper {...sectionProps}>
       <section className="space-y-6">
         {block.headline ? <h2 className="text-2xl font-semibold">{block.headline}</h2> : null}
         <div className="space-y-4">

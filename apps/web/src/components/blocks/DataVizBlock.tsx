@@ -1,5 +1,6 @@
-import type { CMSBlock, DatasetDoc } from '../../lib/cms'
+import type { AdvancedSettings, CMSBlock, DatasetDoc } from '../../lib/cms'
 
+import { getSectionProps } from '../../lib/blocks'
 import { ChartRenderer } from '../charts/ChartRenderer'
 import { DataTable } from '../charts/DataTable'
 import { SectionWrapper } from '../layout/SectionWrapper'
@@ -19,6 +20,7 @@ type DataVizBlock = CMSBlock & {
   colorScheme?: string
   height?: number
   showLegend?: boolean
+  advanced?: AdvancedSettings
 }
 
 export function DataVizBlock({ block }: { block: DataVizBlock }) {
@@ -34,9 +36,10 @@ export function DataVizBlock({ block }: { block: DataVizBlock }) {
   const viewMode = block.viewMode ?? 'chart'
   const showChart = viewMode === 'chart' || viewMode === 'chartAndTable'
   const showTable = viewMode === 'table' || viewMode === 'chartAndTable'
+  const sectionProps = getSectionProps(block.advanced)
 
   return (
-    <SectionWrapper>
+    <SectionWrapper {...sectionProps}>
       <section className="space-y-6">
         {(block.headline || block.description) && (
           <div>

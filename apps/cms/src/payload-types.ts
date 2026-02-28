@@ -248,11 +248,16 @@ export interface Page {
               url?: string | null;
             };
             alignment?: ('left' | 'center' | 'right' | 'split') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
             advanced?: {
               anchorId?: string | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               tone?: ('dark' | 'light') | null;
-              minHeight?: ('short' | 'medium' | 'tall') | null;
-              padding?: ('compact' | 'standard' | 'large') | null;
+              minHeight?: ('short' | 'medium' | 'large') | null;
+              overlayStrength?: ('light' | 'medium' | 'strong') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -276,6 +281,18 @@ export interface Page {
               };
               [k: string]: unknown;
             } | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'richText';
@@ -398,6 +415,18 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'cards';
@@ -408,6 +437,18 @@ export interface Page {
             buttonLabel?: string | null;
             buttonURL?: string | null;
             theme?: ('light' | 'dark') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'ctaSection';
@@ -416,6 +457,18 @@ export interface Page {
             media: number | Media;
             caption?: string | null;
             alignment?: ('left' | 'center' | 'right' | 'full') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'mediaBlock';
@@ -442,6 +495,18 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'faq';
@@ -451,6 +516,18 @@ export interface Page {
             limit?: number | null;
             layout?: ('list' | 'grid') | null;
             filterTag?: string | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'contentList';
@@ -574,11 +651,16 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
             advanced?: {
               anchorId?: string | null;
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -605,10 +687,17 @@ export interface Page {
             media?: (number | null) | Media;
             mediaPosition?: ('left' | 'right') | null;
             background?: ('none' | 'light' | 'dark') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
             advanced?: {
               anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              imageSize?: ('small' | 'medium' | 'large') | null;
+              reverseOnMobile?: boolean | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -628,6 +717,19 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              numberSize?: ('sm' | 'md' | 'lg') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'stats';
@@ -642,6 +744,18 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'logoCloud';
@@ -658,6 +772,19 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              layout?: ('grid' | 'carousel') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'testimonials';
@@ -672,6 +799,18 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'timeline';
@@ -683,6 +822,18 @@ export interface Page {
             buttonLabel?: string | null;
             formAction?: string | null;
             finePrint?: string | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'newsletter';
@@ -719,6 +870,18 @@ export interface Page {
               [k: string]: unknown;
             } | null;
             background?: ('none' | 'light' | 'dark') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'twoColumnRichText';
@@ -743,6 +906,18 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'pricing';
@@ -752,6 +927,18 @@ export interface Page {
             embedUrl: string;
             caption?: string | null;
             aspectRatio?: ('16:9' | '4:3' | '1:1') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'videoEmbed';
@@ -790,6 +977,18 @@ export interface Page {
             colorScheme?: ('nivo' | 'category10' | 'paired' | 'set3' | 'spectral') | null;
             height?: number | null;
             showLegend?: boolean | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'dataViz';
@@ -844,11 +1043,16 @@ export interface Post {
               url?: string | null;
             };
             alignment?: ('left' | 'center' | 'right' | 'split') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
             advanced?: {
               anchorId?: string | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               tone?: ('dark' | 'light') | null;
-              minHeight?: ('short' | 'medium' | 'tall') | null;
-              padding?: ('compact' | 'standard' | 'large') | null;
+              minHeight?: ('short' | 'medium' | 'large') | null;
+              overlayStrength?: ('light' | 'medium' | 'strong') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -872,6 +1076,18 @@ export interface Post {
               };
               [k: string]: unknown;
             } | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'richText';
@@ -994,6 +1210,18 @@ export interface Post {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'cards';
@@ -1004,6 +1232,18 @@ export interface Post {
             buttonLabel?: string | null;
             buttonURL?: string | null;
             theme?: ('light' | 'dark') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'ctaSection';
@@ -1012,6 +1252,18 @@ export interface Post {
             media: number | Media;
             caption?: string | null;
             alignment?: ('left' | 'center' | 'right' | 'full') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'mediaBlock';
@@ -1038,6 +1290,18 @@ export interface Post {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'faq';
@@ -1047,6 +1311,18 @@ export interface Post {
             limit?: number | null;
             layout?: ('list' | 'grid') | null;
             filterTag?: string | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'contentList';
@@ -1170,11 +1446,16 @@ export interface Post {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
             advanced?: {
               anchorId?: string | null;
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1201,10 +1482,17 @@ export interface Post {
             media?: (number | null) | Media;
             mediaPosition?: ('left' | 'right') | null;
             background?: ('none' | 'light' | 'dark') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
             advanced?: {
               anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              imageSize?: ('small' | 'medium' | 'large') | null;
+              reverseOnMobile?: boolean | null;
               hideOnMobile?: boolean | null;
               hideOnDesktop?: boolean | null;
             };
@@ -1224,6 +1512,19 @@ export interface Post {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              numberSize?: ('sm' | 'md' | 'lg') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'stats';
@@ -1238,6 +1539,18 @@ export interface Post {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'logoCloud';
@@ -1254,6 +1567,19 @@ export interface Post {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              layout?: ('grid' | 'carousel') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'testimonials';
@@ -1268,6 +1594,18 @@ export interface Post {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'timeline';
@@ -1279,6 +1617,18 @@ export interface Post {
             buttonLabel?: string | null;
             formAction?: string | null;
             finePrint?: string | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'newsletter';
@@ -1315,6 +1665,18 @@ export interface Post {
               [k: string]: unknown;
             } | null;
             background?: ('none' | 'light' | 'dark') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'twoColumnRichText';
@@ -1339,6 +1701,18 @@ export interface Post {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'pricing';
@@ -1348,6 +1722,18 @@ export interface Post {
             embedUrl: string;
             caption?: string | null;
             aspectRatio?: ('16:9' | '4:3' | '1:1') | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'videoEmbed';
@@ -1386,6 +1772,18 @@ export interface Post {
             colorScheme?: ('nivo' | 'category10' | 'paired' | 'set3' | 'spectral') | null;
             height?: number | null;
             showLegend?: boolean | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'dataViz';
@@ -1729,13 +2127,15 @@ export interface PagesSelect<T extends boolean = true> {
                     url?: T;
                   };
               alignment?: T;
+              enableAdvanced?: T;
               advanced?:
                 | T
                 | {
                     anchorId?: T;
+                    padding?: T;
                     tone?: T;
                     minHeight?: T;
-                    padding?: T;
+                    overlayStrength?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -1746,6 +2146,17 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               content?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1768,6 +2179,17 @@ export interface PagesSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1779,6 +2201,17 @@ export interface PagesSelect<T extends boolean = true> {
               buttonLabel?: T;
               buttonURL?: T;
               theme?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1788,6 +2221,17 @@ export interface PagesSelect<T extends boolean = true> {
               media?: T;
               caption?: T;
               alignment?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1801,6 +2245,17 @@ export interface PagesSelect<T extends boolean = true> {
                     answer?: T;
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1811,6 +2266,17 @@ export interface PagesSelect<T extends boolean = true> {
               limit?: T;
               layout?: T;
               filterTag?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1834,6 +2300,7 @@ export interface PagesSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              enableAdvanced?: T;
               advanced?:
                 | T
                 | {
@@ -1841,6 +2308,7 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    cardStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -1854,12 +2322,16 @@ export interface PagesSelect<T extends boolean = true> {
               media?: T;
               mediaPosition?: T;
               background?: T;
+              enableAdvanced?: T;
               advanced?:
                 | T
                 | {
                     anchorId?: T;
+                    background?: T;
                     padding?: T;
                     width?: T;
+                    imageSize?: T;
+                    reverseOnMobile?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -1880,6 +2352,18 @@ export interface PagesSelect<T extends boolean = true> {
                     detail?: T;
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    numberSize?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1894,6 +2378,17 @@ export interface PagesSelect<T extends boolean = true> {
                     name?: T;
                     url?: T;
                     id?: T;
+                  };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
                   };
               id?: T;
               blockName?: T;
@@ -1912,6 +2407,18 @@ export interface PagesSelect<T extends boolean = true> {
                     avatar?: T;
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    layout?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1927,6 +2434,17 @@ export interface PagesSelect<T extends boolean = true> {
                     description?: T;
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1939,6 +2457,17 @@ export interface PagesSelect<T extends boolean = true> {
               buttonLabel?: T;
               formAction?: T;
               finePrint?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1948,6 +2477,17 @@ export interface PagesSelect<T extends boolean = true> {
               left?: T;
               right?: T;
               background?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1973,6 +2513,17 @@ export interface PagesSelect<T extends boolean = true> {
                     highlight?: T;
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1983,6 +2534,17 @@ export interface PagesSelect<T extends boolean = true> {
               embedUrl?: T;
               caption?: T;
               aspectRatio?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2008,6 +2570,17 @@ export interface PagesSelect<T extends boolean = true> {
               colorScheme?: T;
               height?: T;
               showLegend?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2054,13 +2627,15 @@ export interface PostsSelect<T extends boolean = true> {
                     url?: T;
                   };
               alignment?: T;
+              enableAdvanced?: T;
               advanced?:
                 | T
                 | {
                     anchorId?: T;
+                    padding?: T;
                     tone?: T;
                     minHeight?: T;
-                    padding?: T;
+                    overlayStrength?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2071,6 +2646,17 @@ export interface PostsSelect<T extends boolean = true> {
           | T
           | {
               content?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2093,6 +2679,17 @@ export interface PostsSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2104,6 +2701,17 @@ export interface PostsSelect<T extends boolean = true> {
               buttonLabel?: T;
               buttonURL?: T;
               theme?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2113,6 +2721,17 @@ export interface PostsSelect<T extends boolean = true> {
               media?: T;
               caption?: T;
               alignment?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2126,6 +2745,17 @@ export interface PostsSelect<T extends boolean = true> {
                     answer?: T;
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2136,6 +2766,17 @@ export interface PostsSelect<T extends boolean = true> {
               limit?: T;
               layout?: T;
               filterTag?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2159,6 +2800,7 @@ export interface PostsSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              enableAdvanced?: T;
               advanced?:
                 | T
                 | {
@@ -2166,6 +2808,7 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    cardStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2179,12 +2822,16 @@ export interface PostsSelect<T extends boolean = true> {
               media?: T;
               mediaPosition?: T;
               background?: T;
+              enableAdvanced?: T;
               advanced?:
                 | T
                 | {
                     anchorId?: T;
+                    background?: T;
                     padding?: T;
                     width?: T;
+                    imageSize?: T;
+                    reverseOnMobile?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };
@@ -2205,6 +2852,18 @@ export interface PostsSelect<T extends boolean = true> {
                     detail?: T;
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    numberSize?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2219,6 +2878,17 @@ export interface PostsSelect<T extends boolean = true> {
                     name?: T;
                     url?: T;
                     id?: T;
+                  };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
                   };
               id?: T;
               blockName?: T;
@@ -2237,6 +2907,18 @@ export interface PostsSelect<T extends boolean = true> {
                     avatar?: T;
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    layout?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2252,6 +2934,17 @@ export interface PostsSelect<T extends boolean = true> {
                     description?: T;
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2264,6 +2957,17 @@ export interface PostsSelect<T extends boolean = true> {
               buttonLabel?: T;
               formAction?: T;
               finePrint?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2273,6 +2977,17 @@ export interface PostsSelect<T extends boolean = true> {
               left?: T;
               right?: T;
               background?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2298,6 +3013,17 @@ export interface PostsSelect<T extends boolean = true> {
                     highlight?: T;
                     id?: T;
                   };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2308,6 +3034,17 @@ export interface PostsSelect<T extends boolean = true> {
               embedUrl?: T;
               caption?: T;
               aspectRatio?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2333,6 +3070,17 @@ export interface PostsSelect<T extends boolean = true> {
               colorScheme?: T;
               height?: T;
               showLegend?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
               id?: T;
               blockName?: T;
             };

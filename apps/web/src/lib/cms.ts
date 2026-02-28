@@ -22,6 +22,15 @@ export type CMSBlock = {
   [key: string]: unknown
 }
 
+export type AdvancedSettings = {
+  anchorId?: string | null
+  background?: 'none' | 'light' | 'dark' | null
+  padding?: 'none' | 'compact' | 'standard' | 'large' | null
+  width?: 'standard' | 'wide' | 'full' | null
+  hideOnMobile?: boolean | null
+  hideOnDesktop?: boolean | null
+}
+
 export type DatasetColumn = {
   key?: string | null
   label?: string | null

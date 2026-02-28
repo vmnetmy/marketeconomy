@@ -1,5 +1,6 @@
-import type { CMSBlock } from '../../lib/cms'
+import type { AdvancedSettings, CMSBlock } from '../../lib/cms'
 
+import { getSectionProps } from '../../lib/blocks'
 import { SectionWrapper } from '../layout/SectionWrapper'
 import { IconBadge } from '../ui/IconBadge'
 
@@ -7,11 +8,14 @@ type CardsBlock = CMSBlock & {
   sectionTitle?: string
   sectionIntro?: string
   cards?: Array<{ title?: string; description?: string; icon?: string; link?: { label?: string; url?: string } }>
+  advanced?: AdvancedSettings
 }
 
 export function CardsBlock({ block }: { block: CardsBlock }) {
+  const sectionProps = getSectionProps(block.advanced)
+
   return (
-    <SectionWrapper>
+    <SectionWrapper {...sectionProps}>
       <section className="space-y-6">
         <div>
           {block.sectionTitle ? <h2 className="text-2xl font-semibold">{block.sectionTitle}</h2> : null}

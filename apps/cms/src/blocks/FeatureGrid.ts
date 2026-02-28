@@ -1,5 +1,6 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
 import { iconOptions } from '../util/iconOptions'
 
 export const FeatureGrid: Block = {
@@ -67,59 +68,20 @@ export const FeatureGrid: Block = {
         },
       ],
     },
-    {
-      name: 'advanced',
-      type: 'group',
-      fields: [
+    enableAdvancedField,
+    buildAdvancedGroup({
+      anchorPlaceholder: 'e.g. key-activities',
+      extraFields: [
         {
-          name: 'anchorId',
-          type: 'text',
-          admin: {
-            placeholder: 'e.g. key-activities',
-          },
-        },
-        {
-          name: 'background',
+          name: 'cardStyle',
           type: 'select',
-          defaultValue: 'none',
+          defaultValue: 'raised',
           options: [
-            { label: 'None', value: 'none' },
-            { label: 'Light', value: 'light' },
-            { label: 'Dark', value: 'dark' },
+            { label: 'Flat', value: 'flat' },
+            { label: 'Raised', value: 'raised' },
           ],
-        },
-        {
-          name: 'padding',
-          type: 'select',
-          defaultValue: 'standard',
-          options: [
-            { label: 'None', value: 'none' },
-            { label: 'Compact', value: 'compact' },
-            { label: 'Standard', value: 'standard' },
-            { label: 'Large', value: 'large' },
-          ],
-        },
-        {
-          name: 'width',
-          type: 'select',
-          defaultValue: 'standard',
-          options: [
-            { label: 'Standard', value: 'standard' },
-            { label: 'Wide', value: 'wide' },
-            { label: 'Full', value: 'full' },
-          ],
-        },
-        {
-          name: 'hideOnMobile',
-          type: 'checkbox',
-          defaultValue: false,
-        },
-        {
-          name: 'hideOnDesktop',
-          type: 'checkbox',
-          defaultValue: false,
         },
       ],
-    },
+    }),
   ],
 }

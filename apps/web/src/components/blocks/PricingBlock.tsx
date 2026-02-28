@@ -1,5 +1,6 @@
-import type { CMSBlock } from '../../lib/cms'
+import type { AdvancedSettings, CMSBlock } from '../../lib/cms'
 
+import { getSectionProps } from '../../lib/blocks'
 import { SectionWrapper } from '../layout/SectionWrapper'
 
 type PricingBlock = CMSBlock & {
@@ -14,11 +15,14 @@ type PricingBlock = CMSBlock & {
     ctaUrl?: string
     highlight?: boolean
   }>
+  advanced?: AdvancedSettings
 }
 
 export function PricingBlock({ block }: { block: PricingBlock }) {
+  const sectionProps = getSectionProps(block.advanced)
+
   return (
-    <SectionWrapper>
+    <SectionWrapper {...sectionProps}>
       <section className="space-y-6">
         <div>
           {block.headline ? <h2 className="text-2xl font-semibold">{block.headline}</h2> : null}

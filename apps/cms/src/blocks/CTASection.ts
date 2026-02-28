@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+
 export const CTASection: Block = {
   slug: 'ctaSection',
   labels: {
@@ -33,5 +35,7 @@ export const CTASection: Block = {
         { label: 'Dark', value: 'dark' },
       ],
     },
+    enableAdvancedField,
+    buildAdvancedGroup({ anchorPlaceholder: 'e.g. cta' }),
   ],
 }

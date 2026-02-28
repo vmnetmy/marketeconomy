@@ -1,5 +1,6 @@
-import type { CMSBlock } from '../../lib/cms'
+import type { AdvancedSettings, CMSBlock } from '../../lib/cms'
 
+import { getSectionProps } from '../../lib/blocks'
 import { SectionWrapper } from '../layout/SectionWrapper'
 
 type VideoEmbedBlock = CMSBlock & {
@@ -7,15 +8,17 @@ type VideoEmbedBlock = CMSBlock & {
   embedUrl?: string
   caption?: string
   aspectRatio?: '16:9' | '4:3' | '1:1'
+  advanced?: AdvancedSettings
 }
 
 export function VideoEmbedBlock({ block }: { block: VideoEmbedBlock }) {
   if (!block.embedUrl) return null
   const ratio =
     block.aspectRatio === '4:3' ? 'pt-[75%]' : block.aspectRatio === '1:1' ? 'pt-[100%]' : 'pt-[56.25%]'
+  const sectionProps = getSectionProps(block.advanced)
 
   return (
-    <SectionWrapper>
+    <SectionWrapper {...sectionProps}>
       <section className="space-y-4">
         {block.headline ? <h2 className="text-2xl font-semibold">{block.headline}</h2> : null}
         <div className={`relative w-full overflow-hidden rounded-2xl bg-slate-200 ${ratio}`}>

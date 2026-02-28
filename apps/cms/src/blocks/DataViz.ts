@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+
 const isChart = (types: string[]) => {
   return (_: unknown, siblingData: { chartType?: string }) => {
     return Boolean(siblingData?.chartType && types.includes(siblingData.chartType))
@@ -144,5 +146,7 @@ export const DataViz: Block = {
       type: 'checkbox',
       defaultValue: true,
     },
+    enableAdvancedField,
+    buildAdvancedGroup({ anchorPlaceholder: 'e.g. data-viz' }),
   ],
 }

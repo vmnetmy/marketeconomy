@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+
 export const ContentList: Block = {
   slug: 'contentList',
   labels: {
@@ -35,5 +37,7 @@ export const ContentList: Block = {
       name: 'filterTag',
       type: 'text',
     },
+    enableAdvancedField,
+    buildAdvancedGroup({ anchorPlaceholder: 'e.g. latest-updates' }),
   ],
 }

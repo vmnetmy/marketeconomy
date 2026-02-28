@@ -1,5 +1,6 @@
-import type { CMSBlock } from '../../lib/cms'
+import type { AdvancedSettings, CMSBlock } from '../../lib/cms'
 
+import { getSectionProps } from '../../lib/blocks'
 import { SectionWrapper } from '../layout/SectionWrapper'
 
 type NewsletterBlock = CMSBlock & {
@@ -9,11 +10,14 @@ type NewsletterBlock = CMSBlock & {
   buttonLabel?: string
   formAction?: string
   finePrint?: string
+  advanced?: AdvancedSettings
 }
 
 export function NewsletterBlock({ block }: { block: NewsletterBlock }) {
+  const sectionProps = getSectionProps(block.advanced)
+
   return (
-    <SectionWrapper>
+    <SectionWrapper {...sectionProps}>
       <section className="rounded-2xl border border-slate-200 bg-white p-6">
         {block.headline ? <h2 className="text-2xl font-semibold">{block.headline}</h2> : null}
         {block.description ? <p className="mt-2 text-slate-600">{block.description}</p> : null}

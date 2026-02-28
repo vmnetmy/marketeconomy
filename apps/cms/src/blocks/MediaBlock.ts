@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+
 export const MediaBlock: Block = {
   slug: 'mediaBlock',
   labels: {
@@ -28,5 +30,7 @@ export const MediaBlock: Block = {
         { label: 'Full Width', value: 'full' },
       ],
     },
+    enableAdvancedField,
+    buildAdvancedGroup({ anchorPlaceholder: 'e.g. media' }),
   ],
 }

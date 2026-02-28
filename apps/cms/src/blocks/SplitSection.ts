@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { buildAdvancedGroup, enableAdvancedField } from '../util/advancedFields'
+
 export const SplitSection: Block = {
   slug: 'splitSection',
   labels: {
@@ -35,49 +37,26 @@ export const SplitSection: Block = {
         { label: 'Dark', value: 'dark' },
       ],
     },
-    {
-      name: 'advanced',
-      type: 'group',
-      fields: [
+    enableAdvancedField,
+    buildAdvancedGroup({
+      anchorPlaceholder: 'e.g. mission',
+      extraFields: [
         {
-          name: 'anchorId',
-          type: 'text',
-          admin: {
-            placeholder: 'e.g. mission',
-          },
-        },
-        {
-          name: 'padding',
+          name: 'imageSize',
           type: 'select',
-          defaultValue: 'standard',
+          defaultValue: 'medium',
           options: [
-            { label: 'None', value: 'none' },
-            { label: 'Compact', value: 'compact' },
-            { label: 'Standard', value: 'standard' },
+            { label: 'Small', value: 'small' },
+            { label: 'Medium', value: 'medium' },
             { label: 'Large', value: 'large' },
           ],
         },
         {
-          name: 'width',
-          type: 'select',
-          defaultValue: 'standard',
-          options: [
-            { label: 'Standard', value: 'standard' },
-            { label: 'Wide', value: 'wide' },
-            { label: 'Full', value: 'full' },
-          ],
-        },
-        {
-          name: 'hideOnMobile',
-          type: 'checkbox',
-          defaultValue: false,
-        },
-        {
-          name: 'hideOnDesktop',
+          name: 'reverseOnMobile',
           type: 'checkbox',
           defaultValue: false,
         },
       ],
-    },
+    }),
   ],
 }
