@@ -11,7 +11,7 @@ import {
 } from '@payloadcms/ui'
 import type { ClientComponentProps, TextFieldValidation } from 'payload'
 import { Provider } from '@react-spectrum/provider'
-import { defaultTheme } from '@react-spectrum/theme-default'
+import { theme } from '@react-spectrum/theme-default'
 import { ColorEditor, ColorPicker, parseColor } from '@react-spectrum/color'
 import type { Color } from '@react-types/color'
 
@@ -106,7 +106,7 @@ const ColorPickerField: React.FC<ColorPickerFieldProps> = (props) => {
         <RenderCustomComponent CustomComponent={Error} Fallback={<FieldError path={path} showError={showError} />} />
         {BeforeInput}
         <div className="color-picker-field__controls">
-          <Provider theme={defaultTheme} colorScheme="light" scale="medium">
+          <Provider theme={theme} colorScheme="light" scale="medium">
             <ColorPicker
               aria-label={typeof label === 'string' ? label : name}
               isDisabled={isDisabled}
