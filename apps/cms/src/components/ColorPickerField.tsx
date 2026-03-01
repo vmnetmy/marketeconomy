@@ -78,8 +78,8 @@ const ColorPickerField: React.FC<ColorPickerFieldProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleChange = useCallback(
-    (nextColor: Color) => {
-      if (isDisabled) return
+    (nextColor: Color | null) => {
+      if (isDisabled || !nextColor) return
       const nextValue = serializeColor(nextColor)
       if (typeof onChangeFromProps === 'function') {
         onChangeFromProps(nextValue)
