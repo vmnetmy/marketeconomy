@@ -15,6 +15,12 @@ export type AdvancedGroupOptions = {
   extraFields?: Field[]
 }
 
+export type AdvancedTabsGroupOptions = AdvancedGroupOptions & {
+  tabs: Array<{ label: string; fields: Field[] }>
+  basicsLabel?: string
+  className?: string
+}
+
 export const enableAdvancedField: Field = {
   name: 'enableAdvanced',
   type: 'checkbox',
@@ -109,6 +115,135 @@ export function buildAdvancedGroup(options: AdvancedGroupOptions = {}): Field {
       condition: (_, siblingData) => Boolean(siblingData?.enableAdvanced),
     },
     fields,
+  }
+}
+
+const withAdminWidth = (field: Field, width?: string): Field => {
+  if (!width) return field
+  return {
+    ...field,
+    admin: {
+      ...((field.admin ?? {}) as Field['admin']),
+      width,
+    } as Field['admin'],
+  } as Field
+}
+
+export function buildAdvancedTabsGroup(options: AdvancedTabsGroupOptions): Field {
+  const {
+    includeBackground = true,
+    includePadding = true,
+    includeWidth = true,
+    anchorPlaceholder = 'e.g. section-anchor',
+    backgroundDefault = 'none',
+    paddingDefault = 'standard',
+    widthDefault = 'standard',
+    tabs,
+    basicsLabel = 'Basics',
+    className,
+  } = options
+
+  const basicsFields: Field[] = [
+    withAdminWidth(
+      {
+        name: 'anchorId',
+        type: 'text',
+        admin: {
+          placeholder: anchorPlaceholder,
+        },
+      },
+      '100%',
+    ),
+  ]
+
+  if (includeBackground) {
+    basicsFields.push(
+      withAdminWidth(
+        {
+          name: 'background',
+          type: 'select',
+          defaultValue: backgroundDefault,
+          options: [
+            { label: 'None', value: 'none' },
+            { label: 'Light', value: 'light' },
+            { label: 'Dark', value: 'dark' },
+          ],
+        },
+        '33%',
+      ),
+    )
+  }
+
+  if (includePadding) {
+    basicsFields.push(
+      withAdminWidth(
+        {
+          name: 'padding',
+          type: 'select',
+          defaultValue: paddingDefault,
+          options: [
+            { label: 'None', value: 'none' },
+            { label: 'Compact', value: 'compact' },
+            { label: 'Normal', value: 'standard' },
+            { label: 'Spacious', value: 'large' },
+          ],
+        },
+        '33%',
+      ),
+    )
+  }
+
+  if (includeWidth) {
+    basicsFields.push(
+      withAdminWidth(
+        {
+          name: 'width',
+          type: 'select',
+          defaultValue: widthDefault,
+          options: [
+            { label: 'Standard', value: 'standard' },
+            { label: 'Wide', value: 'wide' },
+            { label: 'Full width', value: 'full' },
+          ],
+        },
+        '33%',
+      ),
+    )
+  }
+
+  basicsFields.push(
+    withAdminWidth(
+      {
+        name: 'hideOnMobile',
+        type: 'checkbox',
+        defaultValue: false,
+      },
+      '50%',
+    ),
+    withAdminWidth(
+      {
+        name: 'hideOnDesktop',
+        type: 'checkbox',
+        defaultValue: false,
+      },
+      '50%',
+    ),
+  )
+
+  return {
+    name: 'advanced',
+    label: 'Advanced Settings',
+    type: 'group',
+    admin: {
+      condition: (_, siblingData) => Boolean(siblingData?.enableAdvanced),
+      ...(className ? { className } : {}),
+    },
+    fields: [
+      {
+        type: 'tabs',
+        tabs: [{ label: basicsLabel, fields: basicsFields }, ...tabs],
+      },
+    ],
   }
 }
 

@@ -1,0 +1,20 @@
+@layer payload {
+  .advanced-tabs .tabs-field {
+    margin-top: 0;
+  }
+
+  .advanced-tabs .tabs-field__tabs-wrap {
+    margin-bottom: var(--base);
+  }
+
+  .advanced-tabs .tabs-field__tabs {
+    border-bottom-color: var(--theme-elevation-150);
+  }
+
+  .advanced-tabs .tabs-field__tab-button {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
