@@ -140,7 +140,7 @@ const heroImpactItems = [
   {
     value: '350+',
     label: 'Engaged Members',
-    icon: 'chartBar',
+    icon: 'arrowTrendingUp',
   },
 ]
 
