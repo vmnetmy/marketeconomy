@@ -96,6 +96,10 @@ const ColorPickerField: React.FC<ColorPickerFieldProps> = (props) => {
     setValue(null)
   }, [isDisabled, onChangeFromProps, setValue])
 
+  const controlsClassName = isDisabled
+    ? 'color-picker-field__controls is-disabled'
+    : 'color-picker-field__controls'
+
   return (
     <div className={classes} id={`field-${path.replace(/\./g, '__')}`}>
       <RenderCustomComponent
@@ -105,11 +109,10 @@ const ColorPickerField: React.FC<ColorPickerFieldProps> = (props) => {
       <div className={`${fieldBaseClass}__wrap color-picker-field__wrap`}>
         <RenderCustomComponent CustomComponent={Error} Fallback={<FieldError path={path} showError={showError} />} />
         {BeforeInput}
-        <div className="color-picker-field__controls">
+        <div className={controlsClassName}>
           <Provider theme={theme} colorScheme="light" scale="medium">
             <ColorPicker
               aria-label={typeof label === 'string' ? label : name}
-              isDisabled={isDisabled}
               value={colorValue}
               onChange={handleChange}
             >

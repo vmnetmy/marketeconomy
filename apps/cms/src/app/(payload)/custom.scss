@@ -24,6 +24,11 @@
     gap: var(--base);
   }
 
+  .color-picker-field__controls.is-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
   .color-picker-field__controls .spectrum-ColorPicker {
     flex: 1;
     min-width: 0;
