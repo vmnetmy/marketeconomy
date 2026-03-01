@@ -40,7 +40,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
 
   const headerClass = useMemo(() => {
     if (variant === 'transparent' && isHome && !scrolled) {
-      return 'border-transparent bg-transparent'
+      return 'border-slate-900/40 bg-slate-950/80 shadow-sm backdrop-blur-md'
     }
     return 'border-slate-200/70 bg-white/85 shadow-sm backdrop-blur-md'
   }, [isHome, scrolled, variant])

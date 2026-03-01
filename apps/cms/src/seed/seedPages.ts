@@ -118,6 +118,32 @@ const stayConnectedParagraphs = [
   'We welcome policymakers, industry leaders, and community partners to keep in touch with our network for upcoming briefings, dialogues, and opportunities for collaboration in advancing practical, market-oriented policy solutions.',
 ]
 
+const heroBackgroundImageUrl =
+  'https://images.unsplash.com/photo-1486628935334-55f292e8e93e?auto=format&fit=crop&w=1600&q=80'
+
+const heroLatestLink = {
+  label: 'Latest Policy Brief: Navigating AFTA 2025 — read here',
+  url: '/policy-briefs/',
+}
+
+const heroImpactItems = [
+  {
+    value: '15',
+    label: 'Industry Roundtables held',
+    icon: 'users',
+  },
+  {
+    value: '8',
+    label: 'Policy Papers Published',
+    icon: 'documentText',
+  },
+  {
+    value: '350+',
+    label: 'Engaged Members',
+    icon: 'chartBar',
+  },
+]
+
 const missionParagraphs = introParagraphs.slice(0, 2)
 const comparisonLeft = introParagraphs.slice(1, 3)
 const comparisonRight = introParagraphs.slice(3, 6)
@@ -219,23 +245,73 @@ const pages = [
         subheadline:
           'Dedicated to advancing free market principles as a long-term response to this increasingly protectionist era.',
         alignment: 'left',
+        backgroundImageUrl: heroBackgroundImageUrl,
+        latestLink: heroLatestLink,
+        impactTitle: 'Impact at a glance',
+        impactItems: heroImpactItems,
+        enableAdvanced: true,
+        advanced: {
+          tone: 'dark',
+          minHeight: 'large',
+          overlayStrength: 'strong',
+          padding: 'large',
+        },
       },
       {
         blockType: 'richText',
         content: makeRichText(introParagraphs.slice(0, 3)),
+        enableAdvanced: true,
+        advanced: {
+          container: {
+            surface: 'card',
+            radius: 'lg',
+            shadow: 'soft',
+            innerPadding: 'standard',
+            borderStyle: 'subtle',
+          },
+          padding: 'compact',
+          width: 'standard',
+        },
       },
       {
-        blockType: 'cards',
-        sectionTitle: 'Key Activities',
-        cards: keyActivities,
+        blockType: 'testimonials',
+        headline: '“The market economy is the ultimate driver of innovation.”',
+        items: [
+          {
+            quote:
+              'A strong market economy requires champions like this network to truly thrive.',
+            name: 'Sarah Lee',
+            role: 'CEO',
+            organization: 'Malaysian Innovators Group',
+          },
+        ],
       },
       {
-        blockType: 'ctaSection',
-        title: 'Stay Connected',
-        description: stayConnectedParagraphs[0],
-        buttonLabel: 'Contact Us',
-        buttonURL: '/contact',
-        theme: 'dark',
+        blockType: 'featureGrid',
+        headline: 'Key Activities',
+        intro: 'Our work focuses on research, dialogue, and practical advocacy to keep markets open and competitive.',
+        columns: '2',
+        features: keyActivities,
+        enableAdvanced: true,
+        advanced: {
+          cardStyle: 'raised',
+        },
+      },
+      {
+        blockType: 'contentList',
+        source: 'posts',
+        limit: 3,
+        layout: 'grid',
+        enableAdvanced: true,
+        advanced: {
+          cardStyle: 'raised',
+          showImages: true,
+        },
+      },
+      {
+        blockType: 'logoCloud',
+        headline: 'Featured Partners',
+        logos: logoCloud,
       },
     ],
   },

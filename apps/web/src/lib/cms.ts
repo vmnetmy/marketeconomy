@@ -285,7 +285,10 @@ async function fetchJSON<T>(path: string): Promise<T> {
 
 export function resolveMediaUrl(media?: CMSMedia | string | null): string | null {
   if (!media) return null
-  if (typeof media === 'string') return null
+  if (typeof media === 'string') {
+    if (media.startsWith('http://') || media.startsWith('https://')) return media
+    return null
+  }
   if (!media.url) return null
   return buildUrl(media.url)
 }

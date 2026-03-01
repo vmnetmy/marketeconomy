@@ -238,7 +238,128 @@ export interface Page {
         | {
             headline: string;
             subheadline?: string | null;
+            eyebrow?: string | null;
             backgroundImage?: (number | null) | Media;
+            /**
+             * Optional: use a direct image URL instead of uploading to Media.
+             */
+            backgroundImageUrl?: string | null;
+            latestLink?: {
+              label?: string | null;
+              url?: string | null;
+            };
+            impactTitle?: string | null;
+            impactItems?:
+              | {
+                  value: string;
+                  label: string;
+                  icon?:
+                    | (
+                        | 'academicCap'
+                        | 'adjustmentsHorizontal'
+                        | 'adjustmentsVertical'
+                        | 'archiveBoxArrowDown'
+                        | 'archiveBox'
+                        | 'archiveBoxXMark'
+                        | 'arrowDownCircle'
+                        | 'arrowDown'
+                        | 'arrowDownLeft'
+                        | 'arrowDownOnSquare'
+                        | 'arrowDownOnSquareStack'
+                        | 'arrowDownRight'
+                        | 'arrowDownTray'
+                        | 'arrowLeftCircle'
+                        | 'arrowLeftEndOnRectangle'
+                        | 'arrowLeft'
+                        | 'arrowLeftOnRectangle'
+                        | 'arrowLeftStartOnRectangle'
+                        | 'arrowLongDown'
+                        | 'arrowLongLeft'
+                        | 'arrowLongRight'
+                        | 'arrowLongUp'
+                        | 'arrowPath'
+                        | 'arrowPathRoundedSquare'
+                        | 'arrowRightCircle'
+                        | 'arrowRightEndOnRectangle'
+                        | 'arrowRight'
+                        | 'arrowRightOnRectangle'
+                        | 'arrowRightStartOnRectangle'
+                        | 'arrowSmallDown'
+                        | 'arrowSmallLeft'
+                        | 'arrowSmallRight'
+                        | 'arrowSmallUp'
+                        | 'arrowTopRightOnSquare'
+                        | 'arrowTrendingDown'
+                        | 'arrowTrendingUp'
+                        | 'arrowTurnDownLeft'
+                        | 'arrowTurnDownRight'
+                        | 'arrowTurnLeftDown'
+                        | 'arrowTurnLeftUp'
+                        | 'arrowTurnRightDown'
+                        | 'arrowTurnRightUp'
+                        | 'arrowTurnUpLeft'
+                        | 'arrowTurnUpRight'
+                        | 'arrowUpCircle'
+                        | 'arrowUp'
+                        | 'arrowUpLeft'
+                        | 'arrowUpOnSquare'
+                        | 'arrowUpOnSquareStack'
+                        | 'arrowUpRight'
+                        | 'arrowUpTray'
+                        | 'arrowUturnDown'
+                        | 'arrowUturnLeft'
+                        | 'arrowUturnRight'
+                        | 'arrowUturnUp'
+                        | 'arrowsPointingIn'
+                        | 'arrowsPointingOut'
+                        | 'arrowsRightLeft'
+                        | 'arrowsUpDown'
+                        | 'atSymbol'
+                        | 'backspace'
+                        | 'backward'
+                        | 'banknotes'
+                        | 'bars2'
+                        | 'bars3BottomLeft'
+                        | 'bars3BottomRight'
+                        | 'bars3CenterLeft'
+                        | 'bars3'
+                        | 'bars4'
+                        | 'barsArrowDown'
+                        | 'barsArrowUp'
+                        | 'battery0'
+                        | 'battery100'
+                        | 'battery50'
+                        | 'beaker'
+                        | 'bellAlert'
+                        | 'bell'
+                        | 'bellSlash'
+                        | 'bellSnooze'
+                        | 'bold'
+                        | 'bolt'
+                        | 'boltSlash'
+                        | 'bookOpen'
+                        | 'bookmark'
+                        | 'bookmarkSlash'
+                        | 'bookmarkSquare'
+                        | 'briefcase'
+                        | 'bugAnt'
+                        | 'buildingLibrary'
+                        | 'buildingOffice2'
+                        | 'buildingOffice'
+                        | 'buildingStorefront'
+                        | 'cake'
+                        | 'documentText'
+                        | 'globeAlt'
+                        | 'lightBulb'
+                        | 'megaphone'
+                        | 'scale'
+                        | 'shieldCheck'
+                        | 'users'
+                      )
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
             primaryCTA?: {
               label?: string | null;
               url?: string | null;
@@ -290,6 +411,8 @@ export interface Page {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
               typography?: {
                 textSize?: ('sm' | 'md' | 'lg') | null;
                 lineHeight?: ('snug' | 'normal' | 'relaxed') | null;
@@ -321,8 +444,6 @@ export interface Page {
                 backgroundColor?: string | null;
                 borderColor?: string | null;
               };
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
             };
             id?: string | null;
             blockName?: string | null;
@@ -1093,7 +1214,128 @@ export interface Post {
         | {
             headline: string;
             subheadline?: string | null;
+            eyebrow?: string | null;
             backgroundImage?: (number | null) | Media;
+            /**
+             * Optional: use a direct image URL instead of uploading to Media.
+             */
+            backgroundImageUrl?: string | null;
+            latestLink?: {
+              label?: string | null;
+              url?: string | null;
+            };
+            impactTitle?: string | null;
+            impactItems?:
+              | {
+                  value: string;
+                  label: string;
+                  icon?:
+                    | (
+                        | 'academicCap'
+                        | 'adjustmentsHorizontal'
+                        | 'adjustmentsVertical'
+                        | 'archiveBoxArrowDown'
+                        | 'archiveBox'
+                        | 'archiveBoxXMark'
+                        | 'arrowDownCircle'
+                        | 'arrowDown'
+                        | 'arrowDownLeft'
+                        | 'arrowDownOnSquare'
+                        | 'arrowDownOnSquareStack'
+                        | 'arrowDownRight'
+                        | 'arrowDownTray'
+                        | 'arrowLeftCircle'
+                        | 'arrowLeftEndOnRectangle'
+                        | 'arrowLeft'
+                        | 'arrowLeftOnRectangle'
+                        | 'arrowLeftStartOnRectangle'
+                        | 'arrowLongDown'
+                        | 'arrowLongLeft'
+                        | 'arrowLongRight'
+                        | 'arrowLongUp'
+                        | 'arrowPath'
+                        | 'arrowPathRoundedSquare'
+                        | 'arrowRightCircle'
+                        | 'arrowRightEndOnRectangle'
+                        | 'arrowRight'
+                        | 'arrowRightOnRectangle'
+                        | 'arrowRightStartOnRectangle'
+                        | 'arrowSmallDown'
+                        | 'arrowSmallLeft'
+                        | 'arrowSmallRight'
+                        | 'arrowSmallUp'
+                        | 'arrowTopRightOnSquare'
+                        | 'arrowTrendingDown'
+                        | 'arrowTrendingUp'
+                        | 'arrowTurnDownLeft'
+                        | 'arrowTurnDownRight'
+                        | 'arrowTurnLeftDown'
+                        | 'arrowTurnLeftUp'
+                        | 'arrowTurnRightDown'
+                        | 'arrowTurnRightUp'
+                        | 'arrowTurnUpLeft'
+                        | 'arrowTurnUpRight'
+                        | 'arrowUpCircle'
+                        | 'arrowUp'
+                        | 'arrowUpLeft'
+                        | 'arrowUpOnSquare'
+                        | 'arrowUpOnSquareStack'
+                        | 'arrowUpRight'
+                        | 'arrowUpTray'
+                        | 'arrowUturnDown'
+                        | 'arrowUturnLeft'
+                        | 'arrowUturnRight'
+                        | 'arrowUturnUp'
+                        | 'arrowsPointingIn'
+                        | 'arrowsPointingOut'
+                        | 'arrowsRightLeft'
+                        | 'arrowsUpDown'
+                        | 'atSymbol'
+                        | 'backspace'
+                        | 'backward'
+                        | 'banknotes'
+                        | 'bars2'
+                        | 'bars3BottomLeft'
+                        | 'bars3BottomRight'
+                        | 'bars3CenterLeft'
+                        | 'bars3'
+                        | 'bars4'
+                        | 'barsArrowDown'
+                        | 'barsArrowUp'
+                        | 'battery0'
+                        | 'battery100'
+                        | 'battery50'
+                        | 'beaker'
+                        | 'bellAlert'
+                        | 'bell'
+                        | 'bellSlash'
+                        | 'bellSnooze'
+                        | 'bold'
+                        | 'bolt'
+                        | 'boltSlash'
+                        | 'bookOpen'
+                        | 'bookmark'
+                        | 'bookmarkSlash'
+                        | 'bookmarkSquare'
+                        | 'briefcase'
+                        | 'bugAnt'
+                        | 'buildingLibrary'
+                        | 'buildingOffice2'
+                        | 'buildingOffice'
+                        | 'buildingStorefront'
+                        | 'cake'
+                        | 'documentText'
+                        | 'globeAlt'
+                        | 'lightBulb'
+                        | 'megaphone'
+                        | 'scale'
+                        | 'shieldCheck'
+                        | 'users'
+                      )
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
             primaryCTA?: {
               label?: string | null;
               url?: string | null;
@@ -1145,6 +1387,8 @@ export interface Post {
               background?: ('none' | 'light' | 'dark') | null;
               padding?: ('none' | 'compact' | 'standard' | 'large') | null;
               width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
               typography?: {
                 textSize?: ('sm' | 'md' | 'lg') | null;
                 lineHeight?: ('snug' | 'normal' | 'relaxed') | null;
@@ -1176,8 +1420,6 @@ export interface Post {
                 backgroundColor?: string | null;
                 borderColor?: string | null;
               };
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
             };
             id?: string | null;
             blockName?: string | null;
@@ -2233,7 +2475,24 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               headline?: T;
               subheadline?: T;
+              eyebrow?: T;
               backgroundImage?: T;
+              backgroundImageUrl?: T;
+              latestLink?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              impactTitle?: T;
+              impactItems?:
+                | T
+                | {
+                    value?: T;
+                    label?: T;
+                    icon?: T;
+                    id?: T;
+                  };
               primaryCTA?:
                 | T
                 | {
@@ -2274,6 +2533,8 @@ export interface PagesSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
                     typography?:
                       | T
                       | {
@@ -2315,8 +2576,6 @@ export interface PagesSelect<T extends boolean = true> {
                           backgroundColor?: T;
                           borderColor?: T;
                         };
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
                   };
               id?: T;
               blockName?: T;
@@ -2803,7 +3062,24 @@ export interface PostsSelect<T extends boolean = true> {
           | {
               headline?: T;
               subheadline?: T;
+              eyebrow?: T;
               backgroundImage?: T;
+              backgroundImageUrl?: T;
+              latestLink?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              impactTitle?: T;
+              impactItems?:
+                | T
+                | {
+                    value?: T;
+                    label?: T;
+                    icon?: T;
+                    id?: T;
+                  };
               primaryCTA?:
                 | T
                 | {
@@ -2844,6 +3120,8 @@ export interface PostsSelect<T extends boolean = true> {
                     background?: T;
                     padding?: T;
                     width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
                     typography?:
                       | T
                       | {
@@ -2885,8 +3163,6 @@ export interface PostsSelect<T extends boolean = true> {
                           backgroundColor?: T;
                           borderColor?: T;
                         };
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
                   };
               id?: T;
               blockName?: T;

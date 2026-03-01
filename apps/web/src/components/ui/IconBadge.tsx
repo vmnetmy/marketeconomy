@@ -211,15 +211,25 @@ type IconKey = keyof typeof iconMap
 
 type IconBadgeProps = {
   name?: string
+  variant?: 'badge' | 'inline'
+  className?: string
+  iconClassName?: string
 }
 
-export function IconBadge({ name }: IconBadgeProps) {
+export function IconBadge({ name, variant = 'badge', className = '', iconClassName = '' }: IconBadgeProps) {
   if (!name) return null
   const Icon = iconMap[name as IconKey]
   if (!Icon) return null
+  if (variant === 'inline') {
+    return (
+      <span className={`inline-flex h-8 w-8 items-center justify-center rounded-full ${className}`.trim()}>
+        <Icon className={iconClassName || 'h-4 w-4'} />
+      </span>
+    )
+  }
   return (
     <div className="mb-3">
-      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700">
+      <span className={`inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 ${className}`.trim()}>
         <Icon className="h-5 w-5" />
       </span>
     </div>
