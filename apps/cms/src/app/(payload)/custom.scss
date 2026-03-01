@@ -17,4 +17,33 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
+
+  .color-picker-field__controls {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--base);
+  }
+
+  .color-picker-field__controls .spectrum-ColorPicker {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .color-picker-field__clear {
+    border: 1px solid var(--theme-elevation-150);
+    background: var(--theme-elevation-0);
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--theme-text);
+    cursor: pointer;
+  }
+
+  .color-picker-field__clear:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }

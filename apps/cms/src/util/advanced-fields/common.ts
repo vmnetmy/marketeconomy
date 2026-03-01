@@ -254,3 +254,15 @@ export const validateColor = (value: unknown) => {
   if (HEX_COLOR.test(trimmed) || RGB_COLOR.test(trimmed)) return true
   return 'Use hex (#fff or #ffffff) or rgb()/rgba() values.'
 }
+
+export const colorField = (name: string, placeholder?: string): Field => ({
+  name,
+  type: 'text',
+  validate: validateColor,
+  admin: {
+    placeholder,
+    components: {
+      Field: '/components/ColorPickerField',
+    },
+  },
+})

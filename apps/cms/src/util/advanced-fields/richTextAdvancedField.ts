@@ -1,6 +1,6 @@
 import type { Field } from 'payload'
 
-import { buildAdvancedTabsGroup, validateColor } from './common'
+import { buildAdvancedTabsGroup, colorField } from './common'
 
 const withWidth = (field: Field, width?: string): Field => {
   if (!width) return field
@@ -269,60 +269,12 @@ export function buildRichTextAdvancedGroup(): Field {
             type: 'group',
             admin: { className: 'advanced-grid' },
             fields: [
-              withWidth(
-                {
-                  name: 'textColor',
-                  type: 'text',
-                  validate: validateColor,
-                  admin: { placeholder: '#1f2937 or rgb(31,55,70)' },
-                },
-                '50%',
-              ),
-              withWidth(
-                {
-                  name: 'headingColor',
-                  type: 'text',
-                  validate: validateColor,
-                  admin: { placeholder: '#0f172a' },
-                },
-                '50%',
-              ),
-              withWidth(
-                {
-                  name: 'linkColor',
-                  type: 'text',
-                  validate: validateColor,
-                  admin: { placeholder: '#2563eb' },
-                },
-                '50%',
-              ),
-              withWidth(
-                {
-                  name: 'accentColor',
-                  type: 'text',
-                  validate: validateColor,
-                  admin: { placeholder: '#2563eb' },
-                },
-                '50%',
-              ),
-              withWidth(
-                {
-                  name: 'backgroundColor',
-                  type: 'text',
-                  validate: validateColor,
-                  admin: { placeholder: '#ffffff' },
-                },
-                '50%',
-              ),
-              withWidth(
-                {
-                  name: 'borderColor',
-                  type: 'text',
-                  validate: validateColor,
-                  admin: { placeholder: '#e2e8f0' },
-                },
-                '50%',
-              ),
+              withWidth(colorField('textColor', '#1f2937 or rgb(31,55,70)'), '50%'),
+              withWidth(colorField('headingColor', '#0f172a'), '50%'),
+              withWidth(colorField('linkColor', '#2563eb'), '50%'),
+              withWidth(colorField('accentColor', '#2563eb'), '50%'),
+              withWidth(colorField('backgroundColor', '#ffffff'), '50%'),
+              withWidth(colorField('borderColor', '#e2e8f0'), '50%'),
             ],
           },
         ],

@@ -1,5 +1,5 @@
 export type { AdvancedGroupOptions, AdvancedTabsGroupOptions } from './common'
-export { buildAdvancedGroup, buildAdvancedTabsGroup, enableAdvancedField, validateColor } from './common'
+export { buildAdvancedGroup, buildAdvancedTabsGroup, colorField, enableAdvancedField, validateColor } from './common'
 export { buildCTASectionAdvancedGroup } from './ctaSectionAdvancedField'
 export { buildCardsAdvancedGroup } from './cardsAdvancedField'
 export { buildContentListAdvancedGroup } from './contentListAdvancedField'
