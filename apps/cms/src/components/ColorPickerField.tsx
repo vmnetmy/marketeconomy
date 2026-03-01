@@ -156,6 +156,7 @@ const ColorPickerField: React.FC<ColorPickerFieldProps> = (props) => {
                 <ColorArea
                   value={colorValue}
                   onChange={handleChange}
+                  colorSpace="hsb"
                   xChannel="saturation"
                   yChannel="brightness"
                   aria-label="Color area"
@@ -163,6 +164,7 @@ const ColorPickerField: React.FC<ColorPickerFieldProps> = (props) => {
                 <ColorSlider
                   value={colorValue}
                   onChange={handleChange}
+                  colorSpace="hsb"
                   channel="hue"
                   aria-label="Hue"
                 />
