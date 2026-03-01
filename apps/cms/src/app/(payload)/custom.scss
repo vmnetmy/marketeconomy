@@ -20,7 +20,7 @@
 
   .color-picker-field__controls {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
     gap: var(--base);
   }
 
@@ -29,9 +29,41 @@
     pointer-events: none;
   }
 
-  .color-picker-field__controls .spectrum-ColorPicker {
+  .color-picker-field__input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .color-picker-field__input-row .spectrum-Textfield {
     flex: 1;
-    min-width: 0;
+    min-width: 180px;
+  }
+
+  .color-picker-field__swatch {
+    border: 1px solid var(--theme-elevation-150);
+    background: var(--theme-elevation-0);
+    border-radius: 10px;
+    padding: 0.35rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .color-picker-field__panel {
+    display: grid;
+    gap: var(--base);
+    padding: var(--base);
+    border: 1px solid var(--theme-elevation-100);
+    border-radius: 12px;
+    background: var(--theme-elevation-0);
+  }
+
+  .color-picker-field__panel .spectrum-ColorArea {
+    width: 100%;
+    min-height: 180px;
   }
 
   .color-picker-field__clear {
@@ -47,7 +79,26 @@
     cursor: pointer;
   }
 
+  .color-picker-field__toggle {
+    border: 1px solid var(--theme-elevation-150);
+    background: var(--theme-elevation-0);
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--theme-text);
+    cursor: pointer;
+  }
+
   .color-picker-field__clear:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .color-picker-field__toggle:disabled,
+  .color-picker-field__swatch:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import {
   FieldDescription,
   FieldError,
@@ -12,7 +12,7 @@ import {
 import type { ClientComponentProps, TextFieldValidation } from 'payload'
 import { Provider } from '@react-spectrum/provider'
 import { theme } from '@react-spectrum/theme-default'
-import { ColorEditor, ColorPicker, parseColor } from '@react-spectrum/color'
+import { ColorArea, ColorField, ColorSlider, ColorSwatch, parseColor } from '@react-spectrum/color'
 import type { Color } from '@react-types/color'
 
 type ColorPickerFieldProps = {
@@ -75,6 +75,7 @@ const ColorPickerField: React.FC<ColorPickerFieldProps> = (props) => {
 
   const colorValue = useMemo(() => safeParseColor(normalizeValue(value)), [value])
   const isDisabled = Boolean(disabled || readOnly)
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleChange = useCallback(
     (nextColor: Color) => {
@@ -88,6 +89,11 @@ const ColorPickerField: React.FC<ColorPickerFieldProps> = (props) => {
     [isDisabled, onChangeFromProps, setValue],
   )
 
+  const togglePicker = useCallback(() => {
+    if (isDisabled) return
+    setIsOpen((prev) => !prev)
+  }, [isDisabled])
+
   const handleClear = useCallback(() => {
     if (isDisabled) return
     if (typeof onChangeFromProps === 'function') {
@@ -96,6 +102,7 @@ const ColorPickerField: React.FC<ColorPickerFieldProps> = (props) => {
     setValue(null)
   }, [isDisabled, onChangeFromProps, setValue])
 
+  const isEmpty = value === null || value === undefined || value === ''
   const controlsClassName = isDisabled
     ? 'color-picker-field__controls is-disabled'
     : 'color-picker-field__controls'
@@ -111,22 +118,57 @@ const ColorPickerField: React.FC<ColorPickerFieldProps> = (props) => {
         {BeforeInput}
         <div className={controlsClassName}>
           <Provider theme={theme} colorScheme="light" scale="medium">
-            <ColorPicker
-              aria-label={typeof label === 'string' ? label : name}
-              value={colorValue}
-              onChange={handleChange}
-            >
-              <ColorEditor hideAlphaChannel />
-            </ColorPicker>
+            <div className="color-picker-field__input-row">
+              <button
+                className="color-picker-field__swatch"
+                disabled={isDisabled}
+                type="button"
+                onClick={togglePicker}
+                aria-label="Open color picker"
+              >
+                <ColorSwatch color={colorValue} size="M" />
+              </button>
+              <ColorField
+                aria-label={typeof label === 'string' ? label : name}
+                value={colorValue}
+                onChange={handleChange}
+                isDisabled={isDisabled}
+              />
+              <button
+                className="color-picker-field__toggle"
+                disabled={isDisabled}
+                type="button"
+                onClick={togglePicker}
+              >
+                {isOpen ? 'Hide' : 'Pick'}
+              </button>
+              <button
+                className="color-picker-field__clear"
+                disabled={isDisabled || isEmpty}
+                type="button"
+                onClick={handleClear}
+              >
+                Clear
+              </button>
+            </div>
+            {isOpen && (
+              <div className="color-picker-field__panel" role="group" aria-label="Color picker panel">
+                <ColorArea
+                  value={colorValue}
+                  onChange={handleChange}
+                  xChannel="saturation"
+                  yChannel="brightness"
+                  aria-label="Color area"
+                />
+                <ColorSlider
+                  value={colorValue}
+                  onChange={handleChange}
+                  channel="hue"
+                  aria-label="Hue"
+                />
+              </div>
+            )}
           </Provider>
-          <button
-            className="color-picker-field__clear"
-            disabled={isDisabled || value === null || value === undefined || value === ''}
-            type="button"
-            onClick={handleClear}
-          >
-            Clear
-          </button>
         </div>
         {AfterInput}
       </div>
