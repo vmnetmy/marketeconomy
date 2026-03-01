@@ -49,7 +49,6 @@ export default buildConfig({
   plugins: [
     gcsStorage({
       enabled: gcsEnabled,
-      acl: 'Public',
       bucket: gcsBucket,
       options: {
         projectId: gcsProjectId,
