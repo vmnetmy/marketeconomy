@@ -5,6 +5,12 @@ import path from 'path'
 import { getPayload } from 'payload'
 
 import config from '../payload.config'
+import type { RequiredDataFromCollectionSlug } from 'payload'
+
+type PageData = RequiredDataFromCollectionSlug<'pages'>
+type PostData = RequiredDataFromCollectionSlug<'posts'>
+type PostLayout = NonNullable<PostData['layout']>
+type DataVizBlock = Extract<PostLayout[number], { blockType: 'dataViz' }>
 
 type LexicalEditorState = {
   root: {
@@ -21,12 +27,12 @@ type LexicalEditorState = {
         version: number
       }>
       direction: 'ltr'
-      format: string
+      format: '' | 'left' | 'right' | 'center' | 'start' | 'end' | 'justify' | ''
       indent: number
       version: number
     }>
     direction: 'ltr'
-    format: string
+    format: '' | 'left' | 'right' | 'center' | 'start' | 'end' | 'justify' | ''
     indent: number
     version: number
   }
@@ -49,12 +55,12 @@ const makeRichText = (paragraphs: string[]): LexicalEditorState => ({
         },
       ],
       direction: 'ltr',
-      format: '',
+      format: '' as const,
       indent: 0,
       version: 1,
     })),
     direction: 'ltr',
-    format: '',
+    format: '' as const,
     indent: 0,
     version: 1,
   },
@@ -130,7 +136,7 @@ const upsertDataset = async (payload: Awaited<ReturnType<typeof getPayload>>, da
 
 const upsertPage = async (
   payload: Awaited<ReturnType<typeof getPayload>>,
-  data: { title: string; slug: string; layout: unknown[] },
+  data: PageData,
 ) => {
   const existing = await payload.find({
     collection: 'pages',
@@ -142,19 +148,21 @@ const upsertPage = async (
     return payload.update({
       collection: 'pages',
       id: existing.docs[0].id,
-      data: { ...data, _status: 'published' as const } as any,
+      data: { ...data, _status: 'published' as const },
+      draft: false,
     })
   }
 
   return payload.create({
     collection: 'pages',
-    data: { ...data, _status: 'published' as const } as any,
+    data: { ...data, _status: 'published' as const },
+    draft: false,
   })
 }
 
 const upsertPost = async (
   payload: Awaited<ReturnType<typeof getPayload>>,
-  data: { title: string; slug: string; excerpt?: string; content?: LexicalEditorState; layout: unknown[] },
+  data: PostData,
 ) => {
   const existing = await payload.find({
     collection: 'posts',
@@ -166,13 +174,15 @@ const upsertPost = async (
     return payload.update({
       collection: 'posts',
       id: existing.docs[0].id,
-      data: { ...data, _status: 'published' as const } as any,
+      data: { ...data, _status: 'published' as const },
+      draft: false,
     })
   }
 
   return payload.create({
     collection: 'posts',
-    data: { ...data, _status: 'published' as const } as any,
+    data: { ...data, _status: 'published' as const },
+    draft: false,
   })
 }
 
@@ -187,17 +197,17 @@ const run = async () => {
     throw new Error('Dataset creation failed.')
   }
 
-  const chartBlocks = [
+  const chartBlocks: DataVizBlock[] = [
     {
       blockType: 'dataViz',
       headline: 'Bar Chart: GDP vs Trade Balance',
       description: 'Bar chart with yearly GDP growth and trade balance.',
       dataset: macroDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'bar',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'bar' as const,
       indexBy: 'year',
       valueKeys: [{ key: 'gdpGrowth' }, { key: 'tradeBalance' }],
-      colorScheme: 'paired',
+      colorScheme: 'paired' as const,
       height: 360,
       showLegend: true,
     },
@@ -206,11 +216,11 @@ const run = async () => {
       headline: 'Stacked Bar: Macro Indicators',
       description: 'Stacked bar comparing multiple indicators.',
       dataset: macroDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'stackedBar',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'stackedBar' as const,
       indexBy: 'year',
       valueKeys: [{ key: 'gdpGrowth' }, { key: 'inflationRate' }, { key: 'tradeBalance' }],
-      colorScheme: 'set3',
+      colorScheme: 'set3' as const,
       height: 360,
       showLegend: true,
     },
@@ -219,11 +229,11 @@ const run = async () => {
       headline: 'Grouped Bar: Growth vs Sentiment',
       description: 'Grouped bar comparing GDP growth and market sentiment.',
       dataset: macroDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'groupedBar',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'groupedBar' as const,
       indexBy: 'year',
       valueKeys: [{ key: 'gdpGrowth' }, { key: 'marketSentiment' }],
-      colorScheme: 'spectral',
+      colorScheme: 'spectral' as const,
       height: 360,
       showLegend: true,
     },
@@ -232,11 +242,11 @@ const run = async () => {
       headline: 'Line Chart: GDP & Inflation',
       description: 'Line chart to show GDP growth and inflation over time.',
       dataset: macroDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'line',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'line' as const,
       indexBy: 'year',
       valueKeys: [{ key: 'gdpGrowth' }, { key: 'inflationRate' }],
-      colorScheme: 'category10',
+      colorScheme: 'category10' as const,
       height: 360,
       showLegend: true,
     },
@@ -245,11 +255,11 @@ const run = async () => {
       headline: 'Area Chart: Trade Balance Trend',
       description: 'Area chart with trade balance by year.',
       dataset: macroDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'area',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'area' as const,
       indexBy: 'year',
       valueKeys: [{ key: 'tradeBalance' }],
-      colorScheme: 'nivo',
+      colorScheme: 'nivo' as const,
       height: 360,
       showLegend: false,
     },
@@ -258,11 +268,11 @@ const run = async () => {
       headline: 'Pie Chart: GDP Growth Share',
       description: 'Pie chart showing GDP growth distribution by year.',
       dataset: macroDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'pie',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'pie' as const,
       indexBy: 'year',
       valueKey: 'gdpGrowth',
-      colorScheme: 'paired',
+      colorScheme: 'paired' as const,
       height: 360,
       showLegend: true,
     },
@@ -271,11 +281,11 @@ const run = async () => {
       headline: 'Donut Chart: Trade Balance Share',
       description: 'Donut chart showing trade balance distribution by year.',
       dataset: macroDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'donut',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'donut' as const,
       indexBy: 'year',
       valueKey: 'tradeBalance',
-      colorScheme: 'set3',
+      colorScheme: 'set3' as const,
       height: 360,
       showLegend: true,
     },
@@ -284,11 +294,11 @@ const run = async () => {
       headline: 'Radar Chart: Indicator Mix',
       description: 'Radar chart comparing indicators per year.',
       dataset: macroDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'radar',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'radar' as const,
       indexBy: 'year',
       valueKeys: [{ key: 'gdpGrowth' }, { key: 'inflationRate' }, { key: 'tradeBalance' }],
-      colorScheme: 'spectral',
+      colorScheme: 'spectral' as const,
       height: 360,
       showLegend: true,
     },
@@ -297,11 +307,11 @@ const run = async () => {
       headline: 'Treemap: Market Sentiment',
       description: 'Treemap showing market sentiment by year.',
       dataset: macroDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'treemap',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'treemap' as const,
       indexBy: 'year',
       valueKey: 'marketSentiment',
-      colorScheme: 'nivo',
+      colorScheme: 'nivo' as const,
       height: 360,
       showLegend: false,
     },
@@ -310,12 +320,12 @@ const run = async () => {
       headline: 'Scatter Plot: Value A vs Value B',
       description: 'Scatter plot comparing Value A and Value B by region.',
       dataset: regionalDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'scatter',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'scatter' as const,
       xKey: 'valueA',
       yKey: 'valueB',
       seriesKey: 'region',
-      colorScheme: 'category10',
+      colorScheme: 'category10' as const,
       height: 360,
       showLegend: true,
     },
@@ -324,12 +334,12 @@ const run = async () => {
       headline: 'Heatmap: Value A by Region and Year',
       description: 'Heatmap showing Value A intensity across regions and years.',
       dataset: regionalDataset.id,
-      viewMode: 'chartAndTable',
-      chartType: 'heatmap',
+      viewMode: 'chartAndTable' as const,
+      chartType: 'heatmap' as const,
       xKey: 'year',
       yKey: 'region',
       valueKey: 'valueA',
-      colorScheme: 'spectral',
+      colorScheme: 'spectral' as const,
       height: 360,
       showLegend: false,
     },
