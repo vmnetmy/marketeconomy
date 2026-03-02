@@ -219,11 +219,19 @@ export type FooterGlobal = {
     title?: string | null
     links?: NavItem[]
   }>
+  cta?: {
+    title?: string | null
+    description?: string | null
+    buttonLabel?: string | null
+    buttonUrl?: string | null
+    finePrint?: string | null
+  }
   contact?: {
     email?: string | null
     phone?: string | null
     address?: string | null
   }
+  legalLinks?: NavItem[]
   copyright?: string | null
 }
 
@@ -231,6 +239,8 @@ export type SiteSettingsGlobal = {
   siteName?: string | null
   tagline?: string | null
   logo?: CMSMedia | string | null
+  logoLight?: CMSMedia | string | null
+  logoDark?: CMSMedia | string | null
 }
 
 export type UpdatesSidebarGlobal = {

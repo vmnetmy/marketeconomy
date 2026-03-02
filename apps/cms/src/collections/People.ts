@@ -22,6 +22,9 @@ export const People: CollectionConfig = {
     {
       name: 'roleTitle',
       type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'photo',
@@ -41,8 +44,18 @@ export const People: CollectionConfig = {
       type: 'text',
     },
     {
+      name: 'website',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'sortOrder',
       type: 'number',
+      admin: {
+        position: 'sidebar',
+      },
     },
   ],
 }

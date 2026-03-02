@@ -22,6 +22,22 @@ export const SiteSettings: GlobalConfig = {
       relationTo: 'media',
     },
     {
+      name: 'logoLight',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Logo for dark backgrounds (light/white variant).',
+      },
+    },
+    {
+      name: 'logoDark',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Logo for light backgrounds (dark variant).',
+      },
+    },
+    {
       name: 'defaultSeo',
       type: 'group',
       fields: [

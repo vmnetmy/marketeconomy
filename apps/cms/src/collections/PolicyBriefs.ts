@@ -33,6 +33,9 @@ export const PolicyBriefs: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'summary',
@@ -51,6 +54,9 @@ export const PolicyBriefs: CollectionConfig = {
       name: 'pdfFile',
       type: 'upload',
       relationTo: 'media',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'coverImage',
@@ -60,6 +66,9 @@ export const PolicyBriefs: CollectionConfig = {
     {
       name: 'tags',
       type: 'array',
+      admin: {
+        position: 'sidebar',
+      },
       fields: [
         {
           name: 'tag',
@@ -68,8 +77,28 @@ export const PolicyBriefs: CollectionConfig = {
       ],
     },
     {
+      name: 'authors',
+      type: 'relationship',
+      relationTo: 'people',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'publishedAt',
       type: 'date',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'seo',

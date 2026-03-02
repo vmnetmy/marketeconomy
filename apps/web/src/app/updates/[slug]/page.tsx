@@ -36,17 +36,23 @@ export default async function PostPage({ params }: { params: { slug?: string } }
   }
   if (!post) return notFound()
 
+  const hasHeroBlock = Array.isArray(post.layout) && post.layout[0]?.blockType === 'hero'
+
   return (
     <div className="flex w-full flex-col">
-      <SectionWrapper>
-        <header className="space-y-3">
-          <h1 className="text-3xl font-semibold">{post.title}</h1>
-          {post.excerpt ? <p className="text-slate-600">{post.excerpt}</p> : null}
-        </header>
-      </SectionWrapper>
-      <SectionWrapper>
-        <RichText content={post.content as SerializedEditorState} />
-      </SectionWrapper>
+      {hasHeroBlock ? null : (
+        <SectionWrapper>
+          <header className="space-y-3">
+            <h1 className="text-3xl font-semibold">{post.title}</h1>
+            {post.excerpt ? <p className="text-slate-600">{post.excerpt}</p> : null}
+          </header>
+        </SectionWrapper>
+      )}
+      {post.content ? (
+        <SectionWrapper>
+          <RichText content={post.content as SerializedEditorState} />
+        </SectionWrapper>
+      ) : null}
       <BlockRenderer blocks={post.layout} />
     </div>
   )

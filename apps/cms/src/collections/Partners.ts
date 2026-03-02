@@ -27,6 +27,9 @@ export const Partners: CollectionConfig = {
     {
       name: 'website',
       type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'description',
@@ -35,11 +38,21 @@ export const Partners: CollectionConfig = {
     {
       name: 'category',
       type: 'select',
+      admin: {
+        position: 'sidebar',
+      },
       options: [
         { label: 'Strategic', value: 'strategic' },
         { label: 'Program', value: 'program' },
         { label: 'Funding', value: 'funding' },
       ],
+    },
+    {
+      name: 'sortOrder',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+      },
     },
   ],
 }

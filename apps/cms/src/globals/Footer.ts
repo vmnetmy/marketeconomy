@@ -54,6 +54,32 @@ export const Footer: GlobalConfig = {
       ],
     },
     {
+      name: 'cta',
+      type: 'group',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+        },
+        {
+          name: 'buttonLabel',
+          type: 'text',
+        },
+        {
+          name: 'buttonUrl',
+          type: 'text',
+        },
+        {
+          name: 'finePrint',
+          type: 'text',
+        },
+      ],
+    },
+    {
       name: 'contact',
       type: 'group',
       fields: [
@@ -68,6 +94,41 @@ export const Footer: GlobalConfig = {
         {
           name: 'address',
           type: 'textarea',
+        },
+      ],
+    },
+    {
+      name: 'legalLinks',
+      type: 'array',
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'linkType',
+          type: 'select',
+          defaultValue: 'internal',
+          options: [
+            { label: 'Internal', value: 'internal' },
+            { label: 'External', value: 'external' },
+          ],
+        },
+        {
+          name: 'page',
+          type: 'relationship',
+          relationTo: 'pages',
+          admin: {
+            condition: (_, siblingData) => siblingData?.linkType === 'internal',
+          },
+        },
+        {
+          name: 'url',
+          type: 'text',
+          admin: {
+            condition: (_, siblingData) => siblingData?.linkType === 'external',
+          },
         },
       ],
     },

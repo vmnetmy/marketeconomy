@@ -54,6 +54,9 @@ export const Pages: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'layout',
@@ -83,6 +86,9 @@ export const Pages: CollectionConfig = {
     {
       name: 'seo',
       type: 'group',
+      admin: {
+        position: 'sidebar',
+      },
       fields: [
         {
           name: 'metaTitle',

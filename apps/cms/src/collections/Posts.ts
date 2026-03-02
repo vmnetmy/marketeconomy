@@ -54,6 +54,9 @@ export const Posts: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'excerpt',
@@ -95,7 +98,11 @@ export const Posts: CollectionConfig = {
     },
     {
       name: 'tags',
+      label: 'Categories / Tags',
       type: 'array',
+      admin: {
+        position: 'sidebar',
+      },
       fields: [
         {
           name: 'tag',
@@ -104,8 +111,28 @@ export const Posts: CollectionConfig = {
       ],
     },
     {
+      name: 'authors',
+      type: 'relationship',
+      relationTo: 'people',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'publishedAt',
       type: 'date',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'seo',

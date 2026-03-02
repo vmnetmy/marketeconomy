@@ -2271,6 +2271,8 @@ export interface Post {
         id?: string | null;
       }[]
     | null;
+  authors?: (number | Person)[] | null;
+  featured?: boolean | null;
   publishedAt?: string | null;
   seo?: {
     metaTitle?: string | null;
@@ -2280,6 +2282,37 @@ export interface Post {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people".
+ */
+export interface Person {
+  id: number;
+  fullName: string;
+  roleTitle?: string | null;
+  photo?: (number | null) | Media;
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  email?: string | null;
+  phone?: string | null;
+  website?: string | null;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2299,6 +2332,8 @@ export interface PolicyBrief {
         id?: string | null;
       }[]
     | null;
+  authors?: (number | Person)[] | null;
+  featured?: boolean | null;
   publishedAt?: string | null;
   seo?: {
     metaTitle?: string | null;
@@ -2337,6 +2372,7 @@ export interface Event {
     [k: string]: unknown;
   } | null;
   eventStatus?: ('upcoming' | 'past') | null;
+  featured?: boolean | null;
   tags?:
     | {
         tag?: string | null;
@@ -2354,36 +2390,6 @@ export interface Event {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "people".
- */
-export interface Person {
-  id: number;
-  fullName: string;
-  roleTitle?: string | null;
-  photo?: (number | null) | Media;
-  bio?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  email?: string | null;
-  phone?: string | null;
-  sortOrder?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
  */
 export interface Partner {
@@ -2393,6 +2399,7 @@ export interface Partner {
   website?: string | null;
   description?: string | null;
   category?: ('strategic' | 'program' | 'funding') | null;
+  sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -3892,6 +3899,8 @@ export interface PostsSelect<T extends boolean = true> {
         tag?: T;
         id?: T;
       };
+  authors?: T;
+  featured?: T;
   publishedAt?: T;
   seo?:
     | T
@@ -3921,6 +3930,8 @@ export interface PolicyBriefsSelect<T extends boolean = true> {
         tag?: T;
         id?: T;
       };
+  authors?: T;
+  featured?: T;
   publishedAt?: T;
   seo?:
     | T
@@ -3946,6 +3957,7 @@ export interface EventsSelect<T extends boolean = true> {
   registrationLink?: T;
   description?: T;
   eventStatus?: T;
+  featured?: T;
   tags?:
     | T
     | {
@@ -3974,6 +3986,7 @@ export interface PeopleSelect<T extends boolean = true> {
   bio?: T;
   email?: T;
   phone?: T;
+  website?: T;
   sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3988,6 +4001,7 @@ export interface PartnersSelect<T extends boolean = true> {
   website?: T;
   description?: T;
   category?: T;
+  sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -4068,6 +4082,14 @@ export interface SiteSetting {
   siteName: string;
   tagline?: string | null;
   logo?: (number | null) | Media;
+  /**
+   * Logo for dark backgrounds (light/white variant).
+   */
+  logoLight?: (number | null) | Media;
+  /**
+   * Logo for light backgrounds (dark variant).
+   */
+  logoDark?: (number | null) | Media;
   defaultSeo?: {
     title?: string | null;
     description?: string | null;
@@ -4122,11 +4144,27 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  cta?: {
+    title?: string | null;
+    description?: string | null;
+    buttonLabel?: string | null;
+    buttonUrl?: string | null;
+    finePrint?: string | null;
+  };
   contact?: {
     email?: string | null;
     phone?: string | null;
     address?: string | null;
   };
+  legalLinks?:
+    | {
+        label: string;
+        linkType?: ('internal' | 'external') | null;
+        page?: (number | null) | Page;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   copyright?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -4155,6 +4193,8 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   siteName?: T;
   tagline?: T;
   logo?: T;
+  logoLight?: T;
+  logoDark?: T;
   defaultSeo?:
     | T
     | {
@@ -4211,12 +4251,30 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  cta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        buttonLabel?: T;
+        buttonUrl?: T;
+        finePrint?: T;
+      };
   contact?:
     | T
     | {
         email?: T;
         phone?: T;
         address?: T;
+      };
+  legalLinks?:
+    | T
+    | {
+        label?: T;
+        linkType?: T;
+        page?: T;
+        url?: T;
+        id?: T;
       };
   copyright?: T;
   updatedAt?: T;

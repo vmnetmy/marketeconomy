@@ -46,8 +46,10 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
   }, [isHome, scrolled, variant])
 
   const displayName = site?.siteName ?? 'Network for Market Economy'
-  const logoUrl = resolveMediaUrl(site?.logo)
   const isFloating = variant === 'transparent' && isHome && !scrolled
+  const lightLogoUrl = resolveMediaUrl(site?.logoLight ?? site?.logo)
+  const darkLogoUrl = resolveMediaUrl(site?.logoDark ?? site?.logo)
+  const logoUrl = isFloating ? lightLogoUrl ?? darkLogoUrl : darkLogoUrl ?? lightLogoUrl
   const navTextClass = isFloating ? 'text-white/80 hover:text-white' : 'text-slate-500 hover:text-slate-900'
   const activeTextClass = isFloating ? 'text-white' : 'text-blue-600'
   const brandTextClass = isFloating ? 'text-white/90' : 'text-slate-700'
@@ -55,7 +57,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
   const ctaClass = isFloating
     ? 'bg-white text-slate-900 hover:bg-slate-100'
     : 'bg-slate-950 text-white hover:bg-blue-600'
-  const logoClass = isFloating ? 'invert brightness-0' : ''
+  const logoClass = ''
 
   return (
     <header className={`header-transition fixed top-0 z-50 w-full border-b ${headerClass}`}>

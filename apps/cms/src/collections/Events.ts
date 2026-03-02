@@ -33,22 +33,37 @@ export const Events: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'startDate',
       type: 'date',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'endDate',
       type: 'date',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'location',
       type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'registrationLink',
       type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'description',
@@ -59,10 +74,21 @@ export const Events: CollectionConfig = {
       label: 'Status',
       type: 'select',
       defaultValue: 'upcoming',
+      admin: {
+        position: 'sidebar',
+      },
       options: [
         { label: 'Upcoming', value: 'upcoming' },
         { label: 'Past', value: 'past' },
       ],
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'tags',
