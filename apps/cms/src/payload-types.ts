@@ -76,6 +76,7 @@ export interface Config {
     events: Event;
     people: Person;
     partners: Partner;
+    'form-submissions': FormSubmission;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +93,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
+    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -1009,6 +1011,61 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'newsletter';
+          }
+        | {
+            formType: 'newsletter' | 'contact' | 'media' | 'policyBrief' | 'event' | 'membership';
+            headline?: string | null;
+            description?: string | null;
+            submitLabel?: string | null;
+            successMessage?: string | null;
+            fields?:
+              | {
+                  /**
+                   * Machine name (e.g. email, fullName). Used as the input name.
+                   */
+                  name: string;
+                  label?: string | null;
+                  type?: ('text' | 'email' | 'phone' | 'textarea' | 'select') | null;
+                  placeholder?: string | null;
+                  required?: boolean | null;
+                  span?: ('full' | 'half') | null;
+                  options?:
+                    | {
+                        label: string;
+                        value?: string | null;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            destination?: {
+              mode?: ('cms' | 'external') | null;
+              formAction?: string | null;
+            };
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+              layout?: ('stacked' | 'twoColumn') | null;
+              align?: ('left' | 'center') | null;
+              showLabels?: boolean | null;
+              fullWidthButton?: boolean | null;
+              cardStyle?: ('none' | 'soft' | 'card' | 'outline') | null;
+              radius?: ('sm' | 'md' | 'lg') | null;
+              shadow?: ('none' | 'soft' | 'medium') | null;
+              buttonStyle?: ('solid' | 'outline') | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'form';
           }
         | {
             left?: {
@@ -1987,6 +2044,61 @@ export interface Post {
             blockType: 'newsletter';
           }
         | {
+            formType: 'newsletter' | 'contact' | 'media' | 'policyBrief' | 'event' | 'membership';
+            headline?: string | null;
+            description?: string | null;
+            submitLabel?: string | null;
+            successMessage?: string | null;
+            fields?:
+              | {
+                  /**
+                   * Machine name (e.g. email, fullName). Used as the input name.
+                   */
+                  name: string;
+                  label?: string | null;
+                  type?: ('text' | 'email' | 'phone' | 'textarea' | 'select') | null;
+                  placeholder?: string | null;
+                  required?: boolean | null;
+                  span?: ('full' | 'half') | null;
+                  options?:
+                    | {
+                        label: string;
+                        value?: string | null;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  id?: string | null;
+                }[]
+              | null;
+            destination?: {
+              mode?: ('cms' | 'external') | null;
+              formAction?: string | null;
+            };
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+              layout?: ('stacked' | 'twoColumn') | null;
+              align?: ('left' | 'center') | null;
+              showLabels?: boolean | null;
+              fullWidthButton?: boolean | null;
+              cardStyle?: ('none' | 'soft' | 'card' | 'outline') | null;
+              radius?: ('sm' | 'md' | 'lg') | null;
+              shadow?: ('none' | 'soft' | 'medium') | null;
+              buttonStyle?: ('solid' | 'outline') | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'form';
+          }
+        | {
             left?: {
               root: {
                 type: string;
@@ -2286,6 +2398,46 @@ export interface Partner {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: number;
+  summary?: string | null;
+  formType: 'newsletter' | 'contact' | 'media' | 'policyBrief' | 'event' | 'membership';
+  page?: string | null;
+  name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  organization?: string | null;
+  role?: string | null;
+  outlet?: string | null;
+  deadline?: string | null;
+  topic?: string | null;
+  message?: string | null;
+  data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Read-only snapshot of the submitted fields.
+   */
+  details?:
+    | {
+        label?: string | null;
+        value?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -2343,6 +2495,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'partners';
         value: number | Partner;
+      } | null)
+    | ({
+        relationTo: 'form-submissions';
+        value: number | FormSubmission;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -2907,6 +3063,60 @@ export interface PagesSelect<T extends boolean = true> {
                     cardStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        form?:
+          | T
+          | {
+              formType?: T;
+              headline?: T;
+              description?: T;
+              submitLabel?: T;
+              successMessage?: T;
+              fields?:
+                | T
+                | {
+                    name?: T;
+                    label?: T;
+                    type?: T;
+                    placeholder?: T;
+                    required?: T;
+                    span?: T;
+                    options?:
+                      | T
+                      | {
+                          label?: T;
+                          value?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              destination?:
+                | T
+                | {
+                    mode?: T;
+                    formAction?: T;
+                  };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                    layout?: T;
+                    align?: T;
+                    showLabels?: T;
+                    fullWidthButton?: T;
+                    cardStyle?: T;
+                    radius?: T;
+                    shadow?: T;
+                    buttonStyle?: T;
                   };
               id?: T;
               blockName?: T;
@@ -3498,6 +3708,60 @@ export interface PostsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        form?:
+          | T
+          | {
+              formType?: T;
+              headline?: T;
+              description?: T;
+              submitLabel?: T;
+              successMessage?: T;
+              fields?:
+                | T
+                | {
+                    name?: T;
+                    label?: T;
+                    type?: T;
+                    placeholder?: T;
+                    required?: T;
+                    span?: T;
+                    options?:
+                      | T
+                      | {
+                          label?: T;
+                          value?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+              destination?:
+                | T
+                | {
+                    mode?: T;
+                    formAction?: T;
+                  };
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                    layout?: T;
+                    align?: T;
+                    showLabels?: T;
+                    fullWidthButton?: T;
+                    cardStyle?: T;
+                    radius?: T;
+                    shadow?: T;
+                    buttonStyle?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         twoColumnRichText?:
           | T
           | {
@@ -3724,6 +3988,34 @@ export interface PartnersSelect<T extends boolean = true> {
   website?: T;
   description?: T;
   category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions_select".
+ */
+export interface FormSubmissionsSelect<T extends boolean = true> {
+  summary?: T;
+  formType?: T;
+  page?: T;
+  name?: T;
+  email?: T;
+  phone?: T;
+  organization?: T;
+  role?: T;
+  outlet?: T;
+  deadline?: T;
+  topic?: T;
+  message?: T;
+  data?: T;
+  details?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

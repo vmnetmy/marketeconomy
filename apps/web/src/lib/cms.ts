@@ -85,6 +85,17 @@ export type NewsletterAdvancedSettings = AdvancedSettings & {
   cardStyle?: 'flat' | 'raised' | null
 }
 
+export type FormAdvancedSettings = AdvancedSettings & {
+  layout?: 'stacked' | 'twoColumn' | null
+  align?: 'left' | 'center' | null
+  cardStyle?: 'none' | 'soft' | 'card' | 'outline' | null
+  radius?: 'sm' | 'md' | 'lg' | null
+  shadow?: 'none' | 'soft' | 'medium' | null
+  buttonStyle?: 'solid' | 'outline' | null
+  showLabels?: boolean | null
+  fullWidthButton?: boolean | null
+}
+
 export type TwoColumnRichTextAdvancedSettings = AdvancedSettings & {
   gap?: 'sm' | 'md' | 'lg' | null
   verticalAlign?: 'top' | 'center' | null

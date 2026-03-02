@@ -6,6 +6,7 @@ import { ContentListBlock } from './ContentListBlock'
 import { DataVizBlock } from './DataVizBlock'
 import { FAQBlock } from './FAQBlock'
 import { FeatureGridBlock } from './FeatureGridBlock'
+import { FormBlock } from './FormBlock'
 import { HeroBlock } from './HeroBlock'
 import { LogoCloudBlock } from './LogoCloudBlock'
 import { MediaBlock } from './MediaBlock'
@@ -37,6 +38,7 @@ type MediaBlockType = Parameters<typeof MediaBlock>[0]['block']
 type FAQBlockType = Parameters<typeof FAQBlock>[0]['block']
 type ContentListBlockType = Parameters<typeof ContentListBlock>[0]['block']
 type DataVizBlockType = Parameters<typeof DataVizBlock>[0]['block']
+type FormBlockType = Parameters<typeof FormBlock>[0]['block']
 
 export function BlockRenderer({ blocks }: { blocks?: CMSBlock[] }) {
   if (!blocks || blocks.length === 0) return null
@@ -82,6 +84,8 @@ export function BlockRenderer({ blocks }: { blocks?: CMSBlock[] }) {
             return <ContentListBlock key={key} block={block as ContentListBlockType} />
           case 'dataViz':
             return <DataVizBlock key={key} block={block as DataVizBlockType} />
+          case 'form':
+            return <FormBlock key={key} block={block as FormBlockType} />
           default:
             return null
         }

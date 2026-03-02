@@ -1,4 +1,5 @@
 export { Hero } from './Hero'
+export { FormBlock } from './Form'
 export { RichTextBlock } from './RichText'
 export { Cards } from './Cards'
 export { CTASection } from './CTASection'
