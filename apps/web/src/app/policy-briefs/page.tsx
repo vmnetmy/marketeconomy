@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 import { CMSImage } from '../../components/media/CMSImage'
 import { getPolicyBriefsPage, getPolicyBriefTags, resolveMediaUrl } from '../../lib/cms'
@@ -69,7 +70,11 @@ export default async function PolicyBriefsPage({ searchParams }: { searchParams?
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_60%)]" />
         </section>
 
-        <PolicyBriefsFilters tags={tags} currentTag={tag} currentSearch={search} currentSort={sort} />
+        <Suspense
+          fallback={<div className="rounded-3xl border border-slate-200/70 bg-white p-4 shadow-sm">Loading filters…</div>}
+        >
+          <PolicyBriefsFilters tags={tags} currentTag={tag} currentSearch={search} currentSort={sort} />
+        </Suspense>
 
         {briefsData.docs.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-600">
