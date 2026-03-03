@@ -7,7 +7,8 @@
     "dev:cms": "pnpm --filter @marketeconomy/cms dev",
     "dev:web": "pnpm --filter @marketeconomy/web dev",
     "build": "pnpm -r build",
-    "lint": "pnpm -r lint"
+    "lint": "pnpm -r lint",
+    "ts-node": "node scripts/ts-node-wrapper.mjs"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -17,6 +18,18 @@
     ],
     "patchedDependencies": {
       "@payloadcms/next@3.77.0": "patches/@payloadcms__next@3.77.0.patch"
+    }
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  }
+  ,
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext"
     }
   }
 }

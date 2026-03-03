@@ -2323,6 +2323,33 @@ export interface PolicyBrief {
   title: string;
   slug: string;
   summary?: string | null;
+  /**
+   * Full executive summary (150–250 words).
+   */
+  executiveSummary?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Short, actionable recommendations for readers.
+   */
+  keyRecommendations?:
+    | {
+        recommendation: string;
+        id?: string | null;
+      }[]
+    | null;
   briefType?: ('policy' | 'research' | 'report') | null;
   pdfFile?: (number | null) | Media;
   coverImage?: (number | null) | Media;
@@ -3921,6 +3948,13 @@ export interface PolicyBriefsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   summary?: T;
+  executiveSummary?: T;
+  keyRecommendations?:
+    | T
+    | {
+        recommendation?: T;
+        id?: T;
+      };
   briefType?: T;
   pdfFile?: T;
   coverImage?: T;

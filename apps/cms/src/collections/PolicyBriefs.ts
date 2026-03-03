@@ -42,6 +42,27 @@ export const PolicyBriefs: CollectionConfig = {
       type: 'textarea',
     },
     {
+      name: 'executiveSummary',
+      type: 'richText',
+      admin: {
+        description: 'Full executive summary (150–250 words).',
+      },
+    },
+    {
+      name: 'keyRecommendations',
+      type: 'array',
+      admin: {
+        description: 'Short, actionable recommendations for readers.',
+      },
+      fields: [
+        {
+          name: 'recommendation',
+          type: 'text',
+          required: true,
+        },
+      ],
+    },
+    {
       name: 'briefType',
       type: 'select',
       options: [

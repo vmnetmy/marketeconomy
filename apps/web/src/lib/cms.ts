@@ -1,3 +1,5 @@
+import type { SerializedEditorState } from 'lexical'
+
 const REVALIDATE_SECONDS = 60
 export const CMS_URL = process.env.CMS_URL || process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000'
 
@@ -210,6 +212,39 @@ export type PostDoc = {
   }
 }
 
+export type PolicyBriefDoc = {
+  id: string
+  title: string
+  slug: string
+  summary?: string | null
+  briefType?: 'policy' | 'research' | 'report' | null
+  executiveSummary?: SerializedEditorState | null
+  keyRecommendations?: Array<{ recommendation?: string | null }> | null
+  pdfFile?: CMSMedia | string | null
+  coverImage?: CMSMedia | string | null
+  tags?: Array<{ tag?: string | null }> | null
+  authors?: Array<{ fullName?: string | null } | string> | null
+  featured?: boolean | null
+  publishedAt?: string | null
+  seo?: {
+    metaTitle?: string | null
+    metaDescription?: string | null
+    ogImage?: CMSMedia | string | null
+  }
+}
+
+export type PolicyBriefListItem = {
+  id: string
+  title: string
+  slug: string
+  summary?: string | null
+  coverImage?: CMSMedia | string | null
+  pdfFile?: CMSMedia | string | null
+  tags?: Array<{ tag?: string | null }> | null
+  authors?: Array<{ fullName?: string | null } | string> | null
+  publishedAt?: string | null
+}
+
 export type HeaderGlobal = {
   navItems?: NavItem[]
 }
@@ -354,6 +389,87 @@ export async function getPostsPage({
   })
 
   return fetchJSON<CollectionResponse<PostListItem>>(`/api/posts?${params.toString()}`)
+}
+
+export async function getPolicyBriefBySlug(slug: string): Promise<PolicyBriefDoc | null> {
+  const params = new URLSearchParams({
+    'where[slug][equals]': slug,
+    'where[_status][equals]': 'published',
+    depth: '2',
+    limit: '1',
+  })
+
+  const data = await fetchJSON<CollectionResponse<PolicyBriefDoc>>(`/api/policyBriefs?${params.toString()}`)
+  return data.docs?.[0] ?? null
+}
+
+export async function getPolicyBriefsPage({
+  page = 1,
+  limit = 12,
+  tag,
+  search,
+  sort = 'latest',
+}: {
+  page?: number
+  limit?: number
+  tag?: string
+  search?: string
+  sort?: 'latest' | 'oldest'
+}): Promise<CollectionResponse<PolicyBriefListItem>> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    sort: sort === 'oldest' ? 'publishedAt' : '-publishedAt',
+    depth: '1',
+    page: String(page),
+    limit: String(limit),
+  })
+
+  if (tag) {
+    params.set('where[tags.tag][equals]', tag)
+  }
+
+  if (search) {
+    params.set('where[title][like]', `%${search}%`)
+  }
+
+  return fetchJSON<CollectionResponse<PolicyBriefListItem>>(`/api/policyBriefs?${params.toString()}`)
+}
+
+export async function getPolicyBriefTags(): Promise<string[]> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    depth: '0',
+    limit: '200',
+  })
+
+  const data = await fetchJSON<CollectionResponse<{ tags?: Array<{ tag?: string | null }> | null }>>(
+    `/api/policyBriefs?${params.toString()}`,
+  )
+
+  const tagSet = new Set<string>()
+  for (const doc of data.docs || []) {
+    for (const tag of doc.tags || []) {
+      if (tag?.tag) tagSet.add(tag.tag)
+    }
+  }
+
+  return Array.from(tagSet).sort()
+}
+
+export async function getRelatedPolicyBriefs(tags: string[] = [], limit = 3): Promise<PolicyBriefListItem[]> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    sort: '-publishedAt',
+    depth: '1',
+    limit: String(limit),
+  })
+
+  if (tags.length > 0) {
+    params.set('where[tags.tag][in]', tags.join(','))
+  }
+
+  const data = await fetchJSON<CollectionResponse<PolicyBriefListItem>>(`/api/policyBriefs?${params.toString()}`)
+  return data.docs ?? []
 }
 
 export async function getAllPageSlugs(): Promise<string[]> {
