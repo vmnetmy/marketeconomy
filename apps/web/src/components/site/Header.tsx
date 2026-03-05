@@ -102,7 +102,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
                   <Link className={linkClass} href={href}>
                     {item.label}
                   </Link>
-                  <div className="invisible absolute left-1/2 top-full z-20 mt-4 min-w-[200px] -translate-x-1/2 rounded-2xl border border-slate-200/80 bg-white/95 p-3 text-left text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 shadow-xl opacity-0 transition group-hover:visible group-hover:opacity-100">
+                  <div className="invisible absolute left-1/2 top-full z-20 mt-4 min-w-50 -translate-x-1/2 rounded-2xl border border-slate-200/80 bg-white/95 p-3 text-left text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 shadow-xl opacity-0 transition group-hover:visible group-hover:opacity-100">
                     <div className="flex flex-col gap-2">
                       {children.map((child, childIndex) => {
                         const childHref = resolveHref(child)

@@ -25,6 +25,44 @@ export default async function Home() {
       <BlockRenderer blocks={page.layout} />
 
       <SectionWrapper background="light">
+        <div className="space-y-6">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Upcoming Events</p>
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900">Latest Events</h2>
+            </div>
+            <Link href="/events" className="text-sm font-semibold text-blue-600">
+              Explore events →
+            </Link>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {upcomingEvents.map((event) => (
+              <Link
+                key={event.id}
+                href={`/events/${event.slug}`}
+                className="flex h-full flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-slate-900">{event.title}</h3>
+                  {event.location ? <p className="text-sm text-slate-600">{event.location}</p> : null}
+                  {event.startDate ? (
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                      {new Date(event.startDate).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
+                    </p>
+                  ) : null}
+                </div>
+                <span className="mt-auto text-sm font-semibold text-blue-600">View event →</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </SectionWrapper>
+
+      <SectionWrapper background="light">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-start">
           <div className="space-y-4">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Featured Policy Brief</p>
@@ -33,12 +71,12 @@ export default async function Home() {
             </h2>
             {featuredBrief?.summary ? <p className="text-base text-slate-600">{featuredBrief.summary}</p> : null}
             {featuredBrief?.slug ? (
-              <a
+              <Link
                 href={`/publications/policy-brief/${featuredBrief.slug}`}
                 className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600"
               >
                 Read the brief →
-              </a>
+              </Link>
             ) : null}
           </div>
           {featuredBrief?.coverImage ? (
@@ -62,7 +100,7 @@ export default async function Home() {
           </div>
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {latestNews.map((item) => (
-              <a
+              <Link
                 key={item.id}
                 href={`/in-the-news/${item.slug}`}
                 className="flex h-full flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
@@ -74,45 +112,7 @@ export default async function Home() {
                 ) : null}
                 <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
                 {item.excerpt ? <p className="text-sm text-slate-600">{item.excerpt}</p> : null}
-              </a>
-            ))}
-          </div>
-        </div>
-      </SectionWrapper>
-
-      <SectionWrapper background="light">
-        <div className="space-y-6">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Upcoming Events</p>
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900">Latest Events</h2>
-            </div>
-            <Link href="/events" className="text-sm font-semibold text-blue-600">
-              Explore events →
-            </Link>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {upcomingEvents.map((event) => (
-              <a
-                key={event.id}
-                href={`/events/${event.slug}`}
-                className="flex h-full flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-              >
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-slate-900">{event.title}</h3>
-                  {event.location ? <p className="text-sm text-slate-600">{event.location}</p> : null}
-                  {event.startDate ? (
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                      {new Date(event.startDate).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
-                    </p>
-                  ) : null}
-                </div>
-                <span className="mt-auto text-sm font-semibold text-blue-600">View event →</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

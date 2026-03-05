@@ -105,13 +105,21 @@ const makeRichTextWithHeading = (heading: string, paragraphs: string[]): Lexical
   },
 })
 
-const introParagraphs = [
+const aboutIntroParagraphs = [
   'In an era of renewed protectionism, tariffs and other trade barriers may be sold as a way to defend domestic industries. But they often end up raising costs, distorting markets, and triggering retaliation that harms businesses and consumers alike. Trade restrictions disrupt supply chains, dampen investment confidence, and make everyday goods more expensive.',
   'Large economies can sometimes cushion the blow or use their market size as leverage.',
   'Smaller states like Malaysia however, have far fewer tools. Highly dependent on open trade and external demand, they may in the short term have little choice but to absorb the impact of more protectionist policies imposed by their major trading partners.',
   'Unlike bigger powers, Malaysia cannot easily retaliate without hurting themselves. Their more realistic path lies in the long term: strengthening domestic competitiveness, deepening economic resilience, and consistently advocating for open markets and rules-based trade that ultimately serve their interests best.',
   'With this in mind, we are establishing Network for Market Economy (NME), dedicated to advancing free market principles as a long-term response to this increasingly protectionist era. While governments and political leaders may understandably concentrate on mitigating immediate economic pressures and shielding vulnerable sectors in the short term, we believe it is equally important not to lose sight of the bigger picture.',
   'Over time, sustained advocacy for open markets, competition, and rules-based trade will be essential to preserving growth, innovation, and economic resilience especially for smaller economies that depend on a stable and predictable global trading system.',
+]
+
+const homeIntroParagraphs = [
+  'The Network for Market Economy committed to advancing the principles of a free market economy as the foundation of a dynamic, resilient, and prosperous society. We believe that open competition, free enterprise, and sound institutions create the conditions for innovation, opportunity, and long-term growth.',
+  'Our work champions policies that expand economic freedom while strengthening the rule of law, regulatory clarity, and institutional integrity. Markets function best when they are underpinned by predictable rules, transparent governance, and fair competition. We therefore advocate practical, evidence-based reforms that improve efficiency, enhance productivity, and support sustainable development.',
+  'Through rigorous research, policy dialogue, and public engagement, we seek to contribute constructive and implementable ideas. Our focus is on strengthening economic resilience, encouraging innovation, and ensuring that prosperity is broad-based and enduring.',
+  'We work with policymakers, industry leaders, academics, and civil society to promote solutions that are principled yet pragmatic and grounded in data, informed by experience, and tailored to real-world challenges.',
+  'We invite you to learn more about our work, engage with our research, attend our events, or get in touch to explore opportunities for collaboration and partnership.',
 ]
 
 const stayConnectedParagraphs = [
@@ -144,9 +152,9 @@ const heroImpactItems = [
   },
 ]
 
-const missionParagraphs = introParagraphs.slice(0, 2)
-const comparisonLeft = introParagraphs.slice(1, 3)
-const comparisonRight = introParagraphs.slice(3, 6)
+const missionParagraphs = aboutIntroParagraphs.slice(0, 2)
+const comparisonLeft = aboutIntroParagraphs.slice(1, 3)
+const comparisonRight = aboutIntroParagraphs.slice(3, 6)
 
 const keyActivities = [
   {
@@ -259,7 +267,7 @@ const pages = [
       },
       {
         blockType: 'richText',
-        content: makeRichText(introParagraphs.slice(0, 3)),
+        content: makeRichText(homeIntroParagraphs),
         enableAdvanced: true,
         advanced: {
           container: {

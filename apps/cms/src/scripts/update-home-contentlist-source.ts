@@ -1,5 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import type { Page } from '../payload-types'
 
 type LayoutBlock = {
   blockType?: string
@@ -32,7 +33,7 @@ async function run(): Promise<void> {
       return { ...block, source: 'inTheNews' }
     }
     return block
-  })
+  }) as Page['layout']
 
   if (!updated) {
     payload.logger.info('Home page content list already points to inTheNews. No changes needed.')
