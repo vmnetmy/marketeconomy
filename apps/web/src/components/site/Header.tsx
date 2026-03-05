@@ -16,9 +16,12 @@ type HeaderProps = {
 
 const resolveHref = (item: NavItem): string | null => {
   if (item.linkType === 'external' && item.url) return item.url
-  if (item.linkType === 'internal' && item.page) {
-    if (typeof item.page === 'string') return item.page
-    if (item.page.slug) return item.page.slug === 'home' ? '/' : `/${item.page.slug}`
+  if (item.linkType === 'internal') {
+    if (item.url) return item.url
+    if (item.page) {
+      if (typeof item.page === 'string') return item.page
+      if (item.page.slug) return item.page.slug === 'home' ? '/' : `/${item.page.slug}`
+    }
   }
   return null
 }
@@ -91,6 +94,47 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
             const external = isExternalHref(href)
             const isActive = !external && (pathname === href || (href !== '/' && pathname?.startsWith(`${href}/`)))
             const linkClass = isActive ? activeTextClass : navTextClass
+            const children = item.children?.filter((child) => child?.label && resolveHref(child)) ?? []
+
+            if (children.length > 0) {
+              return (
+                <div key={`${item.label}-${index}`} className="group relative">
+                  <Link className={linkClass} href={href}>
+                    {item.label}
+                  </Link>
+                  <div className="invisible absolute left-1/2 top-full z-20 mt-4 min-w-[200px] -translate-x-1/2 rounded-2xl border border-slate-200/80 bg-white/95 p-3 text-left text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 shadow-xl opacity-0 transition group-hover:visible group-hover:opacity-100">
+                    <div className="flex flex-col gap-2">
+                      {children.map((child, childIndex) => {
+                        const childHref = resolveHref(child)
+                        if (!childHref || !child.label) return null
+                        const childExternal = isExternalHref(childHref)
+                        const childActive =
+                          !childExternal && (pathname === childHref || pathname?.startsWith(`${childHref}/`))
+                        const childClass = childActive ? activeTextClass : 'text-slate-600 hover:text-slate-900'
+                        if (childExternal) {
+                          return (
+                            <a
+                              key={`${child.label}-${childIndex}`}
+                              className={childClass}
+                              href={childHref}
+                              rel="noreferrer"
+                              target="_blank"
+                            >
+                              {child.label}
+                            </a>
+                          )
+                        }
+                        return (
+                          <Link key={`${child.label}-${childIndex}`} className={childClass} href={childHref}>
+                            {child.label}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )
+            }
 
             if (external) {
               return (
@@ -140,6 +184,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
               const external = isExternalHref(href)
               const linkClass =
                 'menu-item-stagger min-h-[44px] border-b border-slate-100 py-4 text-base font-medium text-slate-900 transition hover:text-blue-600'
+              const children = item.children?.filter((child) => child?.label && resolveHref(child)) ?? []
 
               if (external) {
                 return (
@@ -158,15 +203,53 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
               }
 
               return (
-                <Link
-                  key={`${item.label}-${index}`}
-                  className={linkClass}
-                  href={href}
-                  style={{ transitionDelay: `${index * 60}ms` }}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
+                <div key={`${item.label}-${index}`} className="flex flex-col">
+                  <Link
+                    className={linkClass}
+                    href={href}
+                    style={{ transitionDelay: `${index * 60}ms` }}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                  {children.length > 0 ? (
+                    <div className="mb-2 flex flex-col gap-2 pl-4 text-sm text-slate-600">
+                      {children.map((child, childIndex) => {
+                        const childHref = resolveHref(child)
+                        if (!childHref || !child.label) return null
+                        const childExternal = isExternalHref(childHref)
+                        const delay = (index * 60 + (childIndex + 1) * 40).toString()
+                        const childClass = 'menu-item-stagger py-1 text-sm font-medium text-slate-700'
+                        if (childExternal) {
+                          return (
+                            <a
+                              key={`${child.label}-${childIndex}`}
+                              className={childClass}
+                              href={childHref}
+                              rel="noreferrer"
+                              target="_blank"
+                              style={{ transitionDelay: `${delay}ms` }}
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {child.label}
+                            </a>
+                          )
+                        }
+                        return (
+                          <Link
+                            key={`${child.label}-${childIndex}`}
+                            className={childClass}
+                            href={childHref}
+                            style={{ transitionDelay: `${delay}ms` }}
+                            onClick={() => setIsOpen(false)}
+                          >
+                            {child.label}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  ) : null}
+                </div>
               )
             })}
             <Link

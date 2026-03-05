@@ -6,7 +6,7 @@ import { CMSImage } from '../media/CMSImage'
 import { SectionWrapper } from '../layout/SectionWrapper'
 
 type ContentListBlock = CMSBlock & {
-  source?: 'posts' | 'policyBriefs' | 'events'
+  source?: 'inTheNews' | 'policyBriefs' | 'events'
   limit?: number
   layout?: 'list' | 'grid'
   filterTag?: string
@@ -25,10 +25,10 @@ export async function ContentListBlock({ block }: { block: ContentListBlock }) {
   const { cardClass, showImages, spacingClass } = getContentListStyles(block.advanced)
 
   const basePath =
-    block.source === 'posts'
-      ? '/updates'
+    block.source === 'inTheNews'
+      ? '/in-the-news'
       : block.source === 'policyBriefs'
-        ? '/policy-briefs'
+        ? '/publications/policy-brief'
         : block.source === 'events'
           ? '/events'
           : ''
@@ -36,7 +36,13 @@ export async function ContentListBlock({ block }: { block: ContentListBlock }) {
   return (
     <SectionWrapper {...sectionProps}>
       <section className="space-y-4">
-        <h2 className="text-2xl font-semibold">Latest {block.source}</h2>
+        <h2 className="text-2xl font-semibold">
+          {block.source === 'inTheNews'
+            ? 'Latest News'
+            : block.source === 'policyBriefs'
+              ? 'Latest Policy Briefs'
+              : 'Latest Events'}
+        </h2>
         <div className={isGrid ? 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3' : spacingClass}>
           {items.map((item) => (
             <a

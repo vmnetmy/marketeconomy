@@ -123,7 +123,7 @@ const heroBackgroundImageUrl =
 
 const heroLatestLink = {
   label: 'Latest Policy Brief: Navigating AFTA 2025 — read here',
-  url: '/policy-briefs/',
+  url: '/publications/policy-brief',
 }
 
 const heroImpactItems = [
@@ -298,17 +298,6 @@ const pages = [
         },
       },
       {
-        blockType: 'contentList',
-        source: 'posts',
-        limit: 3,
-        layout: 'grid',
-        enableAdvanced: true,
-        advanced: {
-          cardStyle: 'raised',
-          showImages: true,
-        },
-      },
-      {
         blockType: 'logoCloud',
         headline: 'Featured Partners',
         logos: logoCloud,
@@ -339,127 +328,6 @@ const pages = [
     ],
   },
   {
-    title: 'Activities',
-    slug: 'activities',
-    layout: [
-      {
-        blockType: 'hero',
-        headline: 'Driving Market-Oriented Reforms',
-        subheadline: introParagraphs[introParagraphs.length - 1],
-      },
-      {
-        blockType: 'featureGrid',
-        headline: 'Key Activities',
-        intro: 'Our work focuses on research, dialogue, and practical advocacy to keep markets open and competitive.',
-        columns: '2',
-        features: keyActivities,
-      },
-      {
-        blockType: 'ctaSection',
-        title: 'Partner With Us on Our Next Roundtable',
-        description: 'Work with us to convene leaders and advance practical market reforms.',
-        buttonLabel: 'Contact Us',
-        buttonURL: '/contact',
-        theme: 'dark',
-      },
-    ],
-  },
-  {
-    title: 'Updates',
-    slug: 'updates',
-    layout: [
-      {
-        blockType: 'richText',
-        content: makeRichText([
-          'Latest announcements, research updates, and highlights from our briefings and roundtables.',
-        ]),
-      },
-    ],
-  },
-  {
-    title: 'Policy Briefs',
-    slug: 'policy-briefs',
-    layout: [
-      {
-        blockType: 'hero',
-        headline: 'Research & Policy Briefs',
-        subheadline: 'Actionable insights for lawmakers, business leaders, and community partners.',
-      },
-      {
-        blockType: 'contentList',
-        source: 'policyBriefs',
-        limit: 9,
-        layout: 'grid',
-      },
-      {
-        blockType: 'form',
-        formType: 'policyBrief',
-        headline: 'Request a Policy Briefing',
-        description: 'Tell us about your policy question and we will follow up with a tailored briefing.',
-        submitLabel: 'Request briefing',
-        successMessage: 'Thanks. We will contact you soon with next steps.',
-        fields: [
-          {
-            name: 'name',
-            label: 'Full name',
-            type: 'text',
-            required: true,
-            placeholder: 'Your name',
-            span: 'half',
-          },
-          {
-            name: 'email',
-            label: 'Email',
-            type: 'email',
-            required: true,
-            placeholder: 'you@example.com',
-            span: 'half',
-          },
-          {
-            name: 'organization',
-            label: 'Organization',
-            type: 'text',
-            placeholder: 'Agency or institution',
-            span: 'half',
-          },
-          {
-            name: 'role',
-            label: 'Role',
-            type: 'text',
-            placeholder: 'Your role',
-            span: 'half',
-          },
-          {
-            name: 'topic',
-            label: 'Briefing topic',
-            type: 'textarea',
-            required: true,
-            placeholder: 'Describe the policy issue you want covered.',
-            span: 'full',
-          },
-        ],
-        destination: {
-          mode: 'cms',
-        },
-        enableAdvanced: true,
-        advanced: {
-          layout: 'twoColumn',
-          cardStyle: 'card',
-          buttonStyle: 'solid',
-        },
-      },
-      {
-        blockType: 'newsletter',
-        headline: 'Stay Informed',
-        description: 'Get the latest briefs delivered to your inbox.',
-        inputPlaceholder: 'Enter your email',
-        buttonLabel: 'Subscribe',
-        formAction: '',
-        finePrint: 'We will only email you when new briefs are published.',
-      },
-    ],
-  },
-  {
     title: 'Contact',
     slug: 'contact',
     layout: [
@@ -476,118 +344,11 @@ const pages = [
         cards: contactCards,
       },
       {
-        blockType: 'form',
-        formType: 'contact',
-        headline: 'General Contact',
-        description: 'Send a message and we will respond as soon as possible.',
-        submitLabel: 'Send message',
-        successMessage: 'Thanks for reaching out. We will be in touch shortly.',
-        fields: [
-          {
-            name: 'name',
-            label: 'Full name',
-            type: 'text',
-            required: true,
-            placeholder: 'Your name',
-            span: 'half',
-          },
-          {
-            name: 'email',
-            label: 'Email',
-            type: 'email',
-            required: true,
-            placeholder: 'you@example.com',
-            span: 'half',
-          },
-          {
-            name: 'organization',
-            label: 'Organization',
-            type: 'text',
-            placeholder: 'Your organization',
-            span: 'half',
-          },
-          {
-            name: 'phone',
-            label: 'Phone',
-            type: 'phone',
-            placeholder: '+60',
-            span: 'half',
-          },
-          {
-            name: 'message',
-            label: 'Message',
-            type: 'textarea',
-            required: true,
-            placeholder: 'How can we help?',
-            span: 'full',
-          },
-        ],
-        destination: {
-          mode: 'cms',
-        },
-        enableAdvanced: true,
-        advanced: {
-          layout: 'twoColumn',
-          cardStyle: 'card',
-          buttonStyle: 'solid',
-        },
-      },
-      {
-        blockType: 'form',
-        formType: 'media',
-        headline: 'Media Inquiry',
-        description: 'For press or interview requests, send us the details below.',
-        submitLabel: 'Submit media inquiry',
-        successMessage: 'Thank you. Our media team will respond shortly.',
-        fields: [
-          {
-            name: 'name',
-            label: 'Full name',
-            type: 'text',
-            required: true,
-            placeholder: 'Your name',
-            span: 'half',
-          },
-          {
-            name: 'email',
-            label: 'Email',
-            type: 'email',
-            required: true,
-            placeholder: 'you@example.com',
-            span: 'half',
-          },
-          {
-            name: 'outlet',
-            label: 'Media outlet',
-            type: 'text',
-            placeholder: 'Publication or station',
-            span: 'half',
-          },
-          {
-            name: 'deadline',
-            label: 'Deadline',
-            type: 'text',
-            placeholder: 'When do you need a response?',
-            span: 'half',
-          },
-          {
-            name: 'message',
-            label: 'Request details',
-            type: 'textarea',
-            required: true,
-            placeholder: 'Provide context, interview format, and topics.',
-            span: 'full',
-          },
-        ],
-        destination: {
-          mode: 'cms',
-        },
-        enableAdvanced: true,
-        advanced: {
-          layout: 'twoColumn',
-          cardStyle: 'outline',
-          buttonStyle: 'outline',
-        },
+        blockType: 'richText',
+        content: makeRichText([
+          stayConnectedParagraphs[0],
+          'Please reach out at contact@marketeconomy.org. A member of our team will respond promptly.',
+        ]),
       },
       {
         blockType: 'faq',
@@ -637,26 +398,76 @@ const run = async () => {
     await upsertPage(payload, page)
   }
 
-  const navItems = [
-    { label: 'Home', slug: 'home' },
-    { label: 'About', slug: 'about' },
-    { label: 'Activities', slug: 'activities' },
-    { label: 'Updates', slug: 'updates' },
-    { label: 'Policy Briefs', slug: 'policy-briefs' },
-    { label: 'Contact', slug: 'contact' },
-  ]
+  const homeId = await findPageIdBySlug(payload, 'home')
+  const aboutId = await findPageIdBySlug(payload, 'about')
+  const contactId = await findPageIdBySlug(payload, 'contact')
 
-  const navWithIds = []
-  for (const item of navItems) {
-    const pageId = await findPageIdBySlug(payload, item.slug)
-    if (pageId) {
-      navWithIds.push({
-        label: item.label,
-        linkType: 'internal' as const,
-        page: pageId,
-      })
-    }
-  }
+  const navWithIds = [
+    {
+      label: 'Home',
+      linkType: 'internal' as const,
+      page: homeId ?? undefined,
+      url: '/',
+    },
+    {
+      label: 'About',
+      linkType: 'internal' as const,
+      page: aboutId ?? undefined,
+      url: '/about',
+      children: [
+        {
+          label: 'Leadership',
+          linkType: 'internal' as const,
+          url: '/about/leadership',
+        },
+      ],
+    },
+    {
+      label: 'Events',
+      linkType: 'internal' as const,
+      url: '/events',
+      children: [
+        {
+          label: 'Upcoming Events',
+          linkType: 'internal' as const,
+          url: '/events#upcoming',
+        },
+        {
+          label: 'Past Events',
+          linkType: 'internal' as const,
+          url: '/events#past',
+        },
+      ],
+    },
+    {
+      label: 'Publications',
+      linkType: 'internal' as const,
+      url: '/publications',
+      children: [
+        {
+          label: 'Event Reports',
+          linkType: 'internal' as const,
+          url: '/publications/event-reports',
+        },
+        {
+          label: 'Policy Brief',
+          linkType: 'internal' as const,
+          url: '/publications/policy-brief',
+        },
+      ],
+    },
+    {
+      label: 'In the News',
+      linkType: 'internal' as const,
+      url: '/in-the-news',
+    },
+    {
+      label: 'Contact',
+      linkType: 'internal' as const,
+      page: contactId ?? undefined,
+      url: '/contact',
+    },
+  ].filter((item) => item.label)
 
   await payload.updateGlobal({
     slug: 'header',
@@ -675,6 +486,7 @@ const run = async () => {
             label: item.label,
             linkType: 'internal' as const,
             page: item.page,
+            url: item.url,
           })),
         },
       ],

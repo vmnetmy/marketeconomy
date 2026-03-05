@@ -4,7 +4,7 @@ import { buildAdvancedGroup } from './common'
 
 export function buildContentListAdvancedGroup(): Field {
   return buildAdvancedGroup({
-    anchorPlaceholder: 'e.g. latest-updates',
+    anchorPlaceholder: 'e.g. latest-news',
     extraFields: [
       {
         name: 'cardStyle',

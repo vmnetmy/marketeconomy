@@ -14,7 +14,7 @@ export const ContentList: Block = {
       type: 'select',
       required: true,
       options: [
-        { label: 'Posts', value: 'posts' },
+        { label: 'In the News', value: 'inTheNews' },
         { label: 'Policy Briefs', value: 'policyBriefs' },
         { label: 'Events', value: 'events' },
       ],

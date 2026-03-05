@@ -99,12 +99,17 @@ export const PolicyBriefs: CollectionConfig = {
     },
     {
       name: 'authors',
-      type: 'relationship',
-      relationTo: 'people',
-      hasMany: true,
+      type: 'array',
       admin: {
         position: 'sidebar',
       },
+      fields: [
+        {
+          name: 'fullName',
+          type: 'text',
+          required: true,
+        },
+      ],
     },
     {
       name: 'featured',

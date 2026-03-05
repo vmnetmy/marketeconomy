@@ -1,9 +1,13 @@
+import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-import { CMSImage } from '../../../components/media/CMSImage'
-import { RichText } from '../../../components/ui/RichText'
-import { getPolicyBriefBySlug, getRelatedPolicyBriefs, resolveMediaUrl } from '../../../lib/cms'
+import { CMSImage } from '../../../../components/media/CMSImage'
+import { GatedDownloadForm } from '../../../../components/forms/GatedDownloadForm'
+import { RichText } from '../../../../components/ui/RichText'
+import { getPolicyBriefBySlug, getRelatedPolicyBriefs } from '../../../../lib/cms'
+
+export const dynamic = 'force-dynamic'
 
 const formatDate = (value?: string | null): string | null => {
   if (!value) return null
@@ -16,11 +20,14 @@ const formatDate = (value?: string | null): string | null => {
   }).format(date)
 }
 
-export default async function PolicyBriefDetailPage({ params }: { params: { slug: string } }) {
-  const brief = await getPolicyBriefBySlug(params.slug)
+export default async function PolicyBriefDetailPage({ params }: { params: { slug?: string | string[] } }) {
+  const resolvedParams = await Promise.resolve(params)
+  const slug = Array.isArray(resolvedParams?.slug) ? resolvedParams.slug[0] : resolvedParams?.slug
+  if (!slug) return notFound()
+
+  const brief = await getPolicyBriefBySlug(slug)
   if (!brief) return notFound()
 
-  const pdfUrl = resolveMediaUrl(brief.pdfFile)
   const published = formatDate(brief.publishedAt)
   const tags = (brief.tags || [])
     .map((tagItem) => tagItem?.tag)
@@ -32,7 +39,7 @@ export default async function PolicyBriefDetailPage({ params }: { params: { slug
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-10">
         <section className="space-y-6">
           {brief.coverImage ? (
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl bg-slate-100">
+            <div className="relative aspect-video w-full overflow-hidden rounded-3xl bg-slate-100">
               <CMSImage media={brief.coverImage} alt={brief.title} fill className="object-cover" />
             </div>
           ) : null}
@@ -43,15 +50,8 @@ export default async function PolicyBriefDetailPage({ params }: { params: { slug
             </p>
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">{brief.title}</h1>
             {brief.summary ? <p className="text-lg text-slate-600">{brief.summary}</p> : null}
-            {pdfUrl ? (
-              <a
-                href={pdfUrl}
-                className="inline-flex items-center rounded-full bg-slate-900 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-slate-800"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Download PDF
-              </a>
+            {brief.pdfFile ? (
+              <GatedDownloadForm resourceType="policyBrief" resourceId={brief.id} />
             ) : null}
           </div>
         </section>
@@ -89,15 +89,18 @@ export default async function PolicyBriefDetailPage({ params }: { params: { slug
           <section className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-semibold text-slate-900">Related Policy Briefs</h2>
-              <Link href="/policy-briefs" className="text-sm font-semibold text-slate-600 hover:text-slate-900">
-                View all →
+              <Link href="/publications/policy-brief" className="text-sm font-semibold text-slate-600 hover:text-slate-900">
+                <span className="inline-flex items-center gap-2">
+                  View all
+                  <ArrowRightIcon className="h-4 w-4" />
+                </span>
               </Link>
             </div>
             <div className="grid gap-6 md:grid-cols-3">
               {related.map((item) => (
                 <Link
                   key={item.id}
-                  href={`/policy-briefs/${item.slug}`}
+                  href={`/publications/policy-brief/${item.slug}`}
                   className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
                 >
                   <h3 className="text-base font-semibold text-slate-900">{item.title}</h3>

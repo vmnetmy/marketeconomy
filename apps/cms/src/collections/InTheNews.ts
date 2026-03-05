@@ -1,35 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
-import {
-  Cards,
-  ContentList,
-  CTASection,
-  DataViz,
-  FAQ,
-  FeatureGrid,
-  FormBlock,
-  Hero,
-  LogoCloud,
-  Newsletter,
-  MediaBlock,
-  Pricing,
-  RichTextBlock,
-  SplitSection,
-  Stats,
-  Testimonials,
-  Timeline,
-  TwoColumnRichText,
-  VideoEmbed,
-} from '../blocks'
 import { authenticated, publishedOrAuthenticated } from '../access'
 import { formatSlug } from '../hooks/formatSlug'
 import { setSeoDefaults } from '../hooks/setSeoDefaults'
 
-export const Posts: CollectionConfig = {
-  slug: 'posts',
+export const InTheNews: CollectionConfig = {
+  slug: 'inTheNews',
   admin: {
     useAsTitle: 'title',
   },
+  defaultSort: '-publishedDate',
   access: {
     read: publishedOrAuthenticated,
     create: authenticated,
@@ -65,40 +45,18 @@ export const Posts: CollectionConfig = {
     {
       name: 'content',
       type: 'richText',
+      required: true,
     },
     {
-      name: 'layout',
-      type: 'blocks',
-      blocks: [
-        Hero,
-        RichTextBlock,
-        Cards,
-        CTASection,
-        MediaBlock,
-        FAQ,
-        ContentList,
-        FeatureGrid,
-        SplitSection,
-        Stats,
-        LogoCloud,
-        Testimonials,
-        Timeline,
-        Newsletter,
-        FormBlock,
-        TwoColumnRichText,
-        Pricing,
-        VideoEmbed,
-        DataViz,
-      ],
-    },
-    {
-      name: 'coverImage',
-      type: 'upload',
-      relationTo: 'media',
+      name: 'publishedDate',
+      type: 'date',
+      required: true,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'tags',
-      label: 'Categories / Tags',
       type: 'array',
       admin: {
         position: 'sidebar',
@@ -111,28 +69,23 @@ export const Posts: CollectionConfig = {
       ],
     },
     {
-      name: 'authors',
-      type: 'relationship',
-      relationTo: 'people',
-      hasMany: true,
+      name: 'originalSourceUrl',
+      type: 'text',
       admin: {
         position: 'sidebar',
       },
     },
     {
-      name: 'featured',
-      type: 'checkbox',
-      defaultValue: false,
+      name: 'originalSourceLabel',
+      type: 'text',
       admin: {
         position: 'sidebar',
       },
     },
     {
-      name: 'publishedAt',
-      type: 'date',
-      admin: {
-        position: 'sidebar',
-      },
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
     },
     {
       name: 'seo',

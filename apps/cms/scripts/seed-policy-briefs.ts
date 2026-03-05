@@ -33,7 +33,6 @@ type LexicalEditorState = {
 }
 
 type PolicyBriefData = RequiredDataFromCollectionSlug<'policyBriefs'>
-type PersonData = RequiredDataFromCollectionSlug<'people'>
 
 const RESET_EXISTING = false
 
@@ -70,30 +69,6 @@ const toSlug = (value: string) =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)+/g, '')
-
-const ensurePerson = async (
-  payload: Awaited<ReturnType<typeof getPayload>>,
-  data: PersonData,
-): Promise<number> => {
-  const existing = await payload.find({
-    collection: 'people',
-    where: {
-      fullName: { equals: data.fullName },
-    },
-    limit: 1,
-  })
-
-  if (existing.docs[0]) {
-    return existing.docs[0].id
-  }
-
-  const created = await payload.create({
-    collection: 'people',
-    data,
-  })
-
-  return created.id
-}
 
 const ensureMediaFromUrl = async (
   payload: Awaited<ReturnType<typeof getPayload>>,
@@ -401,11 +376,11 @@ const run = async () => {
     )
   }
 
-  const authorIds = await Promise.all([
-    ensurePerson(payload, { fullName: 'Dr. Farah Iskandar', roleTitle: 'Senior Policy Analyst' }),
-    ensurePerson(payload, { fullName: 'Imran Yusof', roleTitle: 'Research Fellow' }),
-    ensurePerson(payload, { fullName: 'Siti Nabilah', roleTitle: 'ASEAN Policy Lead' }),
-  ])
+  const authors = [
+    { fullName: 'Dr. Farah Iskandar' },
+    { fullName: 'Imran Yusof' },
+    { fullName: 'Siti Nabilah' },
+  ]
 
   const createdEntries: PolicyBriefData[] = []
   const today = new Date()
@@ -440,7 +415,7 @@ const run = async () => {
       executiveSummary: makeRichText(brief.executiveSummary),
       keyRecommendations: brief.recommendations.map((recommendation) => ({ recommendation })),
       tags: brief.tags.map((tag) => ({ tag })),
-      authors: authorIds.slice(0, 2),
+      authors: authors.slice(0, 2),
       coverImage: imageId,
       pdfFile: pdfId,
       featured: index < 2,

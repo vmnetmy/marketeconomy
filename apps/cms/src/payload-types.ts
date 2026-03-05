@@ -71,12 +71,15 @@ export interface Config {
     media: Media;
     datasets: Dataset;
     pages: Page;
-    posts: Post;
     policyBriefs: PolicyBrief;
     events: Event;
-    people: Person;
     partners: Partner;
     'form-submissions': FormSubmission;
+    leadership: Leadership;
+    inTheNews: InTheNew;
+    eventReports: EventReport;
+    eventRegistrations: EventRegistration;
+    pdfGatedDownloads: PdfGatedDownload;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -88,12 +91,15 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     datasets: DatasetsSelect<false> | DatasetsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
-    posts: PostsSelect<false> | PostsSelect<true>;
     policyBriefs: PolicyBriefsSelect<false> | PolicyBriefsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
-    people: PeopleSelect<false> | PeopleSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
+    leadership: LeadershipSelect<false> | LeadershipSelect<true>;
+    inTheNews: InTheNewsSelect<false> | InTheNewsSelect<true>;
+    eventReports: EventReportsSelect<false> | EventReportsSelect<true>;
+    eventRegistrations: EventRegistrationsSelect<false> | EventRegistrationsSelect<true>;
+    pdfGatedDownloads: PdfGatedDownloadsSelect<false> | PdfGatedDownloadsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -107,13 +113,11 @@ export interface Config {
     'site-settings': SiteSetting;
     header: Header;
     footer: Footer;
-    'updates-sidebar': UpdatesSidebar;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
-    'updates-sidebar': UpdatesSidebarSelect<false> | UpdatesSidebarSelect<true>;
   };
   locale: null;
   user: User;
@@ -674,7 +678,7 @@ export interface Page {
             blockType: 'faq';
           }
         | {
-            source: 'posts' | 'policyBriefs' | 'events';
+            source: 'inTheNews' | 'policyBriefs' | 'events';
             limit?: number | null;
             layout?: ('list' | 'grid') | null;
             filterTag?: string | null;
@@ -1241,1078 +1245,6 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: number;
-  title: string;
-  slug: string;
-  excerpt?: string | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  layout?:
-    | (
-        | {
-            headline: string;
-            subheadline?: string | null;
-            eyebrow?: string | null;
-            backgroundImage?: (number | null) | Media;
-            /**
-             * Optional: use a direct image URL instead of uploading to Media.
-             */
-            backgroundImageUrl?: string | null;
-            latestLink?: {
-              label?: string | null;
-              url?: string | null;
-            };
-            impactTitle?: string | null;
-            impactItems?:
-              | {
-                  value: string;
-                  label: string;
-                  icon?:
-                    | (
-                        | 'academicCap'
-                        | 'adjustmentsHorizontal'
-                        | 'adjustmentsVertical'
-                        | 'archiveBoxArrowDown'
-                        | 'archiveBox'
-                        | 'archiveBoxXMark'
-                        | 'arrowDownCircle'
-                        | 'arrowDown'
-                        | 'arrowDownLeft'
-                        | 'arrowDownOnSquare'
-                        | 'arrowDownOnSquareStack'
-                        | 'arrowDownRight'
-                        | 'arrowDownTray'
-                        | 'arrowLeftCircle'
-                        | 'arrowLeftEndOnRectangle'
-                        | 'arrowLeft'
-                        | 'arrowLeftOnRectangle'
-                        | 'arrowLeftStartOnRectangle'
-                        | 'arrowLongDown'
-                        | 'arrowLongLeft'
-                        | 'arrowLongRight'
-                        | 'arrowLongUp'
-                        | 'arrowPath'
-                        | 'arrowPathRoundedSquare'
-                        | 'arrowRightCircle'
-                        | 'arrowRightEndOnRectangle'
-                        | 'arrowRight'
-                        | 'arrowRightOnRectangle'
-                        | 'arrowRightStartOnRectangle'
-                        | 'arrowSmallDown'
-                        | 'arrowSmallLeft'
-                        | 'arrowSmallRight'
-                        | 'arrowSmallUp'
-                        | 'arrowTopRightOnSquare'
-                        | 'arrowTrendingDown'
-                        | 'arrowTrendingUp'
-                        | 'arrowTurnDownLeft'
-                        | 'arrowTurnDownRight'
-                        | 'arrowTurnLeftDown'
-                        | 'arrowTurnLeftUp'
-                        | 'arrowTurnRightDown'
-                        | 'arrowTurnRightUp'
-                        | 'arrowTurnUpLeft'
-                        | 'arrowTurnUpRight'
-                        | 'arrowUpCircle'
-                        | 'arrowUp'
-                        | 'arrowUpLeft'
-                        | 'arrowUpOnSquare'
-                        | 'arrowUpOnSquareStack'
-                        | 'arrowUpRight'
-                        | 'arrowUpTray'
-                        | 'arrowUturnDown'
-                        | 'arrowUturnLeft'
-                        | 'arrowUturnRight'
-                        | 'arrowUturnUp'
-                        | 'arrowsPointingIn'
-                        | 'arrowsPointingOut'
-                        | 'arrowsRightLeft'
-                        | 'arrowsUpDown'
-                        | 'atSymbol'
-                        | 'backspace'
-                        | 'backward'
-                        | 'banknotes'
-                        | 'bars2'
-                        | 'bars3BottomLeft'
-                        | 'bars3BottomRight'
-                        | 'bars3CenterLeft'
-                        | 'bars3'
-                        | 'bars4'
-                        | 'barsArrowDown'
-                        | 'barsArrowUp'
-                        | 'battery0'
-                        | 'battery100'
-                        | 'battery50'
-                        | 'beaker'
-                        | 'bellAlert'
-                        | 'bell'
-                        | 'bellSlash'
-                        | 'bellSnooze'
-                        | 'bold'
-                        | 'bolt'
-                        | 'boltSlash'
-                        | 'bookOpen'
-                        | 'bookmark'
-                        | 'bookmarkSlash'
-                        | 'bookmarkSquare'
-                        | 'briefcase'
-                        | 'bugAnt'
-                        | 'buildingLibrary'
-                        | 'buildingOffice2'
-                        | 'buildingOffice'
-                        | 'buildingStorefront'
-                        | 'cake'
-                        | 'documentText'
-                        | 'globeAlt'
-                        | 'lightBulb'
-                        | 'megaphone'
-                        | 'scale'
-                        | 'shieldCheck'
-                        | 'users'
-                      )
-                    | null;
-                  id?: string | null;
-                }[]
-              | null;
-            primaryCTA?: {
-              label?: string | null;
-              url?: string | null;
-            };
-            secondaryCTA?: {
-              label?: string | null;
-              url?: string | null;
-            };
-            alignment?: ('left' | 'center' | 'right' | 'split') | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              tone?: ('dark' | 'light') | null;
-              minHeight?: ('short' | 'medium' | 'large') | null;
-              overlayStrength?: ('light' | 'medium' | 'strong') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'hero';
-          }
-        | {
-            content?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-              typography?: {
-                textSize?: ('sm' | 'md' | 'lg') | null;
-                lineHeight?: ('snug' | 'normal' | 'relaxed') | null;
-                textAlign?: ('left' | 'center' | 'right') | null;
-                leadStyle?: ('none' | 'lead') | null;
-                dropCap?: ('none' | 'subtle' | 'strong') | null;
-              };
-              layout?: {
-                columns?: ('1' | '2') | null;
-                columnGap?: ('sm' | 'md' | 'lg') | null;
-                maxWidth?: ('narrow' | 'standard' | 'wide' | 'full') | null;
-              };
-              container?: {
-                surface?: ('none' | 'soft' | 'card' | 'outline' | 'gradient') | null;
-                radius?: ('sm' | 'md' | 'lg') | null;
-                shadow?: ('none' | 'soft' | 'medium') | null;
-                innerPadding?: ('compact' | 'standard' | 'large') | null;
-                borderStyle?: ('none' | 'subtle' | 'strong') | null;
-              };
-              callouts?: {
-                highlightMode?: ('none' | 'leftBar' | 'noteBox') | null;
-                highlightText?: string | null;
-              };
-              colors?: {
-                textColor?: string | null;
-                headingColor?: string | null;
-                linkColor?: string | null;
-                accentColor?: string | null;
-                backgroundColor?: string | null;
-                borderColor?: string | null;
-              };
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'richText';
-          }
-        | {
-            sectionTitle: string;
-            sectionIntro?: string | null;
-            cards?:
-              | {
-                  title: string;
-                  description?: string | null;
-                  icon?:
-                    | (
-                        | 'academicCap'
-                        | 'adjustmentsHorizontal'
-                        | 'adjustmentsVertical'
-                        | 'archiveBoxArrowDown'
-                        | 'archiveBox'
-                        | 'archiveBoxXMark'
-                        | 'arrowDownCircle'
-                        | 'arrowDown'
-                        | 'arrowDownLeft'
-                        | 'arrowDownOnSquare'
-                        | 'arrowDownOnSquareStack'
-                        | 'arrowDownRight'
-                        | 'arrowDownTray'
-                        | 'arrowLeftCircle'
-                        | 'arrowLeftEndOnRectangle'
-                        | 'arrowLeft'
-                        | 'arrowLeftOnRectangle'
-                        | 'arrowLeftStartOnRectangle'
-                        | 'arrowLongDown'
-                        | 'arrowLongLeft'
-                        | 'arrowLongRight'
-                        | 'arrowLongUp'
-                        | 'arrowPath'
-                        | 'arrowPathRoundedSquare'
-                        | 'arrowRightCircle'
-                        | 'arrowRightEndOnRectangle'
-                        | 'arrowRight'
-                        | 'arrowRightOnRectangle'
-                        | 'arrowRightStartOnRectangle'
-                        | 'arrowSmallDown'
-                        | 'arrowSmallLeft'
-                        | 'arrowSmallRight'
-                        | 'arrowSmallUp'
-                        | 'arrowTopRightOnSquare'
-                        | 'arrowTrendingDown'
-                        | 'arrowTrendingUp'
-                        | 'arrowTurnDownLeft'
-                        | 'arrowTurnDownRight'
-                        | 'arrowTurnLeftDown'
-                        | 'arrowTurnLeftUp'
-                        | 'arrowTurnRightDown'
-                        | 'arrowTurnRightUp'
-                        | 'arrowTurnUpLeft'
-                        | 'arrowTurnUpRight'
-                        | 'arrowUpCircle'
-                        | 'arrowUp'
-                        | 'arrowUpLeft'
-                        | 'arrowUpOnSquare'
-                        | 'arrowUpOnSquareStack'
-                        | 'arrowUpRight'
-                        | 'arrowUpTray'
-                        | 'arrowUturnDown'
-                        | 'arrowUturnLeft'
-                        | 'arrowUturnRight'
-                        | 'arrowUturnUp'
-                        | 'arrowsPointingIn'
-                        | 'arrowsPointingOut'
-                        | 'arrowsRightLeft'
-                        | 'arrowsUpDown'
-                        | 'atSymbol'
-                        | 'backspace'
-                        | 'backward'
-                        | 'banknotes'
-                        | 'bars2'
-                        | 'bars3BottomLeft'
-                        | 'bars3BottomRight'
-                        | 'bars3CenterLeft'
-                        | 'bars3'
-                        | 'bars4'
-                        | 'barsArrowDown'
-                        | 'barsArrowUp'
-                        | 'battery0'
-                        | 'battery100'
-                        | 'battery50'
-                        | 'beaker'
-                        | 'bellAlert'
-                        | 'bell'
-                        | 'bellSlash'
-                        | 'bellSnooze'
-                        | 'bold'
-                        | 'bolt'
-                        | 'boltSlash'
-                        | 'bookOpen'
-                        | 'bookmark'
-                        | 'bookmarkSlash'
-                        | 'bookmarkSquare'
-                        | 'briefcase'
-                        | 'bugAnt'
-                        | 'buildingLibrary'
-                        | 'buildingOffice2'
-                        | 'buildingOffice'
-                        | 'buildingStorefront'
-                        | 'cake'
-                        | 'documentText'
-                        | 'globeAlt'
-                        | 'lightBulb'
-                        | 'megaphone'
-                        | 'scale'
-                        | 'shieldCheck'
-                        | 'users'
-                      )
-                    | null;
-                  link?: {
-                    label?: string | null;
-                    url?: string | null;
-                  };
-                  id?: string | null;
-                }[]
-              | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              cardStyle?: ('flat' | 'raised') | null;
-              columns?: ('2' | '3' | '4') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'cards';
-          }
-        | {
-            title: string;
-            description?: string | null;
-            buttonLabel?: string | null;
-            buttonURL?: string | null;
-            theme?: ('light' | 'dark') | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              align?: ('left' | 'center') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'ctaSection';
-          }
-        | {
-            media: number | Media;
-            caption?: string | null;
-            alignment?: ('left' | 'center' | 'right' | 'full') | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              frameStyle?: ('none' | 'outline' | 'card') | null;
-              radius?: ('sm' | 'md' | 'lg') | null;
-              shadow?: ('none' | 'soft' | 'medium') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'mediaBlock';
-          }
-        | {
-            items?:
-              | {
-                  question: string;
-                  answer?: {
-                    root: {
-                      type: string;
-                      children: {
-                        type: any;
-                        version: number;
-                        [k: string]: unknown;
-                      }[];
-                      direction: ('ltr' | 'rtl') | null;
-                      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                      indent: number;
-                      version: number;
-                    };
-                    [k: string]: unknown;
-                  } | null;
-                  id?: string | null;
-                }[]
-              | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              layout?: ('cards' | 'minimal') | null;
-              columns?: ('1' | '2') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'faq';
-          }
-        | {
-            source: 'posts' | 'policyBriefs' | 'events';
-            limit?: number | null;
-            layout?: ('list' | 'grid') | null;
-            filterTag?: string | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              cardStyle?: ('flat' | 'raised') | null;
-              showImages?: boolean | null;
-              dense?: boolean | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'contentList';
-          }
-        | {
-            headline?: string | null;
-            intro?: string | null;
-            columns?: ('2' | '3' | '4') | null;
-            features?:
-              | {
-                  title: string;
-                  description?: string | null;
-                  icon?:
-                    | (
-                        | 'academicCap'
-                        | 'adjustmentsHorizontal'
-                        | 'adjustmentsVertical'
-                        | 'archiveBoxArrowDown'
-                        | 'archiveBox'
-                        | 'archiveBoxXMark'
-                        | 'arrowDownCircle'
-                        | 'arrowDown'
-                        | 'arrowDownLeft'
-                        | 'arrowDownOnSquare'
-                        | 'arrowDownOnSquareStack'
-                        | 'arrowDownRight'
-                        | 'arrowDownTray'
-                        | 'arrowLeftCircle'
-                        | 'arrowLeftEndOnRectangle'
-                        | 'arrowLeft'
-                        | 'arrowLeftOnRectangle'
-                        | 'arrowLeftStartOnRectangle'
-                        | 'arrowLongDown'
-                        | 'arrowLongLeft'
-                        | 'arrowLongRight'
-                        | 'arrowLongUp'
-                        | 'arrowPath'
-                        | 'arrowPathRoundedSquare'
-                        | 'arrowRightCircle'
-                        | 'arrowRightEndOnRectangle'
-                        | 'arrowRight'
-                        | 'arrowRightOnRectangle'
-                        | 'arrowRightStartOnRectangle'
-                        | 'arrowSmallDown'
-                        | 'arrowSmallLeft'
-                        | 'arrowSmallRight'
-                        | 'arrowSmallUp'
-                        | 'arrowTopRightOnSquare'
-                        | 'arrowTrendingDown'
-                        | 'arrowTrendingUp'
-                        | 'arrowTurnDownLeft'
-                        | 'arrowTurnDownRight'
-                        | 'arrowTurnLeftDown'
-                        | 'arrowTurnLeftUp'
-                        | 'arrowTurnRightDown'
-                        | 'arrowTurnRightUp'
-                        | 'arrowTurnUpLeft'
-                        | 'arrowTurnUpRight'
-                        | 'arrowUpCircle'
-                        | 'arrowUp'
-                        | 'arrowUpLeft'
-                        | 'arrowUpOnSquare'
-                        | 'arrowUpOnSquareStack'
-                        | 'arrowUpRight'
-                        | 'arrowUpTray'
-                        | 'arrowUturnDown'
-                        | 'arrowUturnLeft'
-                        | 'arrowUturnRight'
-                        | 'arrowUturnUp'
-                        | 'arrowsPointingIn'
-                        | 'arrowsPointingOut'
-                        | 'arrowsRightLeft'
-                        | 'arrowsUpDown'
-                        | 'atSymbol'
-                        | 'backspace'
-                        | 'backward'
-                        | 'banknotes'
-                        | 'bars2'
-                        | 'bars3BottomLeft'
-                        | 'bars3BottomRight'
-                        | 'bars3CenterLeft'
-                        | 'bars3'
-                        | 'bars4'
-                        | 'barsArrowDown'
-                        | 'barsArrowUp'
-                        | 'battery0'
-                        | 'battery100'
-                        | 'battery50'
-                        | 'beaker'
-                        | 'bellAlert'
-                        | 'bell'
-                        | 'bellSlash'
-                        | 'bellSnooze'
-                        | 'bold'
-                        | 'bolt'
-                        | 'boltSlash'
-                        | 'bookOpen'
-                        | 'bookmark'
-                        | 'bookmarkSlash'
-                        | 'bookmarkSquare'
-                        | 'briefcase'
-                        | 'bugAnt'
-                        | 'buildingLibrary'
-                        | 'buildingOffice2'
-                        | 'buildingOffice'
-                        | 'buildingStorefront'
-                        | 'cake'
-                        | 'documentText'
-                        | 'globeAlt'
-                        | 'lightBulb'
-                        | 'megaphone'
-                        | 'scale'
-                        | 'shieldCheck'
-                        | 'users'
-                      )
-                    | null;
-                  link?: {
-                    label?: string | null;
-                    url?: string | null;
-                  };
-                  id?: string | null;
-                }[]
-              | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              cardStyle?: ('flat' | 'raised') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'featureGrid';
-          }
-        | {
-            content?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            media?: (number | null) | Media;
-            mediaPosition?: ('left' | 'right') | null;
-            background?: ('none' | 'light' | 'dark') | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              imageSize?: ('small' | 'medium' | 'large') | null;
-              reverseOnMobile?: boolean | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'splitSection';
-          }
-        | {
-            headline?: string | null;
-            intro?: string | null;
-            layout?: ('grid' | 'row') | null;
-            stats?:
-              | {
-                  value: string;
-                  label: string;
-                  detail?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              columns?: ('2' | '3' | '4') | null;
-              numberSize?: ('sm' | 'md' | 'lg') | null;
-              cardStyle?: ('flat' | 'raised') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'stats';
-          }
-        | {
-            headline?: string | null;
-            logos?:
-              | {
-                  logo?: (number | null) | Media;
-                  name?: string | null;
-                  url?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              cardStyle?: ('flat' | 'raised') | null;
-              columns?: ('2' | '3' | '4' | '6') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'logoCloud';
-          }
-        | {
-            headline?: string | null;
-            items?:
-              | {
-                  quote: string;
-                  name: string;
-                  role?: string | null;
-                  organization?: string | null;
-                  avatar?: (number | null) | Media;
-                  id?: string | null;
-                }[]
-              | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              layout?: ('grid' | 'carousel') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'testimonials';
-          }
-        | {
-            headline?: string | null;
-            items?:
-              | {
-                  title: string;
-                  date?: string | null;
-                  description?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              style?: ('cards' | 'minimal') | null;
-              compact?: boolean | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'timeline';
-          }
-        | {
-            headline?: string | null;
-            description?: string | null;
-            inputPlaceholder?: string | null;
-            buttonLabel?: string | null;
-            formAction?: string | null;
-            finePrint?: string | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              tone?: ('light' | 'dark') | null;
-              layout?: ('inline' | 'stacked') | null;
-              cardStyle?: ('flat' | 'raised') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'newsletter';
-          }
-        | {
-            formType: 'newsletter' | 'contact' | 'media' | 'policyBrief' | 'event' | 'membership';
-            headline?: string | null;
-            description?: string | null;
-            submitLabel?: string | null;
-            successMessage?: string | null;
-            fields?:
-              | {
-                  /**
-                   * Machine name (e.g. email, fullName). Used as the input name.
-                   */
-                  name: string;
-                  label?: string | null;
-                  type?: ('text' | 'email' | 'phone' | 'textarea' | 'select') | null;
-                  placeholder?: string | null;
-                  required?: boolean | null;
-                  span?: ('full' | 'half') | null;
-                  options?:
-                    | {
-                        label: string;
-                        value?: string | null;
-                        id?: string | null;
-                      }[]
-                    | null;
-                  id?: string | null;
-                }[]
-              | null;
-            destination?: {
-              mode?: ('cms' | 'external') | null;
-              formAction?: string | null;
-            };
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-              layout?: ('stacked' | 'twoColumn') | null;
-              align?: ('left' | 'center') | null;
-              showLabels?: boolean | null;
-              fullWidthButton?: boolean | null;
-              cardStyle?: ('none' | 'soft' | 'card' | 'outline') | null;
-              radius?: ('sm' | 'md' | 'lg') | null;
-              shadow?: ('none' | 'soft' | 'medium') | null;
-              buttonStyle?: ('solid' | 'outline') | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'form';
-          }
-        | {
-            left?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            right?: {
-              root: {
-                type: string;
-                children: {
-                  type: any;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            background?: ('none' | 'light' | 'dark') | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              gap?: ('sm' | 'md' | 'lg') | null;
-              verticalAlign?: ('top' | 'center') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'twoColumnRichText';
-          }
-        | {
-            headline?: string | null;
-            intro?: string | null;
-            tiers?:
-              | {
-                  name: string;
-                  price?: string | null;
-                  description?: string | null;
-                  features?:
-                    | {
-                        feature?: string | null;
-                        id?: string | null;
-                      }[]
-                    | null;
-                  ctaLabel?: string | null;
-                  ctaUrl?: string | null;
-                  highlight?: boolean | null;
-                  id?: string | null;
-                }[]
-              | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              columns?: ('2' | '3' | '4') | null;
-              cardStyle?: ('flat' | 'raised') | null;
-              highlightStyle?: ('solid' | 'outline') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'pricing';
-          }
-        | {
-            headline?: string | null;
-            embedUrl: string;
-            caption?: string | null;
-            aspectRatio?: ('16:9' | '4:3' | '1:1') | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              frameStyle?: ('none' | 'outline' | 'card') | null;
-              radius?: ('sm' | 'md' | 'lg') | null;
-              shadow?: ('none' | 'soft' | 'medium') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'videoEmbed';
-          }
-        | {
-            headline?: string | null;
-            description?: string | null;
-            dataset: number | Dataset;
-            viewMode?: ('chart' | 'table' | 'chartAndTable') | null;
-            chartType?:
-              | (
-                  | 'bar'
-                  | 'line'
-                  | 'area'
-                  | 'pie'
-                  | 'donut'
-                  | 'stackedBar'
-                  | 'groupedBar'
-                  | 'scatter'
-                  | 'radar'
-                  | 'heatmap'
-                  | 'treemap'
-                )
-              | null;
-            indexBy?: string | null;
-            valueKeys?:
-              | {
-                  key?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            valueKey?: string | null;
-            xKey?: string | null;
-            yKey?: string | null;
-            seriesKey?: string | null;
-            colorScheme?: ('nivo' | 'category10' | 'paired' | 'set3' | 'spectral') | null;
-            height?: number | null;
-            showLegend?: boolean | null;
-            /**
-             * Show advanced layout settings.
-             */
-            enableAdvanced?: boolean | null;
-            advanced?: {
-              anchorId?: string | null;
-              background?: ('none' | 'light' | 'dark') | null;
-              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
-              width?: ('standard' | 'wide' | 'full') | null;
-              panelStyle?: ('none' | 'soft' | 'card') | null;
-              hideOnMobile?: boolean | null;
-              hideOnDesktop?: boolean | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'dataViz';
-          }
-      )[]
-    | null;
-  coverImage?: (number | null) | Media;
-  tags?:
-    | {
-        tag?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  authors?: (number | Person)[] | null;
-  featured?: boolean | null;
-  publishedAt?: string | null;
-  seo?: {
-    metaTitle?: string | null;
-    metaDescription?: string | null;
-    ogImage?: (number | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "people".
- */
-export interface Person {
-  id: number;
-  fullName: string;
-  roleTitle?: string | null;
-  photo?: (number | null) | Media;
-  bio?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  email?: string | null;
-  phone?: string | null;
-  website?: string | null;
-  sortOrder?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2359,7 +1291,12 @@ export interface PolicyBrief {
         id?: string | null;
       }[]
     | null;
-  authors?: (number | Person)[] | null;
+  authors?:
+    | {
+        fullName: string;
+        id?: string | null;
+      }[]
+    | null;
   featured?: boolean | null;
   publishedAt?: string | null;
   seo?: {
@@ -2382,6 +1319,7 @@ export interface Event {
   startDate?: string | null;
   endDate?: string | null;
   location?: string | null;
+  eventType?: string | null;
   registrationLink?: string | null;
   description?: {
     root: {
@@ -2472,6 +1410,154 @@ export interface FormSubmission {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leadership".
+ */
+export interface Leadership {
+  id: number;
+  name: string;
+  role: 'Chairman' | 'General Manager';
+  bio: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  photo?: (number | null) | Media;
+  socialUrl?: string | null;
+  displayOrder: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "inTheNews".
+ */
+export interface InTheNew {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt?: string | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  publishedDate: string;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  originalSourceUrl?: string | null;
+  originalSourceLabel?: string | null;
+  coverImage?: (number | null) | Media;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eventReports".
+ */
+export interface EventReport {
+  id: number;
+  event: number | Event;
+  title: string;
+  slug: string;
+  summary?: string | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  coverImage?: (number | null) | Media;
+  pdfFile?: (number | null) | Media;
+  publishedDate?: string | null;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eventRegistrations".
+ */
+export interface EventRegistration {
+  id: number;
+  event: number | Event;
+  name: string;
+  email: string;
+  organisation?: string | null;
+  phone?: string | null;
+  extraFields?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pdfGatedDownloads".
+ */
+export interface PdfGatedDownload {
+  id: number;
+  name: string;
+  email: string;
+  resourceType: 'policyBrief' | 'eventReport';
+  policyBrief?: (number | null) | PolicyBrief;
+  eventReport?: (number | null) | EventReport;
+  token: string;
+  tokenExpiresAt: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -2511,10 +1597,6 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
-        relationTo: 'posts';
-        value: number | Post;
-      } | null)
-    | ({
         relationTo: 'policyBriefs';
         value: number | PolicyBrief;
       } | null)
@@ -2523,16 +1605,32 @@ export interface PayloadLockedDocument {
         value: number | Event;
       } | null)
     | ({
-        relationTo: 'people';
-        value: number | Person;
-      } | null)
-    | ({
         relationTo: 'partners';
         value: number | Partner;
       } | null)
     | ({
         relationTo: 'form-submissions';
         value: number | FormSubmission;
+      } | null)
+    | ({
+        relationTo: 'leadership';
+        value: number | Leadership;
+      } | null)
+    | ({
+        relationTo: 'inTheNews';
+        value: number | InTheNew;
+      } | null)
+    | ({
+        relationTo: 'eventReports';
+        value: number | EventReport;
+      } | null)
+    | ({
+        relationTo: 'eventRegistrations';
+        value: number | EventRegistration;
+      } | null)
+    | ({
+        relationTo: 'pdfGatedDownloads';
+        value: number | PdfGatedDownload;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -3291,657 +2389,6 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts_select".
- */
-export interface PostsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  excerpt?: T;
-  content?: T;
-  layout?:
-    | T
-    | {
-        hero?:
-          | T
-          | {
-              headline?: T;
-              subheadline?: T;
-              eyebrow?: T;
-              backgroundImage?: T;
-              backgroundImageUrl?: T;
-              latestLink?:
-                | T
-                | {
-                    label?: T;
-                    url?: T;
-                  };
-              impactTitle?: T;
-              impactItems?:
-                | T
-                | {
-                    value?: T;
-                    label?: T;
-                    icon?: T;
-                    id?: T;
-                  };
-              primaryCTA?:
-                | T
-                | {
-                    label?: T;
-                    url?: T;
-                  };
-              secondaryCTA?:
-                | T
-                | {
-                    label?: T;
-                    url?: T;
-                  };
-              alignment?: T;
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    padding?: T;
-                    tone?: T;
-                    minHeight?: T;
-                    overlayStrength?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        richText?:
-          | T
-          | {
-              content?: T;
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                    typography?:
-                      | T
-                      | {
-                          textSize?: T;
-                          lineHeight?: T;
-                          textAlign?: T;
-                          leadStyle?: T;
-                          dropCap?: T;
-                        };
-                    layout?:
-                      | T
-                      | {
-                          columns?: T;
-                          columnGap?: T;
-                          maxWidth?: T;
-                        };
-                    container?:
-                      | T
-                      | {
-                          surface?: T;
-                          radius?: T;
-                          shadow?: T;
-                          innerPadding?: T;
-                          borderStyle?: T;
-                        };
-                    callouts?:
-                      | T
-                      | {
-                          highlightMode?: T;
-                          highlightText?: T;
-                        };
-                    colors?:
-                      | T
-                      | {
-                          textColor?: T;
-                          headingColor?: T;
-                          linkColor?: T;
-                          accentColor?: T;
-                          backgroundColor?: T;
-                          borderColor?: T;
-                        };
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        cards?:
-          | T
-          | {
-              sectionTitle?: T;
-              sectionIntro?: T;
-              cards?:
-                | T
-                | {
-                    title?: T;
-                    description?: T;
-                    icon?: T;
-                    link?:
-                      | T
-                      | {
-                          label?: T;
-                          url?: T;
-                        };
-                    id?: T;
-                  };
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    cardStyle?: T;
-                    columns?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        ctaSection?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              buttonLabel?: T;
-              buttonURL?: T;
-              theme?: T;
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    align?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        mediaBlock?:
-          | T
-          | {
-              media?: T;
-              caption?: T;
-              alignment?: T;
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    frameStyle?: T;
-                    radius?: T;
-                    shadow?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        faq?:
-          | T
-          | {
-              items?:
-                | T
-                | {
-                    question?: T;
-                    answer?: T;
-                    id?: T;
-                  };
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    layout?: T;
-                    columns?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        contentList?:
-          | T
-          | {
-              source?: T;
-              limit?: T;
-              layout?: T;
-              filterTag?: T;
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    cardStyle?: T;
-                    showImages?: T;
-                    dense?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        featureGrid?:
-          | T
-          | {
-              headline?: T;
-              intro?: T;
-              columns?: T;
-              features?:
-                | T
-                | {
-                    title?: T;
-                    description?: T;
-                    icon?: T;
-                    link?:
-                      | T
-                      | {
-                          label?: T;
-                          url?: T;
-                        };
-                    id?: T;
-                  };
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    cardStyle?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        splitSection?:
-          | T
-          | {
-              content?: T;
-              media?: T;
-              mediaPosition?: T;
-              background?: T;
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    imageSize?: T;
-                    reverseOnMobile?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        stats?:
-          | T
-          | {
-              headline?: T;
-              intro?: T;
-              layout?: T;
-              stats?:
-                | T
-                | {
-                    value?: T;
-                    label?: T;
-                    detail?: T;
-                    id?: T;
-                  };
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    columns?: T;
-                    numberSize?: T;
-                    cardStyle?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        logoCloud?:
-          | T
-          | {
-              headline?: T;
-              logos?:
-                | T
-                | {
-                    logo?: T;
-                    name?: T;
-                    url?: T;
-                    id?: T;
-                  };
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    cardStyle?: T;
-                    columns?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        testimonials?:
-          | T
-          | {
-              headline?: T;
-              items?:
-                | T
-                | {
-                    quote?: T;
-                    name?: T;
-                    role?: T;
-                    organization?: T;
-                    avatar?: T;
-                    id?: T;
-                  };
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    layout?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        timeline?:
-          | T
-          | {
-              headline?: T;
-              items?:
-                | T
-                | {
-                    title?: T;
-                    date?: T;
-                    description?: T;
-                    id?: T;
-                  };
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    style?: T;
-                    compact?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        newsletter?:
-          | T
-          | {
-              headline?: T;
-              description?: T;
-              inputPlaceholder?: T;
-              buttonLabel?: T;
-              formAction?: T;
-              finePrint?: T;
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    tone?: T;
-                    layout?: T;
-                    cardStyle?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        form?:
-          | T
-          | {
-              formType?: T;
-              headline?: T;
-              description?: T;
-              submitLabel?: T;
-              successMessage?: T;
-              fields?:
-                | T
-                | {
-                    name?: T;
-                    label?: T;
-                    type?: T;
-                    placeholder?: T;
-                    required?: T;
-                    span?: T;
-                    options?:
-                      | T
-                      | {
-                          label?: T;
-                          value?: T;
-                          id?: T;
-                        };
-                    id?: T;
-                  };
-              destination?:
-                | T
-                | {
-                    mode?: T;
-                    formAction?: T;
-                  };
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                    layout?: T;
-                    align?: T;
-                    showLabels?: T;
-                    fullWidthButton?: T;
-                    cardStyle?: T;
-                    radius?: T;
-                    shadow?: T;
-                    buttonStyle?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        twoColumnRichText?:
-          | T
-          | {
-              left?: T;
-              right?: T;
-              background?: T;
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    gap?: T;
-                    verticalAlign?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        pricing?:
-          | T
-          | {
-              headline?: T;
-              intro?: T;
-              tiers?:
-                | T
-                | {
-                    name?: T;
-                    price?: T;
-                    description?: T;
-                    features?:
-                      | T
-                      | {
-                          feature?: T;
-                          id?: T;
-                        };
-                    ctaLabel?: T;
-                    ctaUrl?: T;
-                    highlight?: T;
-                    id?: T;
-                  };
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    columns?: T;
-                    cardStyle?: T;
-                    highlightStyle?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        videoEmbed?:
-          | T
-          | {
-              headline?: T;
-              embedUrl?: T;
-              caption?: T;
-              aspectRatio?: T;
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    frameStyle?: T;
-                    radius?: T;
-                    shadow?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        dataViz?:
-          | T
-          | {
-              headline?: T;
-              description?: T;
-              dataset?: T;
-              viewMode?: T;
-              chartType?: T;
-              indexBy?: T;
-              valueKeys?:
-                | T
-                | {
-                    key?: T;
-                    id?: T;
-                  };
-              valueKey?: T;
-              xKey?: T;
-              yKey?: T;
-              seriesKey?: T;
-              colorScheme?: T;
-              height?: T;
-              showLegend?: T;
-              enableAdvanced?: T;
-              advanced?:
-                | T
-                | {
-                    anchorId?: T;
-                    background?: T;
-                    padding?: T;
-                    width?: T;
-                    panelStyle?: T;
-                    hideOnMobile?: T;
-                    hideOnDesktop?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-      };
-  coverImage?: T;
-  tags?:
-    | T
-    | {
-        tag?: T;
-        id?: T;
-      };
-  authors?: T;
-  featured?: T;
-  publishedAt?: T;
-  seo?:
-    | T
-    | {
-        metaTitle?: T;
-        metaDescription?: T;
-        ogImage?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "policyBriefs_select".
  */
 export interface PolicyBriefsSelect<T extends boolean = true> {
@@ -3964,7 +2411,12 @@ export interface PolicyBriefsSelect<T extends boolean = true> {
         tag?: T;
         id?: T;
       };
-  authors?: T;
+  authors?:
+    | T
+    | {
+        fullName?: T;
+        id?: T;
+      };
   featured?: T;
   publishedAt?: T;
   seo?:
@@ -3988,6 +2440,7 @@ export interface EventsSelect<T extends boolean = true> {
   startDate?: T;
   endDate?: T;
   location?: T;
+  eventType?: T;
   registrationLink?: T;
   description?: T;
   eventStatus?: T;
@@ -4008,22 +2461,6 @@ export interface EventsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "people_select".
- */
-export interface PeopleSelect<T extends boolean = true> {
-  fullName?: T;
-  roleTitle?: T;
-  photo?: T;
-  bio?: T;
-  email?: T;
-  phone?: T;
-  website?: T;
-  sortOrder?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4064,6 +2501,103 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leadership_select".
+ */
+export interface LeadershipSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  bio?: T;
+  photo?: T;
+  socialUrl?: T;
+  displayOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "inTheNews_select".
+ */
+export interface InTheNewsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  excerpt?: T;
+  content?: T;
+  publishedDate?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  originalSourceUrl?: T;
+  originalSourceLabel?: T;
+  coverImage?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eventReports_select".
+ */
+export interface EventReportsSelect<T extends boolean = true> {
+  event?: T;
+  title?: T;
+  slug?: T;
+  summary?: T;
+  content?: T;
+  coverImage?: T;
+  pdfFile?: T;
+  publishedDate?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eventRegistrations_select".
+ */
+export interface EventRegistrationsSelect<T extends boolean = true> {
+  event?: T;
+  name?: T;
+  email?: T;
+  organisation?: T;
+  phone?: T;
+  extraFields?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pdfGatedDownloads_select".
+ */
+export interface PdfGatedDownloadsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  resourceType?: T;
+  policyBrief?: T;
+  eventReport?: T;
+  token?: T;
+  tokenExpiresAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -4150,7 +2684,25 @@ export interface Header {
         label: string;
         linkType?: ('internal' | 'external') | null;
         page?: (number | null) | Page;
+        /**
+         * For internal links, use a path like /events or /publications/policy-brief.
+         */
         url?: string | null;
+        /**
+         * Optional sub-navigation items.
+         */
+        children?:
+          | {
+              label: string;
+              linkType?: ('internal' | 'external') | null;
+              page?: (number | null) | Page;
+              /**
+               * For internal links, use a path like /events or /publications/policy-brief.
+               */
+              url?: string | null;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -4171,6 +2723,9 @@ export interface Footer {
               label: string;
               linkType?: ('internal' | 'external') | null;
               page?: (number | null) | Page;
+              /**
+               * For internal links, use a path like /events or /publications/policy-brief.
+               */
               url?: string | null;
               id?: string | null;
             }[]
@@ -4195,27 +2750,14 @@ export interface Footer {
         label: string;
         linkType?: ('internal' | 'external') | null;
         page?: (number | null) | Page;
+        /**
+         * For internal links, use a path like /events or /publications/policy-brief.
+         */
         url?: string | null;
         id?: string | null;
       }[]
     | null;
   copyright?: string | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "updates-sidebar".
- */
-export interface UpdatesSidebar {
-  id: number;
-  newsletterHeadline?: string | null;
-  newsletterDescription?: string | null;
-  buttonLabel?: string | null;
-  formAction?: string | null;
-  finePrint?: string | null;
-  featuredTitle?: string | null;
-  featuredLimit?: number | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4259,6 +2801,15 @@ export interface HeaderSelect<T extends boolean = true> {
         linkType?: T;
         page?: T;
         url?: T;
+        children?:
+          | T
+          | {
+              label?: T;
+              linkType?: T;
+              page?: T;
+              url?: T;
+              id?: T;
+            };
         id?: T;
       };
   updatedAt?: T;
@@ -4311,22 +2862,6 @@ export interface FooterSelect<T extends boolean = true> {
         id?: T;
       };
   copyright?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "updates-sidebar_select".
- */
-export interface UpdatesSidebarSelect<T extends boolean = true> {
-  newsletterHeadline?: T;
-  newsletterDescription?: T;
-  buttonLabel?: T;
-  formAction?: T;
-  finePrint?: T;
-  featuredTitle?: T;
-  featuredLimit?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

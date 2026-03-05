@@ -46,7 +46,8 @@ export const Footer: GlobalConfig = {
               name: 'url',
               type: 'text',
               admin: {
-                condition: (_, siblingData) => siblingData?.linkType === 'external',
+                description: 'For internal links, use a path like /events or /publications/policy-brief.',
+                condition: (_, siblingData) => siblingData?.linkType === 'external' || siblingData?.linkType === 'internal',
               },
             },
           ],
@@ -127,7 +128,8 @@ export const Footer: GlobalConfig = {
           name: 'url',
           type: 'text',
           admin: {
-            condition: (_, siblingData) => siblingData?.linkType === 'external',
+            description: 'For internal links, use a path like /events or /publications/policy-brief.',
+            condition: (_, siblingData) => siblingData?.linkType === 'external' || siblingData?.linkType === 'internal',
           },
         },
       ],

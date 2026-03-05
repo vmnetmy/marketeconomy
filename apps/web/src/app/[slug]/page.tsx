@@ -11,6 +11,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function Page({ params }: PageProps) {
   const { slug } = params
+  if (['updates', 'policy-briefs'].includes(slug)) return notFound()
   const page = await getPageBySlug(slug)
   if (!page) return notFound()
 

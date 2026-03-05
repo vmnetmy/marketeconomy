@@ -7,9 +7,12 @@ type FooterProps = {
 
 const resolveHref = (item: NavItem): string | null => {
   if (item.linkType === 'external' && item.url) return item.url
-  if (item.linkType === 'internal' && item.page) {
-    if (typeof item.page === 'string') return item.page
-    if (item.page.slug) return item.page.slug === 'home' ? '/' : `/${item.page.slug}`
+  if (item.linkType === 'internal') {
+    if (item.url) return item.url
+    if (item.page) {
+      if (typeof item.page === 'string') return item.page
+      if (item.page.slug) return item.page.slug === 'home' ? '/' : `/${item.page.slug}`
+    }
   }
   return null
 }
@@ -20,7 +23,7 @@ export function Footer({ footer, site }: FooterProps) {
     footer?.cta?.description ??
     'Get the latest research, policy briefs, and event highlights delivered to your inbox.'
   const ctaButtonLabel = footer?.cta?.buttonLabel ?? 'Subscribe'
-  const ctaButtonUrl = footer?.cta?.buttonUrl ?? '/updates'
+  const ctaButtonUrl = footer?.cta?.buttonUrl ?? '/in-the-news'
   const ctaFinePrint = footer?.cta?.finePrint ?? 'We respect your inbox and never spam.'
   const legalLinks = footer?.legalLinks ?? []
 

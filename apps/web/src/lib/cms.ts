@@ -15,6 +15,7 @@ export type NavItem = {
   linkType?: 'internal' | 'external'
   page?: { slug?: string | null } | string | null
   url?: string | null
+  children?: NavItem[] | null
 }
 
 export type CMSBlock = {
@@ -195,16 +196,17 @@ export type PageDoc = {
   }
 }
 
-export type PostDoc = {
+export type InTheNewsDoc = {
   id: string
   title: string
   slug: string
   excerpt?: string | null
-  content?: unknown
-  layout?: CMSBlock[]
+  content?: SerializedEditorState | null
   coverImage?: CMSMedia | string | null
-  publishedAt?: string | null
+  publishedDate?: string | null
   tags?: Array<{ tag?: string | null }> | null
+  originalSourceUrl?: string | null
+  originalSourceLabel?: string | null
   seo?: {
     metaTitle?: string | null
     metaDescription?: string | null
@@ -231,6 +233,53 @@ export type PolicyBriefDoc = {
     metaDescription?: string | null
     ogImage?: CMSMedia | string | null
   }
+}
+
+export type EventDoc = {
+  id: string
+  title: string
+  slug: string
+  startDate?: string | null
+  endDate?: string | null
+  location?: string | null
+  eventType?: string | null
+  registrationLink?: string | null
+  description?: SerializedEditorState | null
+  eventStatus?: 'upcoming' | 'past' | null
+  featured?: boolean | null
+  tags?: Array<{ tag?: string | null }> | null
+  seo?: {
+    metaTitle?: string | null
+    metaDescription?: string | null
+    ogImage?: CMSMedia | string | null
+  }
+}
+
+export type EventReportDoc = {
+  id: string
+  title: string
+  slug: string
+  summary?: string | null
+  content?: SerializedEditorState | null
+  coverImage?: CMSMedia | string | null
+  pdfFile?: CMSMedia | string | null
+  publishedDate?: string | null
+  event?: EventDoc | string | null
+  seo?: {
+    metaTitle?: string | null
+    metaDescription?: string | null
+    ogImage?: CMSMedia | string | null
+  }
+}
+
+export type LeadershipDoc = {
+  id: string
+  name: string
+  role: 'Chairman' | 'General Manager'
+  bio?: SerializedEditorState | null
+  photo?: CMSMedia | string | null
+  socialUrl?: string | null
+  displayOrder?: number | null
 }
 
 export type PolicyBriefListItem = {
@@ -278,15 +327,6 @@ export type SiteSettingsGlobal = {
   logoDark?: CMSMedia | string | null
 }
 
-export type UpdatesSidebarGlobal = {
-  newsletterHeadline?: string | null
-  newsletterDescription?: string | null
-  buttonLabel?: string | null
-  formAction?: string | null
-  finePrint?: string | null
-  featuredTitle?: string | null
-  featuredLimit?: number | null
-}
 
 type CollectionResponse<T> = {
   docs: T[]
@@ -298,7 +338,7 @@ type CollectionResponse<T> = {
   hasPrevPage: boolean
 }
 
-type ContentSource = 'posts' | 'policyBriefs' | 'events'
+type ContentSource = 'inTheNews' | 'policyBriefs' | 'events' | 'posts'
 
 export type ContentListItem = {
   id: string
@@ -307,17 +347,18 @@ export type ContentListItem = {
   excerpt?: string | null
   summary?: string | null
   publishedAt?: string | null
+  publishedDate?: string | null
   startDate?: string | null
   coverImage?: CMSMedia | string | null
   pdfFile?: CMSMedia | string | null
 }
 
-export type PostListItem = {
+export type InTheNewsListItem = {
   id: string
   title: string
   slug: string
   excerpt?: string | null
-  publishedAt?: string | null
+  publishedDate?: string | null
   coverImage?: CMSMedia | string | null
   tags?: Array<{ tag?: string | null }> | null
 }
@@ -327,9 +368,15 @@ function buildUrl(path: string): string {
   return `${CMS_URL}${path.startsWith('/') ? '' : '/'}${path}`
 }
 
-async function fetchJSON<T>(path: string): Promise<T> {
+async function fetchJSON<T>(
+  path: string,
+  init?: RequestInit & { next?: { revalidate?: number } },
+): Promise<T> {
+  const useNoStore = init?.cache === 'no-store'
+  const next = init?.next ?? (useNoStore ? undefined : { revalidate: REVALIDATE_SECONDS })
   const res = await fetch(buildUrl(path), {
-    next: { revalidate: REVALIDATE_SECONDS },
+    ...init,
+    ...(next ? { next } : {}),
   })
 
   if (!res.ok) {
@@ -361,34 +408,47 @@ export async function getPageBySlug(slug: string): Promise<PageDoc | null> {
   return data.docs?.[0] ?? null
 }
 
-export async function getPostBySlug(slug: string): Promise<PostDoc | null> {
+export async function getInTheNewsBySlug(slug: string): Promise<InTheNewsDoc | null> {
   const params = new URLSearchParams({
     'where[slug][equals]': slug,
     'where[_status][equals]': 'published',
-    depth: '3',
+    depth: '2',
     limit: '1',
   })
 
-  const data = await fetchJSON<CollectionResponse<PostDoc>>(`/api/posts?${params.toString()}`)
+  const data = await fetchJSON<CollectionResponse<InTheNewsDoc>>(`/api/inTheNews?${params.toString()}`)
   return data.docs?.[0] ?? null
 }
 
-export async function getPostsPage({
+export async function getInTheNewsPage({
   page = 1,
   limit = 10,
+  tag,
+  search,
 }: {
   page?: number
   limit?: number
-}): Promise<CollectionResponse<PostListItem>> {
+  tag?: string
+  search?: string
+}): Promise<CollectionResponse<InTheNewsListItem>> {
   const params = new URLSearchParams({
     'where[_status][equals]': 'published',
-    sort: '-publishedAt',
+    sort: '-publishedDate',
     depth: '1',
     page: String(page),
     limit: String(limit),
   })
 
-  return fetchJSON<CollectionResponse<PostListItem>>(`/api/posts?${params.toString()}`)
+  if (tag) {
+    params.set('where[tags.tag][equals]', tag)
+  }
+
+  if (search) {
+    params.set('where[or][0][title][like]', `%${search}%`)
+    params.set('where[or][1][content][like]', `%${search}%`)
+  }
+
+  return fetchJSON<CollectionResponse<InTheNewsListItem>>(`/api/inTheNews?${params.toString()}`)
 }
 
 export async function getPolicyBriefBySlug(slug: string): Promise<PolicyBriefDoc | null> {
@@ -399,8 +459,19 @@ export async function getPolicyBriefBySlug(slug: string): Promise<PolicyBriefDoc
     limit: '1',
   })
 
-  const data = await fetchJSON<CollectionResponse<PolicyBriefDoc>>(`/api/policyBriefs?${params.toString()}`)
-  return data.docs?.[0] ?? null
+  const path = `/api/policyBriefs?${params.toString()}`
+  try {
+    const data = await fetchJSON<CollectionResponse<PolicyBriefDoc>>(path, {
+      cache: 'no-store',
+    })
+    if (!data.docs?.length) {
+      console.warn('[policyBrief] not found', { slug, totalDocs: data.totalDocs, path })
+    }
+    return data.docs?.[0] ?? null
+  } catch (error) {
+    console.error('[policyBrief] fetch failed', { slug, path, error })
+    return null
+  }
 }
 
 export async function getPolicyBriefsPage({
@@ -472,6 +543,188 @@ export async function getRelatedPolicyBriefs(tags: string[] = [], limit = 3): Pr
   return data.docs ?? []
 }
 
+export async function getFeaturedPolicyBrief(): Promise<PolicyBriefListItem | null> {
+  const featuredParams = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    'where[featured][equals]': 'true',
+    sort: '-publishedAt',
+    depth: '1',
+    limit: '1',
+  })
+
+  const featured = await fetchJSON<CollectionResponse<PolicyBriefListItem>>(`/api/policyBriefs?${featuredParams.toString()}`)
+  if (featured.docs?.[0]) return featured.docs[0]
+
+  const fallbackParams = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    sort: '-publishedAt',
+    depth: '1',
+    limit: '1',
+  })
+  const fallback = await fetchJSON<CollectionResponse<PolicyBriefListItem>>(`/api/policyBriefs?${fallbackParams.toString()}`)
+  return fallback.docs?.[0] ?? null
+}
+
+export async function getLeadership(): Promise<LeadershipDoc[]> {
+  const params = new URLSearchParams({
+    sort: 'displayOrder',
+    depth: '1',
+    limit: '100',
+  })
+  const data = await fetchJSON<CollectionResponse<LeadershipDoc>>(`/api/leadership?${params.toString()}`)
+  return data.docs ?? []
+}
+
+export async function getEventsPage({
+  page = 1,
+  limit = 12,
+  status,
+  search,
+  year,
+  location,
+  eventType,
+}: {
+  page?: number
+  limit?: number
+  status?: 'upcoming' | 'past'
+  search?: string
+  year?: string
+  location?: string
+  eventType?: string
+}): Promise<CollectionResponse<EventDoc>> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    sort: status === 'past' ? '-startDate' : 'startDate',
+    depth: '1',
+    page: String(page),
+    limit: String(limit),
+  })
+
+  if (status) {
+    params.set('where[eventStatus][equals]', status)
+  }
+
+  if (search) {
+    params.set('where[or][0][title][like]', `%${search}%`)
+    params.set('where[or][1][description][like]', `%${search}%`)
+  }
+
+  if (year) {
+    params.set('where[startDate][greater_than_equal]', `${year}-01-01`)
+    params.set('where[startDate][less_than_equal]', `${year}-12-31`)
+  }
+
+  if (location) {
+    params.set('where[location][like]', `%${location}%`)
+  }
+
+  if (eventType) {
+    params.set('where[eventType][like]', `%${eventType}%`)
+  }
+
+  return fetchJSON<CollectionResponse<EventDoc>>(`/api/events?${params.toString()}`)
+}
+
+export async function getEventBySlug(slug: string): Promise<EventDoc | null> {
+  const params = new URLSearchParams({
+    'where[slug][equals]': slug,
+    'where[_status][equals]': 'published',
+    depth: '2',
+    limit: '1',
+  })
+
+  const data = await fetchJSON<CollectionResponse<EventDoc>>(`/api/events?${params.toString()}`)
+  return data.docs?.[0] ?? null
+}
+
+export async function getUpcomingEvents(limit = 3): Promise<EventDoc[]> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    'where[eventStatus][equals]': 'upcoming',
+    sort: 'startDate',
+    depth: '1',
+    limit: String(limit),
+  })
+
+  const data = await fetchJSON<CollectionResponse<EventDoc>>(`/api/events?${params.toString()}`)
+  return data.docs ?? []
+}
+
+export async function getEventReportsPage({
+  page = 1,
+  limit = 12,
+}: {
+  page?: number
+  limit?: number
+}): Promise<CollectionResponse<EventReportDoc>> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    sort: '-publishedDate',
+    depth: '2',
+    page: String(page),
+    limit: String(limit),
+  })
+
+  return fetchJSON<CollectionResponse<EventReportDoc>>(`/api/eventReports?${params.toString()}`)
+}
+
+export async function getEventReportBySlug(slug: string): Promise<EventReportDoc | null> {
+  const params = new URLSearchParams({
+    'where[slug][equals]': slug,
+    'where[_status][equals]': 'published',
+    depth: '2',
+    limit: '1',
+  })
+
+  const data = await fetchJSON<CollectionResponse<EventReportDoc>>(`/api/eventReports?${params.toString()}`)
+  return data.docs?.[0] ?? null
+}
+
+export async function getEventReportByEventId(eventId: string): Promise<EventReportDoc | null> {
+  const params = new URLSearchParams({
+    'where[event][equals]': eventId,
+    'where[_status][equals]': 'published',
+    depth: '2',
+    limit: '1',
+  })
+
+  const data = await fetchJSON<CollectionResponse<EventReportDoc>>(`/api/eventReports?${params.toString()}`)
+  return data.docs?.[0] ?? null
+}
+
+export async function getLatestInTheNews(limit = 4): Promise<InTheNewsListItem[]> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    sort: '-publishedDate',
+    depth: '1',
+    limit: String(limit),
+  })
+
+  const data = await fetchJSON<CollectionResponse<InTheNewsListItem>>(`/api/inTheNews?${params.toString()}`)
+  return data.docs ?? []
+}
+
+export async function getInTheNewsTags(): Promise<string[]> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    depth: '0',
+    limit: '200',
+  })
+
+  const data = await fetchJSON<CollectionResponse<{ tags?: Array<{ tag?: string | null }> | null }>>(
+    `/api/inTheNews?${params.toString()}`,
+  )
+
+  const tagSet = new Set<string>()
+  for (const doc of data.docs || []) {
+    for (const tag of doc.tags || []) {
+      if (tag?.tag) tagSet.add(tag.tag)
+    }
+  }
+
+  return Array.from(tagSet).sort()
+}
+
 export async function getAllPageSlugs(): Promise<string[]> {
   const params = new URLSearchParams({
     'where[_status][equals]': 'published',
@@ -485,7 +738,7 @@ export async function getAllPageSlugs(): Promise<string[]> {
     .filter((slug): slug is string => typeof slug === 'string' && slug.length > 0)
 }
 
-export async function getAllPostSlugs(): Promise<string[]> {
+export async function getAllInTheNewsSlugs(): Promise<string[]> {
   const slugs: string[] = []
   let page = 1
   let hasNextPage = true
@@ -498,7 +751,7 @@ export async function getAllPostSlugs(): Promise<string[]> {
       page: String(page),
     })
 
-    const data = await fetchJSON<CollectionResponse<{ slug?: string | null }>>(`/api/posts?${params.toString()}`)
+    const data = await fetchJSON<CollectionResponse<{ slug?: string | null }>>(`/api/inTheNews?${params.toString()}`)
     const pageSlugs =
       data.docs
         ?.map((doc) => doc.slug)
@@ -523,26 +776,11 @@ export async function getSiteSettings(): Promise<SiteSettingsGlobal | null> {
   return fetchJSON<SiteSettingsGlobal>(`/api/globals/site-settings?depth=1`)
 }
 
-export async function getUpdatesSidebar(): Promise<UpdatesSidebarGlobal | null> {
-  return fetchJSON<UpdatesSidebarGlobal>(`/api/globals/updates-sidebar?depth=0`)
-}
-
-export async function getFeaturedPosts(limit = 3): Promise<PostListItem[]> {
-  const params = new URLSearchParams({
-    'where[_status][equals]': 'published',
-    sort: '-publishedAt',
-    depth: '1',
-    limit: String(limit),
-  })
-
-  const data = await fetchJSON<CollectionResponse<PostListItem>>(`/api/posts?${params.toString()}`)
-  return data.docs ?? []
-}
-
 export async function getContentList(
   source: ContentSource,
   options: { limit?: number; tag?: string } = {},
 ): Promise<ContentListItem[]> {
+  const resolvedSource = source === 'posts' ? 'inTheNews' : source
   const params = new URLSearchParams({
     'where[_status][equals]': 'published',
     depth: '1',
@@ -553,6 +791,6 @@ export async function getContentList(
     params.set('where[tags.tag][equals]', options.tag)
   }
 
-  const data = await fetchJSON<CollectionResponse<ContentListItem>>(`/api/${source}?${params.toString()}`)
+  const data = await fetchJSON<CollectionResponse<ContentListItem>>(`/api/${resolvedSource}?${params.toString()}`)
   return data.docs ?? []
 }

@@ -21,31 +21,24 @@ const run = async () => {
 
   const footer = await payload.findGlobal({ slug: 'footer' })
 
-  const navSlugs = ['home', 'about', 'activities', 'updates', 'policy-briefs', 'contact']
-  const navItems = []
-  for (const slug of navSlugs) {
-    const pageId = await findPageIdBySlug(payload, slug)
-    if (pageId) {
-      navItems.push({
-        label: slug === 'policy-briefs' ? 'Policy Briefs' : slug[0].toUpperCase() + slug.slice(1),
-        linkType: 'internal' as const,
-        page: pageId,
-      })
-    }
-  }
+  const homeId = await findPageIdBySlug(payload, 'home')
+  const aboutId = await findPageIdBySlug(payload, 'about')
+  const contactId = await findPageIdBySlug(payload, 'contact')
 
-  const exploreSlugs = ['updates', 'policy-briefs', 'activities']
-  const exploreItems = []
-  for (const slug of exploreSlugs) {
-    const pageId = await findPageIdBySlug(payload, slug)
-    if (pageId) {
-      exploreItems.push({
-        label: slug === 'policy-briefs' ? 'Policy Briefs' : slug[0].toUpperCase() + slug.slice(1),
-        linkType: 'internal' as const,
-        page: pageId,
-      })
-    }
-  }
+  const navItems = [
+    { label: 'Home', linkType: 'internal' as const, page: homeId ?? undefined, url: '/' },
+    { label: 'About', linkType: 'internal' as const, page: aboutId ?? undefined, url: '/about' },
+    { label: 'Events', linkType: 'internal' as const, url: '/events' },
+    { label: 'Publications', linkType: 'internal' as const, url: '/publications' },
+    { label: 'In the News', linkType: 'internal' as const, url: '/in-the-news' },
+    { label: 'Contact', linkType: 'internal' as const, page: contactId ?? undefined, url: '/contact' },
+  ]
+
+  const exploreItems = [
+    { label: 'Policy Briefs', linkType: 'internal' as const, url: '/publications/policy-brief' },
+    { label: 'Event Reports', linkType: 'internal' as const, url: '/publications/event-reports' },
+    { label: 'Upcoming Events', linkType: 'internal' as const, url: '/events#upcoming' },
+  ]
 
   await payload.updateGlobal({
     slug: 'footer',
@@ -65,7 +58,7 @@ const run = async () => {
         title: 'Stay Updated',
         description: 'Get the latest research, policy briefs, and event highlights delivered to your inbox.',
         buttonLabel: 'Subscribe',
-        buttonUrl: '/updates',
+        buttonUrl: '/in-the-news',
         finePrint: 'We respect your inbox and never spam.',
       },
       legalLinks: [

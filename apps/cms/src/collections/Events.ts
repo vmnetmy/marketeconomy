@@ -59,6 +59,13 @@ export const Events: CollectionConfig = {
       },
     },
     {
+      name: 'eventType',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'registrationLink',
       type: 'text',
       admin: {

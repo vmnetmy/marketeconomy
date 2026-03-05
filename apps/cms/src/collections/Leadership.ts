@@ -2,11 +2,13 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../access'
 
-export const People: CollectionConfig = {
-  slug: 'people',
+export const Leadership: CollectionConfig = {
+  slug: 'leadership',
   admin: {
-    useAsTitle: 'fullName',
+    useAsTitle: 'name',
+    defaultColumns: ['name', 'role', 'displayOrder'],
   },
+  defaultSort: 'displayOrder',
   access: {
     read: () => true,
     create: authenticated,
@@ -15,16 +17,26 @@ export const People: CollectionConfig = {
   },
   fields: [
     {
-      name: 'fullName',
+      name: 'name',
       type: 'text',
       required: true,
     },
     {
-      name: 'roleTitle',
-      type: 'text',
+      name: 'role',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Chairman', value: 'Chairman' },
+        { label: 'General Manager', value: 'General Manager' },
+      ],
       admin: {
         position: 'sidebar',
       },
+    },
+    {
+      name: 'bio',
+      type: 'richText',
+      required: true,
     },
     {
       name: 'photo',
@@ -32,27 +44,16 @@ export const People: CollectionConfig = {
       relationTo: 'media',
     },
     {
-      name: 'bio',
-      type: 'richText',
-    },
-    {
-      name: 'email',
-      type: 'email',
-    },
-    {
-      name: 'phone',
-      type: 'text',
-    },
-    {
-      name: 'website',
+      name: 'socialUrl',
       type: 'text',
       admin: {
         position: 'sidebar',
       },
     },
     {
-      name: 'sortOrder',
+      name: 'displayOrder',
       type: 'number',
+      required: true,
       admin: {
         position: 'sidebar',
       },
