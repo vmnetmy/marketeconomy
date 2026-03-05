@@ -28,6 +28,12 @@ Describe migration job:
 gcloud run jobs describe cms-migrate --region us-central1 --project marketeconomy
 ```
 
+Describe seed job:
+
+```bash
+gcloud run jobs describe cms-seed --region us-central1 --project marketeconomy
+```
+
 ## Logs
 
 Open migration logs:
@@ -35,6 +41,14 @@ Open migration logs:
 ```bash
 gcloud logging read \
   'resource.type="cloud_run_job" resource.labels.job_name="cms-migrate" resource.labels.location="us-central1"' \
+  --project marketeconomy --limit 50 --format='value(textPayload)'
+```
+
+Open seed logs:
+
+```bash
+gcloud logging read \
+  'resource.type="cloud_run_job" resource.labels.job_name="cms-seed" resource.labels.location="us-central1"' \
   --project marketeconomy --limit 50 --format='value(textPayload)'
 ```
 

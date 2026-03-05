@@ -41,6 +41,55 @@ The job image is:
 gcloud run jobs execute cms-migrate --region us-central1 --project marketeconomy --wait
 ```
 
+## Verify migration state (production)
+
+Run these queries against the production Postgres database to confirm migration state.
+
+Check that the migrations table exists:
+
+```sql
+SELECT to_regclass('public.payload_migrations') IS NOT NULL AS exists;
+```
+
+List applied migrations:
+
+```sql
+SELECT name, created_at
+FROM payload_migrations
+ORDER BY created_at ASC;
+```
+
+Find the latest applied migration:
+
+```sql
+SELECT name, created_at
+FROM payload_migrations
+ORDER BY created_at DESC
+LIMIT 1;
+```
+
+Compare the latest applied migration with the repo latest:
+
+- Repo latest migration name is `20260305_143020` (see `apps/cms/src/migrations/index.ts`).
+- If the latest applied migration is not `20260305_143020`, there are pending migrations.
+
+## Safe workflow (migrations + seeds)
+
+1. Backup production database.
+2. Run migrations in staging first (using the same migration image and env as prod).
+3. Run migrations in production via the `cms-migrate` Cloud Run Job.
+4. Verify schema and migration state (queries above).
+5. Run seed scripts only after migrations are confirmed.
+
+## Avoid interactive schema prompts
+
+Interactive "create/rename" prompts appear when the running schema does not match
+the migrations/code. Avoid them by:
+
+- Always running `pnpm payload migrate` (via `cms-migrate` job) before any seeds.
+- Ensuring `payload_migrations` latest equals the repo latest.
+- Do not run seed scripts against a DB that has not been migrated to the current code.
+
 ## Job configuration
 
 The `cms-migrate` job should match the CMS service in these areas:

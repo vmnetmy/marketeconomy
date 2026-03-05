@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-f',
+        'apps/cms/Dockerfile.seed',
+        '-t',
+        'us-central1-docker.pkg.dev/marketeconomy/cms/cms-seed:latest',
+        '.',
+      ]
+images:
+  - 'us-central1-docker.pkg.dev/marketeconomy/cms/cms-seed:latest'

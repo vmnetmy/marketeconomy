@@ -1,6 +1,7 @@
 import 'dotenv/config'
 
 import { getPayload } from 'payload'
+import type { Page } from '../payload-types'
 import config from '../payload.config'
 
 type TextNode = {
@@ -100,69 +101,176 @@ const makeRichTextWithSections = (
   },
 })
 
-const aboutOrganisationalContext = [
-  'In an era of renewed protectionism, tariffs and other trade barriers may be sold as a way to defend domestic industries. But they often end up raising costs, distorting markets, and triggering retaliation that harms businesses and consumers alike. Trade restrictions disrupt supply chains, dampen investment confidence, and make everyday goods more expensive.',
-  'Large economies can sometimes cushion the blow or use their market size as leverage.',
-  'Smaller states like Malaysia however, have far fewer tools. Highly dependent on open trade and external demand, they may in the short term have little choice but to absorb the impact of more protectionist policies imposed by their major trading partners.',
-  'Unlike bigger powers, Malaysia cannot easily retaliate without hurting themselves. Their more realistic path lies in the long term: strengthening domestic competitiveness, deepening economic resilience, and consistently advocating for open markets and rules-based trade that ultimately serve their interests best.',
-  'With this in mind, we are establishing the Network for Market Economy, dedicated to advancing free market principles as a long-term response to this increasingly protectionist era.',
-  'While governments and political leaders may understandably concentrate on mitigating immediate economic pressures and shielding vulnerable sectors in the short term, we believe it is equally important not to lose sight of the bigger picture.',
-  'Over time, sustained advocacy for open markets, competition, and rules-based trade will be essential to preserving growth, innovation, and economic resilience — especially for smaller economies that depend on a stable and predictable global trading system.',
+type LayoutBlock = NonNullable<Page['layout']>[number]
+type HeroBlock = Extract<LayoutBlock, { blockType: 'hero' }>
+type SplitSectionBlock = Extract<LayoutBlock, { blockType: 'splitSection' }>
+type FeatureGridBlock = Extract<LayoutBlock, { blockType: 'featureGrid' }>
+type StatsBlock = Extract<LayoutBlock, { blockType: 'stats' }>
+type MediaBlock = Extract<LayoutBlock, { blockType: 'mediaBlock' }>
+type CTASectionBlock = Extract<LayoutBlock, { blockType: 'ctaSection' }>
+
+const parseMediaId = (value?: string): number | undefined => {
+  if (!value) return undefined
+  const asNumber = Number(value)
+  return Number.isNaN(asNumber) ? undefined : asNumber
+}
+
+const aboutHero: HeroBlock = {
+  blockType: 'hero',
+  headline: 'Network for Market Economy',
+  subheadline: 'Advancing free market principles for resilient and competitive economies.',
+  alignment: 'left',
+  backgroundImageUrl:
+    'https://images.unsplash.com/photo-1501147830916-ce44a6359892?auto=format&fit=crop&w=1600&q=80',
+  primaryCTA: {
+    label: 'Contact Us',
+    url: '/contact',
+  },
+  secondaryCTA: {
+    label: 'Attend Our Events',
+    url: '/events',
+  },
+  enableAdvanced: true,
+  advanced: {
+    tone: 'dark',
+    minHeight: 'large',
+    overlayStrength: 'medium',
+    padding: 'large',
+  },
+}
+
+const aboutContextSummary = [
+  'Rising protectionism and trade barriers increase costs, disrupt supply chains, and weaken the predictability smaller economies rely on.',
+  'Malaysia and other trade-dependent nations have limited tools to respond in the short term, making long-term competitiveness and resilience essential.',
+  'We advance free market principles, open competition, and rules-based trade as the most durable path to growth, innovation, and stability.',
 ]
 
-const aboutWhatWeDo = [
-  {
-    heading: 'Policy Briefings for Lawmakers and Government Officials',
-    paragraphs: [
-      'Providing research-based, practical policy options that support open markets, competition, and long-term economic resilience.',
-    ],
+const aboutContextMediaId = parseMediaId(process.env.ABOUT_CONTEXT_MEDIA_ID)
+const aboutContextSplit: SplitSectionBlock = {
+  blockType: 'splitSection',
+  content: makeRichTextWithSections([
+    {
+      heading: 'Organisational Context',
+      paragraphs: aboutContextSummary,
+      subheadingTag: 'h2' as const,
+    },
+  ]),
+  ...(aboutContextMediaId ? { media: aboutContextMediaId } : {}),
+  mediaPosition: 'right',
+  background: 'light',
+  enableAdvanced: true,
+  advanced: {
+    padding: 'large',
+    width: 'wide',
+    imageSize: 'large',
   },
-  {
-    heading: 'Industry Roundtables',
-    paragraphs: [
-      'Convening businesses and sector experts to discuss regulatory barriers, trade challenges, and market-oriented reforms.',
-    ],
+}
+
+const aboutWhatWeDoGrid: FeatureGridBlock = {
+  blockType: 'featureGrid',
+  headline: 'What We Do',
+  intro: 'Practical, research-driven work that keeps markets open and competitive.',
+  columns: '2',
+  features: [
+    {
+      title: 'Policy Briefings',
+      description: 'Research-based policy options supporting open markets and long-term resilience.',
+      icon: 'documentText',
+    },
+    {
+      title: 'Industry Roundtables',
+      description: 'Conversations with businesses and sector experts on barriers and reforms.',
+      icon: 'users',
+    },
+    {
+      title: 'Empowering SMEs',
+      description: 'Tools for SMEs to advocate for pro-market policies.',
+      icon: 'lightBulb',
+    },
+    {
+      title: 'Partnerships',
+      description: 'Collaboration with research institutes and associations in Malaysia and beyond.',
+      icon: 'globeAlt',
+    },
+    {
+      title: 'Grassroots Engagement',
+      description: 'Supporting community leaders and local businesses with clear, practical materials.',
+      icon: 'megaphone',
+    },
+  ],
+  enableAdvanced: true,
+  advanced: {
+    padding: 'large',
+    width: 'wide',
+    cardStyle: 'raised',
   },
-  {
-    heading: 'Empowering SMEs with Advocacy Tools',
-    paragraphs: [
-      'Equipping small and medium enterprises with accessible resources, talking points, and platforms to advocate for policies that uphold free market principles.',
-    ],
+}
+
+const aboutStats: StatsBlock = {
+  blockType: 'stats',
+  headline: 'Impact at a glance',
+  layout: 'grid',
+  stats: [
+    { value: '20+', label: 'Policy Dialogues Hosted' },
+    { value: '15+', label: 'Policy Briefs Published' },
+    { value: '50+', label: 'Industry Leaders Engaged' },
+    { value: '10', label: 'Countries Collaborated' },
+  ],
+  enableAdvanced: true,
+  advanced: {
+    padding: 'large',
+    width: 'wide',
+    background: 'none',
+    columns: '4',
+    numberSize: 'lg',
+    cardStyle: 'flat',
   },
-  {
-    heading: 'Partnerships with Like-Minded Organisations',
-    paragraphs: [
-      'Collaborating with research institutes, business associations, and civil society groups in Malaysia and internationally to strengthen the case for open, rules-based economic systems.',
-    ],
+}
+
+const aboutMediaId = parseMediaId(process.env.ABOUT_MEDIA_ID)
+const aboutMediaBlock: MediaBlock | null = aboutMediaId
+  ? {
+      blockType: 'mediaBlock',
+      media: aboutMediaId,
+      caption: 'Bringing policymakers, businesses, and researchers together.',
+      alignment: 'full',
+      enableAdvanced: true,
+      advanced: {
+        padding: 'large',
+        width: 'full',
+        frameStyle: 'card',
+        radius: 'lg',
+        shadow: 'soft',
+      },
+    }
+  : null
+
+const aboutCTA: CTASectionBlock = {
+  blockType: 'ctaSection',
+  title: 'Interested in collaborating with us?',
+  description: 'Join our events, briefings, or partner on research and advocacy.',
+  buttonLabel: 'Contact Us',
+  buttonURL: '/contact',
+  theme: 'light',
+  enableAdvanced: true,
+  advanced: {
+    padding: 'large',
+    width: 'standard',
+    align: 'center',
   },
-  {
-    heading: 'Grassroots and Community Leader Engagement',
-    paragraphs: [
-      'Supporting local businesses, community leaders, and civic groups with clear, practical materials that help translate free market principles into everyday economic concerns, strengthening bottom-up understanding and support for market-oriented policies.',
-    ],
-  },
-]
+}
 
 const run = async () => {
   const payload = await getPayload({ config })
 
-  const aboutContent = makeRichTextWithSections([
-    {
-      heading: 'Organisational Context',
-      paragraphs: aboutOrganisationalContext,
-      subheadingTag: 'h2' as const,
-    },
-    {
-      heading: 'What We Do',
-      paragraphs: [],
-      subheadingTag: 'h2' as const,
-    },
-    ...aboutWhatWeDo.map((item) => ({
-      heading: item.heading,
-      paragraphs: item.paragraphs,
-      subheadingTag: 'h3' as const,
-    })),
-  ])
+  const aboutLayout: Page['layout'] = [
+    aboutHero,
+    aboutContextSplit,
+    aboutWhatWeDoGrid,
+    aboutStats,
+    ...(aboutMediaBlock ? [aboutMediaBlock] : []),
+    aboutCTA,
+  ]
 
   const existing = await payload.find({
     collection: 'pages',
@@ -173,17 +281,7 @@ const run = async () => {
   const data = {
     title: 'About',
     slug: 'about',
-    layout: [
-      {
-        blockType: 'richText' as const,
-        content: aboutContent,
-        enableAdvanced: true,
-        advanced: {
-          width: 'standard' as const,
-          padding: 'large' as const,
-        },
-      },
-    ],
+    layout: aboutLayout,
     _status: 'published' as const,
   }
 
