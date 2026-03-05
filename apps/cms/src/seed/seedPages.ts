@@ -1,6 +1,7 @@
 import 'dotenv/config'
 
 import { getPayload } from 'payload'
+import type { Footer, Header, Page, SiteSetting } from '../payload-types'
 
 import config from '../payload.config'
 
@@ -14,11 +15,13 @@ type TextNode = {
   version: number
 }
 
+type RichTextFormat = '' | 'left' | 'center' | 'right' | 'start' | 'end' | 'justify'
+
 type ParagraphNode = {
   type: 'paragraph'
   children: TextNode[]
-  direction: 'ltr'
-  format: string
+  direction: 'ltr' | 'rtl'
+  format: RichTextFormat
   indent: number
   version: number
 }
@@ -27,8 +30,8 @@ type HeadingNode = {
   type: 'heading'
   tag: 'h2' | 'h3'
   children: TextNode[]
-  direction: 'ltr'
-  format: string
+  direction: 'ltr' | 'rtl'
+  format: RichTextFormat
   indent: number
   version: number
 }
@@ -37,35 +40,25 @@ type LexicalEditorState = {
   root: {
     type: 'root'
     children: Array<ParagraphNode | HeadingNode>
-    direction: 'ltr'
-    format: string
+    direction: 'ltr' | 'rtl' | null
+    format: RichTextFormat
     indent: number
     version: number
   }
 }
 
+type LayoutBlock = NonNullable<Page['layout']>[number]
+type SeedPage = Pick<Page, 'title' | 'slug' | 'layout'>
+type HeroBlock = Extract<LayoutBlock, { blockType: 'hero' }>
+type RichTextBlock = Extract<LayoutBlock, { blockType: 'richText' }>
+type TestimonialsBlock = Extract<LayoutBlock, { blockType: 'testimonials' }>
+type FeatureGridBlock = Extract<LayoutBlock, { blockType: 'featureGrid' }>
+type LogoCloudBlock = Extract<LayoutBlock, { blockType: 'logoCloud' }>
+type CardsBlock = Extract<LayoutBlock, { blockType: 'cards' }>
+type FaqBlock = Extract<LayoutBlock, { blockType: 'faq' }>
+
 const makeParagraphNode = (text: string): ParagraphNode => ({
   type: 'paragraph',
-  children: [
-    {
-      type: 'text',
-      text,
-      detail: 0,
-      format: 0,
-      mode: 'normal',
-      style: '',
-      version: 1,
-    },
-  ],
-  direction: 'ltr',
-  format: '',
-  indent: 0,
-  version: 1,
-})
-
-const makeHeadingNode = (text: string, tag: HeadingNode['tag'] = 'h2'): HeadingNode => ({
-  type: 'heading',
-  tag,
   children: [
     {
       type: 'text',
@@ -94,26 +87,6 @@ const makeRichText = (paragraphs: string[]): LexicalEditorState => ({
   },
 })
 
-const makeRichTextWithHeading = (heading: string, paragraphs: string[]): LexicalEditorState => ({
-  root: {
-    type: 'root',
-    children: [makeHeadingNode(heading), ...paragraphs.map((text) => makeParagraphNode(text))],
-    direction: 'ltr',
-    format: '',
-    indent: 0,
-    version: 1,
-  },
-})
-
-const aboutIntroParagraphs = [
-  'In an era of renewed protectionism, tariffs and other trade barriers may be sold as a way to defend domestic industries. But they often end up raising costs, distorting markets, and triggering retaliation that harms businesses and consumers alike. Trade restrictions disrupt supply chains, dampen investment confidence, and make everyday goods more expensive.',
-  'Large economies can sometimes cushion the blow or use their market size as leverage.',
-  'Smaller states like Malaysia however, have far fewer tools. Highly dependent on open trade and external demand, they may in the short term have little choice but to absorb the impact of more protectionist policies imposed by their major trading partners.',
-  'Unlike bigger powers, Malaysia cannot easily retaliate without hurting themselves. Their more realistic path lies in the long term: strengthening domestic competitiveness, deepening economic resilience, and consistently advocating for open markets and rules-based trade that ultimately serve their interests best.',
-  'With this in mind, we are establishing Network for Market Economy (NME), dedicated to advancing free market principles as a long-term response to this increasingly protectionist era. While governments and political leaders may understandably concentrate on mitigating immediate economic pressures and shielding vulnerable sectors in the short term, we believe it is equally important not to lose sight of the bigger picture.',
-  'Over time, sustained advocacy for open markets, competition, and rules-based trade will be essential to preserving growth, innovation, and economic resilience especially for smaller economies that depend on a stable and predictable global trading system.',
-]
-
 const homeIntroParagraphs = [
   'The Network for Market Economy committed to advancing the principles of a free market economy as the foundation of a dynamic, resilient, and prosperous society. We believe that open competition, free enterprise, and sound institutions create the conditions for innovation, opportunity, and long-term growth.',
   'Our work champions policies that expand economic freedom while strengthening the rule of law, regulatory clarity, and institutional integrity. Markets function best when they are underpinned by predictable rules, transparent governance, and fair competition. We therefore advocate practical, evidence-based reforms that improve efficiency, enhance productivity, and support sustainable development.',
@@ -129,12 +102,12 @@ const stayConnectedParagraphs = [
 const heroBackgroundImageUrl =
   'https://images.unsplash.com/photo-1486628935334-55f292e8e93e?auto=format&fit=crop&w=1600&q=80'
 
-const heroLatestLink = {
+const heroLatestLink: NonNullable<HeroBlock['latestLink']> = {
   label: 'Latest Policy Brief: Navigating AFTA 2025 — read here',
   url: '/publications/policy-brief',
 }
 
-const heroImpactItems = [
+const heroImpactItems: NonNullable<HeroBlock['impactItems']> = [
   {
     value: '15',
     label: 'Industry Roundtables held',
@@ -152,11 +125,7 @@ const heroImpactItems = [
   },
 ]
 
-const missionParagraphs = aboutIntroParagraphs.slice(0, 2)
-const comparisonLeft = aboutIntroParagraphs.slice(1, 3)
-const comparisonRight = aboutIntroParagraphs.slice(3, 6)
-
-const keyActivities = [
+const keyActivities: NonNullable<FeatureGridBlock['features']> = [
   {
     title: 'Policy Briefings for Lawmakers and Government Officials',
     description:
@@ -189,7 +158,7 @@ const keyActivities = [
   },
 ]
 
-const logoCloud = [
+const logoCloud: NonNullable<LogoCloudBlock['logos']> = [
   { name: 'Policy Research Council' },
   { name: 'Regional Economic Forum' },
   { name: 'Industry Roundtable' },
@@ -200,7 +169,7 @@ const logoCloud = [
   { name: 'Civic Partners' },
 ]
 
-const contactCards = [
+const contactCards: NonNullable<CardsBlock['cards']> = [
   {
     title: 'Media Inquiries',
     description: 'Press interviews, comments, and media requests.',
@@ -221,7 +190,7 @@ const contactCards = [
   },
 ]
 
-const faqItems = [
+const faqItems: NonNullable<FaqBlock['items']> = [
   {
     question: 'How can my SME participate?',
     answer: makeRichText([
@@ -242,155 +211,143 @@ const faqItems = [
   },
 ]
 
-const pages = [
+const homeHero: HeroBlock = {
+  blockType: 'hero',
+  headline: 'Network for Market Economy',
+  subheadline:
+    'Dedicated to advancing free market principles as a long-term response to this increasingly protectionist era.',
+  alignment: 'left',
+  backgroundImageUrl: heroBackgroundImageUrl,
+  latestLink: heroLatestLink,
+  impactTitle: 'Impact at a glance',
+  impactItems: heroImpactItems,
+  enableAdvanced: true,
+  advanced: {
+    tone: 'dark',
+    minHeight: 'large',
+    overlayStrength: 'strong',
+    padding: 'large',
+  },
+}
+
+const homeIntro: RichTextBlock = {
+  blockType: 'richText',
+  content: makeRichText(homeIntroParagraphs),
+  enableAdvanced: true,
+  advanced: {
+    container: {
+      surface: 'card',
+      radius: 'lg',
+      shadow: 'soft',
+      innerPadding: 'standard',
+      borderStyle: 'subtle',
+    },
+    padding: 'compact',
+    width: 'standard',
+  },
+}
+
+const homeTestimonials: TestimonialsBlock = {
+  blockType: 'testimonials',
+  headline: '“The market economy is the ultimate driver of innovation.”',
+  items: [
+    {
+      quote: 'A strong market economy requires champions like this network to truly thrive.',
+      name: 'Sarah Lee',
+      role: 'CEO',
+      organization: 'Malaysian Innovators Group',
+    },
+  ],
+}
+
+const homeFeatureGrid: FeatureGridBlock = {
+  blockType: 'featureGrid',
+  headline: 'Key Activities',
+  intro: 'Our work focuses on research, dialogue, and practical advocacy to keep markets open and competitive.',
+  columns: '2',
+  features: keyActivities,
+  enableAdvanced: true,
+  advanced: {
+    cardStyle: 'raised',
+  },
+}
+
+const homeLogoCloud: LogoCloudBlock = {
+  blockType: 'logoCloud',
+  headline: 'Featured Partners',
+  logos: logoCloud,
+}
+
+const contactHero: HeroBlock = {
+  blockType: 'hero',
+  headline: 'Contact',
+  subheadline: stayConnectedParagraphs[0],
+  alignment: 'left',
+}
+
+const contactCardsBlock: CardsBlock = {
+  blockType: 'cards',
+  sectionTitle: 'Ways to Engage',
+  sectionIntro: 'Choose the best channel and we will respond quickly.',
+  cards: contactCards,
+}
+
+const contactRichText: RichTextBlock = {
+  blockType: 'richText',
+  content: makeRichText([
+    stayConnectedParagraphs[0],
+    'Please reach out at contact@marketeconomy.org. A member of our team will respond promptly.',
+  ]),
+}
+
+const contactFaq: FaqBlock = {
+  blockType: 'faq',
+  items: faqItems,
+}
+
+const pages: SeedPage[] = [
   {
     title: 'Home',
     slug: 'home',
-    layout: [
-      {
-        blockType: 'hero',
-        headline: 'Network for Market Economy',
-        subheadline:
-          'Dedicated to advancing free market principles as a long-term response to this increasingly protectionist era.',
-        alignment: 'left',
-        backgroundImageUrl: heroBackgroundImageUrl,
-        latestLink: heroLatestLink,
-        impactTitle: 'Impact at a glance',
-        impactItems: heroImpactItems,
-        enableAdvanced: true,
-        advanced: {
-          tone: 'dark',
-          minHeight: 'large',
-          overlayStrength: 'strong',
-          padding: 'large',
-        },
-      },
-      {
-        blockType: 'richText',
-        content: makeRichText(homeIntroParagraphs),
-        enableAdvanced: true,
-        advanced: {
-          container: {
-            surface: 'card',
-            radius: 'lg',
-            shadow: 'soft',
-            innerPadding: 'standard',
-            borderStyle: 'subtle',
-          },
-          padding: 'compact',
-          width: 'standard',
-        },
-      },
-      {
-        blockType: 'testimonials',
-        headline: '“The market economy is the ultimate driver of innovation.”',
-        items: [
-          {
-            quote:
-              'A strong market economy requires champions like this network to truly thrive.',
-            name: 'Sarah Lee',
-            role: 'CEO',
-            organization: 'Malaysian Innovators Group',
-          },
-        ],
-      },
-      {
-        blockType: 'featureGrid',
-        headline: 'Key Activities',
-        intro: 'Our work focuses on research, dialogue, and practical advocacy to keep markets open and competitive.',
-        columns: '2',
-        features: keyActivities,
-        enableAdvanced: true,
-        advanced: {
-          cardStyle: 'raised',
-        },
-      },
-      {
-        blockType: 'logoCloud',
-        headline: 'Featured Partners',
-        logos: logoCloud,
-      },
-    ],
+    layout: [homeHero, homeIntro, homeTestimonials, homeFeatureGrid, homeLogoCloud],
   },
-  {
-    title: 'About',
-    slug: 'about',
-    layout: [
-      {
-        blockType: 'splitSection',
-        content: makeRichTextWithHeading('Our Mission', missionParagraphs),
-        mediaPosition: 'right',
-        background: 'light',
-      },
-      {
-        blockType: 'twoColumnRichText',
-        left: makeRichText(comparisonLeft),
-        right: makeRichText(comparisonRight),
-        background: 'none',
-      },
-      {
-        blockType: 'logoCloud',
-        headline: 'Our Network',
-        logos: logoCloud,
-      },
-    ],
-  },
+  // About is now seeded via seedAbout.ts
   {
     title: 'Contact',
     slug: 'contact',
-    layout: [
-      {
-        blockType: 'hero',
-        headline: 'Contact',
-        subheadline: stayConnectedParagraphs[0],
-        alignment: 'left',
-      },
-      {
-        blockType: 'cards',
-        sectionTitle: 'Ways to Engage',
-        sectionIntro: 'Choose the best channel and we will respond quickly.',
-        cards: contactCards,
-      },
-      {
-        blockType: 'richText',
-        content: makeRichText([
-          stayConnectedParagraphs[0],
-          'Please reach out at contact@marketeconomy.org. A member of our team will respond promptly.',
-        ]),
-      },
-      {
-        blockType: 'faq',
-        items: faqItems,
-      },
-    ],
+    layout: [contactHero, contactCardsBlock, contactRichText, contactFaq],
   },
 ]
 
-const upsertPage = async (payload: Awaited<ReturnType<typeof getPayload>>, data: (typeof pages)[number]) => {
+const upsertPage = async (payload: Awaited<ReturnType<typeof getPayload>>, data: SeedPage) => {
   const existing = await payload.find({
     collection: 'pages',
     where: { slug: { equals: data.slug } },
     limit: 1,
   })
 
+  const pageData = { ...data, _status: 'published' as const }
+
   if (existing.docs[0]) {
     return payload.update({
       collection: 'pages',
       id: existing.docs[0].id,
-      data: { ...data, _status: 'published' as const } as any,
+      data: pageData,
+      draft: false,
     })
   }
 
   return payload.create({
     collection: 'pages',
-    data: { ...data, _status: 'published' as const } as any,
+    data: pageData,
+    draft: false,
   })
 }
 
 const findPageIdBySlug = async (
   payload: Awaited<ReturnType<typeof getPayload>>,
   slug: string,
-): Promise<number | null> => {
+): Promise<Page['id'] | null> => {
   const result = await payload.find({
     collection: 'pages',
     where: { slug: { equals: slug } },
@@ -400,123 +357,130 @@ const findPageIdBySlug = async (
 }
 
 const run = async () => {
-  const payload = await getPayload({ config })
+  try {
+    const payload = await getPayload({ config })
 
-  for (const page of pages) {
-    await upsertPage(payload, page)
-  }
+    for (const page of pages) {
+      await upsertPage(payload, page)
+    }
 
-  const homeId = await findPageIdBySlug(payload, 'home')
-  const aboutId = await findPageIdBySlug(payload, 'about')
-  const contactId = await findPageIdBySlug(payload, 'contact')
+    const homeId = await findPageIdBySlug(payload, 'home')
+    const aboutId = await findPageIdBySlug(payload, 'about')
+    const contactId = await findPageIdBySlug(payload, 'contact')
 
-  const navWithIds = [
-    {
-      label: 'Home',
-      linkType: 'internal' as const,
-      page: homeId ?? undefined,
-      url: '/',
-    },
-    {
-      label: 'About',
-      linkType: 'internal' as const,
-      page: aboutId ?? undefined,
-      url: '/about',
-      children: [
-        {
-          label: 'Leadership',
-          linkType: 'internal' as const,
-          url: '/about/leadership',
-        },
-      ],
-    },
-    {
-      label: 'Events',
-      linkType: 'internal' as const,
-      url: '/events',
-      children: [
-        {
-          label: 'Upcoming Events',
-          linkType: 'internal' as const,
-          url: '/events#upcoming',
-        },
-        {
-          label: 'Past Events',
-          linkType: 'internal' as const,
-          url: '/events#past',
-        },
-      ],
-    },
-    {
-      label: 'Publications',
-      linkType: 'internal' as const,
-      url: '/publications',
-      children: [
-        {
-          label: 'Event Reports',
-          linkType: 'internal' as const,
-          url: '/publications/event-reports',
-        },
-        {
-          label: 'Policy Brief',
-          linkType: 'internal' as const,
-          url: '/publications/policy-brief',
-        },
-      ],
-    },
-    {
-      label: 'In the News',
-      linkType: 'internal' as const,
-      url: '/in-the-news',
-    },
-    {
-      label: 'Contact',
-      linkType: 'internal' as const,
-      page: contactId ?? undefined,
-      url: '/contact',
-    },
-  ].filter((item) => item.label)
-
-  await payload.updateGlobal({
-    slug: 'header',
-    data: {
-      navItems: navWithIds as any,
-    },
-  })
-
-  await payload.updateGlobal({
-    slug: 'footer',
-    data: {
-      columns: [
-        {
-          title: 'Navigation',
-          links: navWithIds.map((item) => ({
-            label: item.label,
-            linkType: 'internal' as const,
-            page: item.page,
-            url: item.url,
-          })),
-        },
-      ],
-      contact: {},
-      copyright: 'Network for Market Economy',
-    },
-  })
-
-  await payload.updateGlobal({
-    slug: 'site-settings',
-    data: {
-      siteName: 'Network for Market Economy',
-      tagline:
-        'Dedicated to advancing free market principles as a long-term response to this increasingly protectionist era.',
-      defaultSeo: {
-        title: 'Network for Market Economy',
-        description:
-          'Advancing free market principles to preserve growth, innovation, and economic resilience through open, rules-based trade.',
+    const navWithIds: NonNullable<Header['navItems']> = [
+      {
+        label: 'Home',
+        linkType: 'internal' as const,
+        page: homeId ?? undefined,
+        url: '/',
       },
-      socialLinks: [],
-    },
-  })
+      {
+        label: 'About',
+        linkType: 'internal' as const,
+        page: aboutId ?? undefined,
+        url: '/about',
+        children: [
+          {
+            label: 'Leadership',
+            linkType: 'internal' as const,
+            url: '/about/leadership',
+          },
+        ],
+      },
+      {
+        label: 'Events',
+        linkType: 'internal' as const,
+        url: '/events',
+        children: [
+          {
+            label: 'Upcoming Events',
+            linkType: 'internal' as const,
+            url: '/events#upcoming',
+          },
+          {
+            label: 'Past Events',
+            linkType: 'internal' as const,
+            url: '/events#past',
+          },
+        ],
+      },
+      {
+        label: 'Publications',
+        linkType: 'internal' as const,
+        url: '/publications',
+        children: [
+          {
+            label: 'Event Reports',
+            linkType: 'internal' as const,
+            url: '/publications/event-reports',
+          },
+          {
+            label: 'Policy Brief',
+            linkType: 'internal' as const,
+            url: '/publications/policy-brief',
+          },
+        ],
+      },
+      {
+        label: 'In the News',
+        linkType: 'internal' as const,
+        url: '/in-the-news',
+      },
+      {
+        label: 'Contact',
+        linkType: 'internal' as const,
+        page: contactId ?? undefined,
+        url: '/contact',
+      },
+    ].filter((item) => item.label)
+
+    await payload.updateGlobal({
+      slug: 'header',
+      data: {
+        navItems: navWithIds,
+      } as Partial<Header>,
+    })
+
+    await payload.updateGlobal({
+      slug: 'footer',
+      data: {
+        columns: [
+          {
+            title: 'Navigation',
+            links: navWithIds.map((item) => ({
+              label: item.label,
+              linkType: 'internal' as const,
+              page: item.page,
+              url: item.url,
+            })),
+          },
+        ],
+        contact: {},
+        copyright: 'Network for Market Economy',
+      } as Partial<Footer>,
+    })
+
+    await payload.updateGlobal({
+      slug: 'site-settings',
+      data: {
+        siteName: 'Network for Market Economy',
+        tagline:
+          'Dedicated to advancing free market principles as a long-term response to this increasingly protectionist era.',
+        defaultSeo: {
+          title: 'Network for Market Economy',
+          description:
+            'Advancing free market principles to preserve growth, innovation, and economic resilience through open, rules-based trade.',
+        },
+        socialLinks: [],
+      } as Partial<SiteSetting>,
+    })
+
+    console.log('Seeded pages successfully.')
+  } catch (error) {
+    console.error('Error seeding pages:', error)
+    process.exit(1)
+  }
 }
 
 run()
