@@ -3,8 +3,10 @@ import { notFound } from 'next/navigation'
 
 import { CMSImage } from '../../../../components/media/CMSImage'
 import { GatedDownloadForm } from '../../../../components/forms/GatedDownloadForm'
+import { PagePlaceholder } from '../../../../components/ui/ContentPlaceholder'
 import { RichText } from '../../../../components/ui/RichText'
-import { getEventReportBySlug } from '../../../../lib/cms'
+import { getEventReportBySlug, getEventReportsPage, getSiteSettings } from '../../../../lib/cms'
+import { resolvePlaceholderLabel, resolvePlaceholderMode, shouldShowPlaceholder } from '../../../../lib/placeholders'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,8 +26,42 @@ export default async function EventReportDetailPage({ params }: { params: { slug
   const slug = Array.isArray(resolvedParams?.slug) ? resolvedParams.slug[0] : resolvedParams?.slug
   if (!slug) return notFound()
 
-  const report = await getEventReportBySlug(slug)
-  if (!report) return notFound()
+  const [report, site] = await Promise.all([getEventReportBySlug(slug), getSiteSettings()])
+  const mode = resolvePlaceholderMode(site)
+  const label = resolvePlaceholderLabel(site)
+
+  if (!report) {
+    if (mode === 'off') return notFound()
+
+    if (mode === 'on') {
+      return (
+        <PagePlaceholder
+          title="Event Report"
+          label={label}
+          description="Event report content will appear here once published."
+        />
+      )
+    }
+
+    const reports = await getEventReportsPage({ page: 1, limit: 1 })
+    const showPlaceholder = shouldShowPlaceholder({
+      mode,
+      override: 'default',
+      contentExists: reports.docs.length > 0,
+    })
+
+    if (showPlaceholder) {
+      return (
+        <PagePlaceholder
+          title="Event Report"
+          label={label}
+          description="Event report content will appear here once published."
+        />
+      )
+    }
+
+    return notFound()
+  }
 
   const published = formatDate(report.publishedDate)
   const eventTitle = report.event && typeof report.event === 'object' ? report.event.title : report.event ?? null

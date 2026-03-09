@@ -59,6 +59,20 @@ export const Pages: CollectionConfig = {
       },
     },
     {
+      name: 'placeholderOverride',
+      type: 'select',
+      defaultValue: 'default',
+      options: [
+        { label: 'Use site setting', value: 'default' },
+        { label: 'Force placeholders', value: 'forceOn' },
+        { label: 'Disable placeholders', value: 'forceOff' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Override content placeholder behavior for this page.',
+      },
+    },
+    {
       name: 'layout',
       type: 'blocks',
       blocks: [

@@ -1,12 +1,35 @@
+import { BlockRenderer } from '../../components/blocks/BlockRenderer'
+import { PagePlaceholder } from '../../components/ui/ContentPlaceholder'
+import { getFooter, getPageBySlug, getSiteSettings } from '../../lib/cms'
+import {
+  resolvePlaceholderLabel,
+  resolvePlaceholderMode,
+  resolvePlaceholderOverride,
+  shouldShowPlaceholder,
+} from '../../lib/placeholders'
 import { notFound } from 'next/navigation'
 
-import { BlockRenderer } from '../../components/blocks/BlockRenderer'
-import { getFooter, getPageBySlug } from '../../lib/cms'
-
 export default async function ContactPage() {
-  const [page, footer] = await Promise.all([getPageBySlug('contact'), getFooter()])
-  if (!page) return notFound()
-  const safeLayout = page.layout?.filter((block) => block.blockType !== 'form') ?? []
+  const [page, footer, site] = await Promise.all([getPageBySlug('contact'), getFooter(), getSiteSettings()])
+
+  const mode = resolvePlaceholderMode(site)
+  const label = resolvePlaceholderLabel(site)
+  const override = resolvePlaceholderOverride(page)
+  const contentExists = Boolean(page?.layout?.length)
+  const showPlaceholder = shouldShowPlaceholder({ mode, override, contentExists })
+
+  if (!page && !showPlaceholder) return notFound()
+  if (showPlaceholder) {
+    return (
+      <PagePlaceholder
+        title="Contact"
+        label={label}
+        description="Contact details and enquiry options will appear here once published."
+      />
+    )
+  }
+
+  const safeLayout = page?.layout?.filter((block) => block.blockType !== 'form') ?? []
   const contact = footer?.contact
 
   return (

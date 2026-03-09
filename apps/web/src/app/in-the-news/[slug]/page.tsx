@@ -2,8 +2,10 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { CMSImage } from '../../../components/media/CMSImage'
+import { PagePlaceholder } from '../../../components/ui/ContentPlaceholder'
 import { RichText } from '../../../components/ui/RichText'
-import { getInTheNewsBySlug } from '../../../lib/cms'
+import { getInTheNewsBySlug, getInTheNewsPage, getSiteSettings } from '../../../lib/cms'
+import { resolvePlaceholderLabel, resolvePlaceholderMode, shouldShowPlaceholder } from '../../../lib/placeholders'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,8 +25,42 @@ export default async function InTheNewsDetailPage({ params }: { params: { slug?:
   const slug = Array.isArray(resolvedParams?.slug) ? resolvedParams.slug[0] : resolvedParams?.slug
   if (!slug) return notFound()
 
-  const news = await getInTheNewsBySlug(slug)
-  if (!news) return notFound()
+  const [news, site] = await Promise.all([getInTheNewsBySlug(slug), getSiteSettings()])
+  const mode = resolvePlaceholderMode(site)
+  const label = resolvePlaceholderLabel(site)
+
+  if (!news) {
+    if (mode === 'off') return notFound()
+
+    if (mode === 'on') {
+      return (
+        <PagePlaceholder
+          title="In the News"
+          label={label}
+          description="News articles will appear here once published."
+        />
+      )
+    }
+
+    const newsPage = await getInTheNewsPage({ page: 1, limit: 1 })
+    const showPlaceholder = shouldShowPlaceholder({
+      mode,
+      override: 'default',
+      contentExists: newsPage.docs.length > 0,
+    })
+
+    if (showPlaceholder) {
+      return (
+        <PagePlaceholder
+          title="In the News"
+          label={label}
+          description="News articles will appear here once published."
+        />
+      )
+    }
+
+    return notFound()
+  }
 
   const published = formatDate(news.publishedDate)
 

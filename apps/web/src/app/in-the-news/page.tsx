@@ -2,7 +2,9 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 
 import { CMSImage } from '../../components/media/CMSImage'
-import { getInTheNewsPage, getInTheNewsTags } from '../../lib/cms'
+import { ContentPlaceholder } from '../../components/ui/ContentPlaceholder'
+import { getInTheNewsPage, getInTheNewsTags, getSiteSettings } from '../../lib/cms'
+import { resolvePlaceholderLabel, resolvePlaceholderMode, shouldShowPlaceholder } from '../../lib/placeholders'
 import { InTheNewsFilters } from './InTheNewsFilters'
 
 export const dynamic = 'force-dynamic'
@@ -39,10 +41,18 @@ export default async function InTheNewsPage({
   const pageValue = Array.isArray(pageParam) ? pageParam[0] : pageParam
   const page = Math.max(1, Number(pageValue ?? 1))
 
-  const [newsData, tags] = await Promise.all([
+  const [newsData, tags, site] = await Promise.all([
     getInTheNewsPage({ page, limit: 12, tag, search }),
     getInTheNewsTags(),
+    getSiteSettings(),
   ])
+  const mode = resolvePlaceholderMode(site)
+  const label = resolvePlaceholderLabel(site)
+  const showPlaceholder = shouldShowPlaceholder({
+    mode,
+    override: 'default',
+    contentExists: newsData.docs.length > 0,
+  })
 
   const buildPageHref = (nextPage: number) => {
     const params = new URLSearchParams()
@@ -70,7 +80,15 @@ export default async function InTheNewsPage({
         </Suspense>
 
         <div id="news-results" className="scroll-mt-36">
-          {newsData.docs.length === 0 ? (
+          {showPlaceholder ? (
+            <ContentPlaceholder
+              title="In the News"
+              label={label}
+              description="News items will appear here once published."
+              items={6}
+              columns={3}
+            />
+          ) : newsData.docs.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-600">
               No news items available yet.
             </div>

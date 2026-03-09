@@ -189,6 +189,7 @@ export type PageDoc = {
   title: string
   slug: string
   layout?: CMSBlock[]
+  placeholderOverride?: 'default' | 'forceOn' | 'forceOff' | null
   seo?: {
     metaTitle?: string | null
     metaDescription?: string | null
@@ -325,6 +326,10 @@ export type SiteSettingsGlobal = {
   logo?: CMSMedia | string | null
   logoLight?: CMSMedia | string | null
   logoDark?: CMSMedia | string | null
+  contentPlaceholders?: {
+    mode?: 'off' | 'on' | 'onlyWhenEmpty' | null
+    label?: string | null
+  } | null
 }
 
 

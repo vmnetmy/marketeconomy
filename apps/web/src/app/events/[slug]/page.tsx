@@ -2,8 +2,10 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { EventRegistrationForm } from '../../../components/forms/EventRegistrationForm'
+import { PagePlaceholder } from '../../../components/ui/ContentPlaceholder'
 import { RichText } from '../../../components/ui/RichText'
-import { getEventBySlug, getEventReportByEventId } from '../../../lib/cms'
+import { getEventBySlug, getEventReportByEventId, getEventsPage, getSiteSettings } from '../../../lib/cms'
+import { resolvePlaceholderLabel, resolvePlaceholderMode, shouldShowPlaceholder } from '../../../lib/placeholders'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,8 +32,42 @@ export default async function EventDetailPage({ params }: { params: { slug?: str
   const slug = Array.isArray(resolvedParams?.slug) ? resolvedParams.slug[0] : resolvedParams?.slug
   if (!slug) return notFound()
 
-  const event = await getEventBySlug(slug)
-  if (!event) return notFound()
+  const [event, site] = await Promise.all([getEventBySlug(slug), getSiteSettings()])
+  const mode = resolvePlaceholderMode(site)
+  const label = resolvePlaceholderLabel(site)
+
+  if (!event) {
+    if (mode === 'off') return notFound()
+
+    if (mode === 'on') {
+      return (
+        <PagePlaceholder
+          title="Event"
+          label={label}
+          description="Event details will appear here once published."
+        />
+      )
+    }
+
+    const events = await getEventsPage({ page: 1, limit: 1 })
+    const showPlaceholder = shouldShowPlaceholder({
+      mode,
+      override: 'default',
+      contentExists: events.docs.length > 0,
+    })
+
+    if (showPlaceholder) {
+      return (
+        <PagePlaceholder
+          title="Event"
+          label={label}
+          description="Event details will appear here once published."
+        />
+      )
+    }
+
+    return notFound()
+  }
 
   const report = await getEventReportByEventId(event.id)
   const dateLabel = formatDateRange(event.startDate, event.endDate)

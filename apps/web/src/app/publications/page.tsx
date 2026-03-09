@@ -1,4 +1,32 @@
-export default function PublicationsPage() {
+import { PagePlaceholder } from '../../components/ui/ContentPlaceholder'
+import { getEventReportsPage, getPolicyBriefsPage, getSiteSettings } from '../../lib/cms'
+import { resolvePlaceholderLabel, resolvePlaceholderMode, shouldShowPlaceholder } from '../../lib/placeholders'
+
+export default async function PublicationsPage() {
+  const [policyBriefs, eventReports, site] = await Promise.all([
+    getPolicyBriefsPage({ page: 1, limit: 1 }),
+    getEventReportsPage({ page: 1, limit: 1 }),
+    getSiteSettings(),
+  ])
+  const mode = resolvePlaceholderMode(site)
+  const label = resolvePlaceholderLabel(site)
+  const contentExists = policyBriefs.docs.length > 0 || eventReports.docs.length > 0
+  const showPlaceholder = shouldShowPlaceholder({
+    mode,
+    override: 'default',
+    contentExists,
+  })
+
+  if (showPlaceholder) {
+    return (
+      <PagePlaceholder
+        title="Publications"
+        label={label}
+        description="Publications will appear here once policy briefs or event reports are published."
+      />
+    )
+  }
+
   return (
     <main className="min-h-screen bg-slate-50 px-6 pb-16 pt-24 text-slate-900 md:pt-28">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-10">

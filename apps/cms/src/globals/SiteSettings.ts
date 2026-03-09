@@ -57,6 +57,30 @@ export const SiteSettings: GlobalConfig = {
       ],
     },
     {
+      name: 'contentPlaceholders',
+      type: 'group',
+      fields: [
+        {
+          name: 'mode',
+          type: 'select',
+          defaultValue: 'onlyWhenEmpty',
+          options: [
+            { label: 'Off', value: 'off' },
+            { label: 'On (always show placeholders)', value: 'on' },
+            { label: 'Only when content is empty', value: 'onlyWhenEmpty' },
+          ],
+        },
+        {
+          name: 'label',
+          type: 'text',
+          defaultValue: 'Content coming soon',
+          admin: {
+            description: 'Shown above placeholder sections when content is empty.',
+          },
+        },
+      ],
+    },
+    {
       name: 'socialLinks',
       type: 'array',
       fields: [

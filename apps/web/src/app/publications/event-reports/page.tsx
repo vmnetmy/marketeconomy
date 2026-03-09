@@ -1,7 +1,9 @@
 import Link from 'next/link'
 
 import { CMSImage } from '../../../components/media/CMSImage'
-import { getEventReportsPage } from '../../../lib/cms'
+import { ContentPlaceholder } from '../../../components/ui/ContentPlaceholder'
+import { getEventReportsPage, getSiteSettings } from '../../../lib/cms'
+import { resolvePlaceholderLabel, resolvePlaceholderMode, shouldShowPlaceholder } from '../../../lib/placeholders'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,7 +19,14 @@ const formatDate = (value?: string | null): string | null => {
 }
 
 export default async function EventReportsPage() {
-  const reports = await getEventReportsPage({ page: 1, limit: 24 })
+  const [reports, site] = await Promise.all([getEventReportsPage({ page: 1, limit: 24 }), getSiteSettings()])
+  const mode = resolvePlaceholderMode(site)
+  const label = resolvePlaceholderLabel(site)
+  const showPlaceholder = shouldShowPlaceholder({
+    mode,
+    override: 'default',
+    contentExists: reports.docs.length > 0,
+  })
 
   return (
     <main className="min-h-screen bg-slate-50 px-6 pb-16 pt-24 text-slate-900 md:pt-28">
@@ -31,7 +40,15 @@ export default async function EventReportsPage() {
           </p>
         </div>
 
-        {reports.docs.length === 0 ? (
+        {showPlaceholder ? (
+          <ContentPlaceholder
+            title="Event Reports"
+            label={label}
+            description="Event reports will appear here once published."
+            items={6}
+            columns={3}
+          />
+        ) : reports.docs.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-600">
             No event reports available yet.
           </div>

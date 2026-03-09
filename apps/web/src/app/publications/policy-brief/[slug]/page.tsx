@@ -4,8 +4,10 @@ import { notFound } from 'next/navigation'
 
 import { CMSImage } from '../../../../components/media/CMSImage'
 import { GatedDownloadForm } from '../../../../components/forms/GatedDownloadForm'
+import { PagePlaceholder } from '../../../../components/ui/ContentPlaceholder'
 import { RichText } from '../../../../components/ui/RichText'
-import { getPolicyBriefBySlug, getRelatedPolicyBriefs } from '../../../../lib/cms'
+import { getPolicyBriefBySlug, getPolicyBriefsPage, getRelatedPolicyBriefs, getSiteSettings } from '../../../../lib/cms'
+import { resolvePlaceholderLabel, resolvePlaceholderMode, shouldShowPlaceholder } from '../../../../lib/placeholders'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,8 +27,42 @@ export default async function PolicyBriefDetailPage({ params }: { params: { slug
   const slug = Array.isArray(resolvedParams?.slug) ? resolvedParams.slug[0] : resolvedParams?.slug
   if (!slug) return notFound()
 
-  const brief = await getPolicyBriefBySlug(slug)
-  if (!brief) return notFound()
+  const [brief, site] = await Promise.all([getPolicyBriefBySlug(slug), getSiteSettings()])
+  const mode = resolvePlaceholderMode(site)
+  const label = resolvePlaceholderLabel(site)
+
+  if (!brief) {
+    if (mode === 'off') return notFound()
+
+    if (mode === 'on') {
+      return (
+        <PagePlaceholder
+          title="Policy Brief"
+          label={label}
+          description="Policy brief content will appear here once published."
+        />
+      )
+    }
+
+    const briefs = await getPolicyBriefsPage({ page: 1, limit: 1 })
+    const showPlaceholder = shouldShowPlaceholder({
+      mode,
+      override: 'default',
+      contentExists: briefs.docs.length > 0,
+    })
+
+    if (showPlaceholder) {
+      return (
+        <PagePlaceholder
+          title="Policy Brief"
+          label={label}
+          description="Policy brief content will appear here once published."
+        />
+      )
+    }
+
+    return notFound()
+  }
 
   const published = formatDate(brief.publishedAt)
   const tags = (brief.tags || [])

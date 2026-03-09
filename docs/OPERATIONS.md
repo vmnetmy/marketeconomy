@@ -64,3 +64,27 @@ gcloud logging read \
 
 The web app uses a 60 second revalidation window in `apps/web/src/lib/cms.ts`.
 If content updates are slow to appear, allow one minute, then hard refresh the page.
+
+## Content placeholders (skeletons)
+
+Placeholders are controlled in the CMS and used as design placeholders until real content is published.
+
+Global setting:
+- CMS → Site Settings → Content Placeholders
+  - Mode:
+    - Off: placeholders never show
+    - On: placeholders always show (even if content exists)
+    - Only when content is empty (default): placeholders show only when content is missing
+  - Label: short text displayed above placeholder sections
+
+Per-page override:
+- CMS → Pages → Placeholder Override (sidebar)
+  - Use site setting (default)
+  - Force placeholders
+  - Disable placeholders
+
+Notes:
+- Overrides apply to Pages-based routes (`/`, `/about`, `/contact`, and other CMS pages).
+- Collection pages (Events, In the News, Policy Briefs, Event Reports, Leadership) follow the global setting.
+- Detail pages (`/events/[slug]`, `/in-the-news/[slug]`, etc.) will only show placeholders in
+  “Only when content is empty” mode if the entire collection is empty.

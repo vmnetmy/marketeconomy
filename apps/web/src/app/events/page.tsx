@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
 
-import { getEventsPage } from '../../lib/cms'
+import { ContentPlaceholder } from '../../components/ui/ContentPlaceholder'
+import { getEventsPage, getSiteSettings } from '../../lib/cms'
+import { resolvePlaceholderLabel, resolvePlaceholderMode, shouldShowPlaceholder } from '../../lib/placeholders'
 import { EventsFilters } from './EventsFilters'
 
 export const dynamic = 'force-dynamic'
@@ -47,10 +49,23 @@ export default async function EventsPage({
   const location = Array.isArray(locationParam) ? locationParam[0] : locationParam
   const eventType = Array.isArray(eventTypeParam) ? eventTypeParam[0] : eventTypeParam
 
-  const [upcoming, past] = await Promise.all([
+  const [upcoming, past, site] = await Promise.all([
     getEventsPage({ status: 'upcoming', limit: 12, search, year, location, eventType }),
     getEventsPage({ status: 'past', limit: 12, search, year, location, eventType }),
+    getSiteSettings(),
   ])
+  const mode = resolvePlaceholderMode(site)
+  const label = resolvePlaceholderLabel(site)
+  const showUpcomingPlaceholder = shouldShowPlaceholder({
+    mode,
+    override: 'default',
+    contentExists: upcoming.docs.length > 0,
+  })
+  const showPastPlaceholder = shouldShowPlaceholder({
+    mode,
+    override: 'default',
+    contentExists: past.docs.length > 0,
+  })
 
   return (
     <main className="min-h-screen bg-slate-50 px-6 pb-16 pt-24 text-slate-900 md:pt-28">
@@ -91,7 +106,17 @@ export default async function EventsPage({
               </span>
             </div>
 
-            {upcoming.docs.length === 0 ? (
+            {showUpcomingPlaceholder ? (
+              <div className="mt-6">
+                <ContentPlaceholder
+                  title="Upcoming Events"
+                  label={label}
+                  description="Upcoming events will appear here once published."
+                  items={6}
+                  columns={3}
+                />
+              </div>
+            ) : upcoming.docs.length === 0 ? (
               <div className="mt-6 rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-600">
                 No upcoming events match these filters.
               </div>
@@ -137,7 +162,17 @@ export default async function EventsPage({
               </span>
             </div>
 
-            {past.docs.length === 0 ? (
+            {showPastPlaceholder ? (
+              <div className="mt-6">
+                <ContentPlaceholder
+                  title="Past Events"
+                  label={label}
+                  description="Past events will appear here once published."
+                  items={6}
+                  columns={3}
+                />
+              </div>
+            ) : past.docs.length === 0 ? (
               <div className="mt-6 rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-600">
                 No past events match these filters.
               </div>

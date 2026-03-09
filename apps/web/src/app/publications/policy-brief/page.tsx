@@ -3,7 +3,9 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 
 import { CMSImage } from '../../../components/media/CMSImage'
-import { getPolicyBriefsPage, getPolicyBriefTags, resolveMediaUrl } from '../../../lib/cms'
+import { ContentPlaceholder } from '../../../components/ui/ContentPlaceholder'
+import { getPolicyBriefsPage, getPolicyBriefTags, getSiteSettings, resolveMediaUrl } from '../../../lib/cms'
+import { resolvePlaceholderLabel, resolvePlaceholderMode, shouldShowPlaceholder } from '../../../lib/placeholders'
 import { PolicyBriefsFilters } from './PolicyBriefsFilters'
 
 export const dynamic = 'force-dynamic'
@@ -55,10 +57,18 @@ export default async function PolicyBriefsPage({
   const page = Math.max(1, Number(pageValue ?? 1))
   const sort = sortValue === 'oldest' ? 'oldest' : 'latest'
 
-  const [briefsData, tags] = await Promise.all([
+  const [briefsData, tags, site] = await Promise.all([
     getPolicyBriefsPage({ page, limit: 12, tag, search, sort }),
     getPolicyBriefTags(),
+    getSiteSettings(),
   ])
+  const mode = resolvePlaceholderMode(site)
+  const label = resolvePlaceholderLabel(site)
+  const showPlaceholder = shouldShowPlaceholder({
+    mode,
+    override: 'default',
+    contentExists: briefsData.docs.length > 0,
+  })
 
   const buildPageHref = (nextPage: number) => {
     const params = new URLSearchParams()
@@ -99,7 +109,15 @@ export default async function PolicyBriefsPage({
         </Suspense>
 
         <div id="policy-brief-results" className="scroll-mt-36">
-          {briefsData.docs.length === 0 ? (
+          {showPlaceholder ? (
+            <ContentPlaceholder
+              title="Policy Briefs"
+              label={label}
+              description="Policy briefs will appear here once published."
+              items={6}
+              columns={3}
+            />
+          ) : briefsData.docs.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-600">
               No policy briefs available yet.
             </div>
