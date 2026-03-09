@@ -93,7 +93,7 @@ export function Header({ site, navItems, variant = 'solid' }: HeaderProps) {
             if (!href || !item.label) return null
             const external = isExternalHref(href)
             const isActive = !external && (pathname === href || (href !== '/' && pathname?.startsWith(`${href}/`)))
-            const linkClass = isActive ? activeTextClass : navTextClass
+            const linkClass = `${isActive ? activeTextClass : navTextClass} whitespace-nowrap`
             const children = item.children?.filter((child) => child?.label && resolveHref(child)) ?? []
 
             if (children.length > 0) {
