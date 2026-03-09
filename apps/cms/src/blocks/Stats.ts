@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildStatsAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { requireArrayItemsUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const Stats: Block = {
   slug: 'stats',
@@ -29,16 +30,15 @@ export const Stats: Block = {
     {
       name: 'stats',
       type: 'array',
+      validate: requireArrayItemsUnlessPlaceholder(['value', 'label'], 'Each stat needs a value and label.'),
       fields: [
         {
           name: 'value',
           type: 'text',
-          required: true,
         },
         {
           name: 'label',
           type: 'text',
-          required: true,
         },
         {
           name: 'detail',
@@ -46,6 +46,7 @@ export const Stats: Block = {
         },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildStatsAdvancedGroup(),
   ],

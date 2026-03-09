@@ -1,6 +1,12 @@
 import type { Block } from 'payload'
 
 import { buildFormAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import {
+  hasTextValue,
+  isBlockPlaceholderEnabled,
+  requireValueUnlessPlaceholder,
+  showPlaceholderField,
+} from '../util/placeholders'
 
 export const FormBlock: Block = {
   slug: 'form',
@@ -12,7 +18,7 @@ export const FormBlock: Block = {
     {
       name: 'formType',
       type: 'select',
-      required: true,
+      validate: requireValueUnlessPlaceholder('Form type is required.'),
       defaultValue: 'contact',
       options: [
         { label: 'Newsletter Signup', value: 'newsletter' },
@@ -48,11 +54,30 @@ export const FormBlock: Block = {
         singular: 'Field',
         plural: 'Fields',
       },
+      validate: (value, { siblingData }) => {
+        if (isBlockPlaceholderEnabled(siblingData)) return true
+        const fields = Array.isArray(value) ? (value as Array<Record<string, unknown>>) : []
+        if (fields.length === 0) return true
+        for (const field of fields) {
+          if (!hasTextValue(field?.name)) return 'Each form field needs a name.'
+          if (field?.type === 'select') {
+            const options = Array.isArray(field?.options)
+              ? (field.options as Array<Record<string, unknown>>)
+              : []
+            if (options.length === 0) {
+              return 'Select fields need at least one option.'
+            }
+            for (const option of options) {
+              if (!hasTextValue(option?.label)) return 'Each select option needs a label.'
+            }
+          }
+        }
+        return true
+      },
       fields: [
         {
           name: 'name',
           type: 'text',
-          required: true,
           admin: {
             description: 'Machine name (e.g. email, fullName). Used as the input name.',
           },
@@ -105,7 +130,6 @@ export const FormBlock: Block = {
             {
               name: 'label',
               type: 'text',
-              required: true,
             },
             {
               name: 'value',
@@ -138,6 +162,7 @@ export const FormBlock: Block = {
         },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildFormAdvancedGroup(),
   ],

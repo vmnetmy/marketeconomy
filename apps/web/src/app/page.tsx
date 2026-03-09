@@ -65,7 +65,7 @@ export default async function Home() {
 
   return (
     <div className="flex w-full flex-col gap-16">
-      <BlockRenderer blocks={safeLayout} />
+      <BlockRenderer blocks={safeLayout} placeholderLabel={label} />
 
       <SectionWrapper background="light">
         {showEventsPlaceholder ? (

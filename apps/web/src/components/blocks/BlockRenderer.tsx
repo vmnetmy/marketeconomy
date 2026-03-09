@@ -1,5 +1,6 @@
 import type { CMSBlock } from '../../lib/cms'
 
+import { ContentPlaceholder } from '../ui/ContentPlaceholder'
 import { CardsBlock } from './CardsBlock'
 import { CTASectionBlock } from './CTASectionBlock'
 import { ContentListBlock } from './ContentListBlock'
@@ -40,13 +41,52 @@ type ContentListBlockType = Parameters<typeof ContentListBlock>[0]['block']
 type DataVizBlockType = Parameters<typeof DataVizBlock>[0]['block']
 type FormBlockType = Parameters<typeof FormBlock>[0]['block']
 
-export function BlockRenderer({ blocks }: { blocks?: CMSBlock[] }) {
+const placeholderConfig: Record<
+  string,
+  { title: string; items?: number; columns?: 1 | 2 | 3 | 4; description?: string }
+> = {
+  hero: { title: 'Hero Section', items: 1, columns: 1, description: 'Hero content will appear here once added.' },
+  richText: { title: 'Content Section', items: 1, columns: 1 },
+  cards: { title: 'Cards', items: 3, columns: 3 },
+  featureGrid: { title: 'Feature Grid', items: 6, columns: 3 },
+  splitSection: { title: 'Split Section', items: 1, columns: 2 },
+  stats: { title: 'Stats', items: 4, columns: 4 },
+  logoCloud: { title: 'Logo Cloud', items: 6, columns: 3 },
+  testimonials: { title: 'Testimonials', items: 3, columns: 3 },
+  timeline: { title: 'Timeline', items: 3, columns: 3 },
+  newsletter: { title: 'Newsletter Signup', items: 1, columns: 1 },
+  twoColumnRichText: { title: 'Two Column Content', items: 2, columns: 2 },
+  pricing: { title: 'Pricing', items: 3, columns: 3 },
+  videoEmbed: { title: 'Video', items: 1, columns: 1 },
+  ctaSection: { title: 'Call To Action', items: 1, columns: 1 },
+  mediaBlock: { title: 'Media', items: 1, columns: 1 },
+  faq: { title: 'FAQ', items: 3, columns: 3 },
+  contentList: { title: 'Content List', items: 3, columns: 3 },
+  dataViz: { title: 'Data Visualization', items: 1, columns: 1 },
+  form: { title: 'Form', items: 1, columns: 1 },
+}
+
+export function BlockRenderer({ blocks, placeholderLabel }: { blocks?: CMSBlock[]; placeholderLabel?: string }) {
   if (!blocks || blocks.length === 0) return null
 
   return (
     <>
       {blocks.map((block, index) => {
         const key = block.id ?? `${block.blockType}-${index}`
+        if (block.showPlaceholder) {
+          const config = placeholderConfig[block.blockType] ?? { title: 'Content Section', items: 3, columns: 3 }
+          const title = block.blockName || config.title
+          return (
+            <ContentPlaceholder
+              key={`${key}-placeholder`}
+              title={title}
+              label={placeholderLabel}
+              description={config.description}
+              items={config.items}
+              columns={config.columns}
+            />
+          )
+        }
         switch (block.blockType) {
           case 'hero':
             return <HeroBlock key={key} block={block as HeroBlockType} />

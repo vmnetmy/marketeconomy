@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildCTASectionAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { requireValueUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const CTASection: Block = {
   slug: 'ctaSection',
@@ -12,7 +13,7 @@ export const CTASection: Block = {
     {
       name: 'title',
       type: 'text',
-      required: true,
+      validate: requireValueUnlessPlaceholder('Title is required.'),
     },
     {
       name: 'description',
@@ -35,6 +36,7 @@ export const CTASection: Block = {
         { label: 'Dark', value: 'dark' },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildCTASectionAdvancedGroup(),
   ],

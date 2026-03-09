@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildVideoEmbedAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { requireValueUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const VideoEmbed: Block = {
   slug: 'videoEmbed',
@@ -16,7 +17,7 @@ export const VideoEmbed: Block = {
     {
       name: 'embedUrl',
       type: 'text',
-      required: true,
+      validate: requireValueUnlessPlaceholder('Embed URL is required.'),
     },
     {
       name: 'caption',
@@ -32,6 +33,7 @@ export const VideoEmbed: Block = {
         { label: '1:1', value: '1:1' },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildVideoEmbedAdvancedGroup(),
   ],

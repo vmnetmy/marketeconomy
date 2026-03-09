@@ -2,6 +2,7 @@ import type { Block } from 'payload'
 
 import { buildFeatureGridAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 import { iconOptions } from '../util/iconOptions'
+import { requireArrayItemsUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const FeatureGrid: Block = {
   slug: 'featureGrid',
@@ -31,11 +32,11 @@ export const FeatureGrid: Block = {
     {
       name: 'features',
       type: 'array',
+      validate: requireArrayItemsUnlessPlaceholder(['title'], 'Each feature needs a title.'),
       fields: [
         {
           name: 'title',
           type: 'text',
-          required: true,
         },
         {
           name: 'description',
@@ -68,6 +69,7 @@ export const FeatureGrid: Block = {
         },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildFeatureGridAdvancedGroup(),
   ],

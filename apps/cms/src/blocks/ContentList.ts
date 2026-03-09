@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildContentListAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { requireValueUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const ContentList: Block = {
   slug: 'contentList',
@@ -12,7 +13,7 @@ export const ContentList: Block = {
     {
       name: 'source',
       type: 'select',
-      required: true,
+      validate: requireValueUnlessPlaceholder('Source is required.'),
       options: [
         { label: 'In the News', value: 'inTheNews' },
         { label: 'Policy Briefs', value: 'policyBriefs' },
@@ -37,6 +38,7 @@ export const ContentList: Block = {
       name: 'filterTag',
       type: 'text',
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildContentListAdvancedGroup(),
   ],

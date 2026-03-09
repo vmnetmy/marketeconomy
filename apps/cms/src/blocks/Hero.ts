@@ -2,6 +2,7 @@ import type { Block } from 'payload'
 
 import { buildHeroAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 import { iconOptions } from '../util/iconOptions'
+import { requireArrayItemsUnlessPlaceholder, requireValueUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const Hero: Block = {
   slug: 'hero',
@@ -13,7 +14,7 @@ export const Hero: Block = {
     {
       name: 'headline',
       type: 'text',
-      required: true,
+      validate: requireValueUnlessPlaceholder('Headline is required.'),
     },
     {
       name: 'subheadline',
@@ -57,16 +58,15 @@ export const Hero: Block = {
     {
       name: 'impactItems',
       type: 'array',
+      validate: requireArrayItemsUnlessPlaceholder(['value', 'label'], 'Each impact item needs a value and label.'),
       fields: [
         {
           name: 'value',
           type: 'text',
-          required: true,
         },
         {
           name: 'label',
           type: 'text',
-          required: true,
         },
         {
           name: 'icon',
@@ -120,6 +120,7 @@ export const Hero: Block = {
         { label: 'Split', value: 'split' },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildHeroAdvancedGroup(),
   ],

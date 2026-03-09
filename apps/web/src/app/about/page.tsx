@@ -33,7 +33,7 @@ export default async function AboutPage() {
 
   return (
     <div className="flex w-full flex-col">
-      <BlockRenderer blocks={safeLayout} />
+      <BlockRenderer blocks={safeLayout} placeholderLabel={label} />
     </div>
   )
 }

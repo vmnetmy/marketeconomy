@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildPricingAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { requireArrayItemsUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const Pricing: Block = {
   slug: 'pricing',
@@ -20,11 +21,11 @@ export const Pricing: Block = {
     {
       name: 'tiers',
       type: 'array',
+      validate: requireArrayItemsUnlessPlaceholder(['name'], 'Each pricing tier needs a name.'),
       fields: [
         {
           name: 'name',
           type: 'text',
-          required: true,
         },
         {
           name: 'price',
@@ -59,6 +60,7 @@ export const Pricing: Block = {
         },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildPricingAdvancedGroup(),
   ],

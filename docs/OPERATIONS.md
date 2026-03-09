@@ -83,6 +83,11 @@ Per-page override:
   - Force placeholders
   - Disable placeholders
 
+Per-block override:
+- In any Page layout block, toggle `Show Placeholder`
+  - When enabled, the block renders a skeleton placeholder on the site
+  - Required field validation is skipped for that block
+
 Notes:
 - Overrides apply to Pages-based routes (`/`, `/about`, `/contact`, and other CMS pages).
 - Collection pages (Events, In the News, Policy Briefs, Event Reports, Leadership) follow the global setting.

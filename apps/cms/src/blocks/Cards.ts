@@ -2,6 +2,7 @@ import type { Block } from 'payload'
 
 import { buildCardsAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
 import { iconOptions } from '../util/iconOptions'
+import { requireArrayItemsUnlessPlaceholder, requireValueUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const Cards: Block = {
   slug: 'cards',
@@ -13,7 +14,7 @@ export const Cards: Block = {
     {
       name: 'sectionTitle',
       type: 'text',
-      required: true,
+      validate: requireValueUnlessPlaceholder('Section title is required.'),
     },
     {
       name: 'sectionIntro',
@@ -22,11 +23,11 @@ export const Cards: Block = {
     {
       name: 'cards',
       type: 'array',
+      validate: requireArrayItemsUnlessPlaceholder(['title'], 'Each card needs a title.'),
       fields: [
         {
           name: 'title',
           type: 'text',
-          required: true,
         },
         {
           name: 'description',
@@ -59,6 +60,7 @@ export const Cards: Block = {
         },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildCardsAdvancedGroup(),
   ],

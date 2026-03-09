@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildTwoColumnRichTextAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { showPlaceholderField } from '../util/placeholders'
 
 export const TwoColumnRichText: Block = {
   slug: 'twoColumnRichText',
@@ -27,6 +28,7 @@ export const TwoColumnRichText: Block = {
         { label: 'Dark', value: 'dark' },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildTwoColumnRichTextAdvancedGroup(),
   ],

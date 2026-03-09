@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildNewsletterAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { showPlaceholderField } from '../util/placeholders'
 
 export const Newsletter: Block = {
   slug: 'newsletter',
@@ -35,6 +36,7 @@ export const Newsletter: Block = {
       name: 'finePrint',
       type: 'text',
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildNewsletterAdvancedGroup(),
   ],

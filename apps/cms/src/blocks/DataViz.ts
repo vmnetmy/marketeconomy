@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildDataVizAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { requireValueUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 const isChart = (types: string[]) => {
   return (_: unknown, siblingData: { chartType?: string }) => {
@@ -33,7 +34,7 @@ export const DataViz: Block = {
       name: 'dataset',
       type: 'relationship',
       relationTo: 'datasets',
-      required: true,
+      validate: requireValueUnlessPlaceholder('Dataset is required.'),
     },
     {
       name: 'viewMode',
@@ -146,6 +147,7 @@ export const DataViz: Block = {
       type: 'checkbox',
       defaultValue: true,
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildDataVizAdvancedGroup(),
   ],

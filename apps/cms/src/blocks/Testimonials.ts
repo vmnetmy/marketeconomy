@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildTestimonialsAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { requireArrayItemsUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const Testimonials: Block = {
   slug: 'testimonials',
@@ -16,16 +17,15 @@ export const Testimonials: Block = {
     {
       name: 'items',
       type: 'array',
+      validate: requireArrayItemsUnlessPlaceholder(['quote', 'name'], 'Each testimonial needs a quote and name.'),
       fields: [
         {
           name: 'quote',
           type: 'textarea',
-          required: true,
         },
         {
           name: 'name',
           type: 'text',
-          required: true,
         },
         {
           name: 'role',
@@ -42,6 +42,7 @@ export const Testimonials: Block = {
         },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildTestimonialsAdvancedGroup(),
   ],

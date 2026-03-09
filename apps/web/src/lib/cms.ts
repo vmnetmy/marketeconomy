@@ -22,6 +22,7 @@ export type CMSBlock = {
   id?: string
   blockType: string
   blockName?: string
+  showPlaceholder?: boolean | null
   [key: string]: unknown
 }
 

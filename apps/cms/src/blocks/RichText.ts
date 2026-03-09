@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildRichTextAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { showPlaceholderField } from '../util/placeholders'
 
 export const RichTextBlock: Block = {
   slug: 'richText',
@@ -13,6 +14,7 @@ export const RichTextBlock: Block = {
       name: 'content',
       type: 'richText',
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildRichTextAdvancedGroup(),
   ],

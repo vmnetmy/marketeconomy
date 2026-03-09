@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildMediaBlockAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { requireValueUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const MediaBlock: Block = {
   slug: 'mediaBlock',
@@ -13,7 +14,7 @@ export const MediaBlock: Block = {
       name: 'media',
       type: 'upload',
       relationTo: 'media',
-      required: true,
+      validate: requireValueUnlessPlaceholder('Media is required.'),
     },
     {
       name: 'caption',
@@ -30,6 +31,7 @@ export const MediaBlock: Block = {
         { label: 'Full Width', value: 'full' },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildMediaBlockAdvancedGroup(),
   ],

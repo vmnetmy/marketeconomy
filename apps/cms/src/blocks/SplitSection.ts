@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildSplitSectionAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { showPlaceholderField } from '../util/placeholders'
 
 export const SplitSection: Block = {
   slug: 'splitSection',
@@ -37,6 +38,7 @@ export const SplitSection: Block = {
         { label: 'Dark', value: 'dark' },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildSplitSectionAdvancedGroup(),
   ],

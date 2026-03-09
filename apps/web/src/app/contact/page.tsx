@@ -34,7 +34,7 @@ export default async function ContactPage() {
 
   return (
     <div className="flex w-full flex-col">
-      <BlockRenderer blocks={safeLayout} />
+      <BlockRenderer blocks={safeLayout} placeholderLabel={label} />
       {contact ? (
         <section className="mx-auto w-full max-w-5xl px-6 pb-16 pt-10 text-slate-700">
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">

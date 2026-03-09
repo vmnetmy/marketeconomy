@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildTimelineAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { requireArrayItemsUnlessPlaceholder, showPlaceholderField } from '../util/placeholders'
 
 export const Timeline: Block = {
   slug: 'timeline',
@@ -16,11 +17,11 @@ export const Timeline: Block = {
     {
       name: 'items',
       type: 'array',
+      validate: requireArrayItemsUnlessPlaceholder(['title'], 'Each timeline item needs a title.'),
       fields: [
         {
           name: 'title',
           type: 'text',
-          required: true,
         },
         {
           name: 'date',
@@ -32,6 +33,7 @@ export const Timeline: Block = {
         },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildTimelineAdvancedGroup(),
   ],

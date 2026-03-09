@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { buildLogoCloudAdvancedGroup, enableAdvancedField } from '../util/advanced-fields'
+import { showPlaceholderField } from '../util/placeholders'
 
 export const LogoCloud: Block = {
   slug: 'logoCloud',
@@ -32,6 +33,7 @@ export const LogoCloud: Block = {
         },
       ],
     },
+    showPlaceholderField,
     enableAdvancedField,
     buildLogoCloudAdvancedGroup(),
   ],
