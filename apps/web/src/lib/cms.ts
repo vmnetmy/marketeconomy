@@ -243,6 +243,7 @@ export type EventDoc = {
   slug: string
   startDate?: string | null
   endDate?: string | null
+  coverImage?: CMSMedia | string | null
   location?: string | null
   eventType?: string | null
   registrationLink?: string | null
@@ -355,6 +356,9 @@ export type ContentListItem = {
   publishedAt?: string | null
   publishedDate?: string | null
   startDate?: string | null
+  endDate?: string | null
+  location?: string | null
+  eventType?: string | null
   coverImage?: CMSMedia | string | null
   pdfFile?: CMSMedia | string | null
 }

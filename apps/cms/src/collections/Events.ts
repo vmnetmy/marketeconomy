@@ -73,6 +73,11 @@ export const Events: CollectionConfig = {
       },
     },
     {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
       name: 'description',
       type: 'richText',
     },

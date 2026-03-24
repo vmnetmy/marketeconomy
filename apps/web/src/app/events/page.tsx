@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
 
+import { EventCard } from '../../components/events/EventCard'
 import { ContentPlaceholder } from '../../components/ui/ContentPlaceholder'
 import { getEventsPage, getSiteSettings } from '../../lib/cms'
 import { resolvePlaceholderLabel, resolvePlaceholderMode, shouldShowPlaceholder } from '../../lib/placeholders'
@@ -13,24 +14,6 @@ type EventsSearchParams = {
   year?: string | string[]
   location?: string | string[]
   eventType?: string | string[]
-}
-
-const formatDate = (value?: string | null) => {
-  if (!value) return null
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return null
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(date)
-}
-
-const formatDateRange = (start?: string | null, end?: string | null) => {
-  const startLabel = formatDate(start)
-  const endLabel = formatDate(end)
-  if (startLabel && endLabel) return `${startLabel} – ${endLabel}`
-  return startLabel || endLabel || null
 }
 
 export default async function EventsPage({
@@ -122,34 +105,9 @@ export default async function EventsPage({
               </div>
             ) : (
               <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {upcoming.docs.map((event) => {
-                  const dateLabel = formatDateRange(event.startDate, event.endDate)
-                  return (
-                    <article
-                      key={event.id}
-                      className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-                    >
-                      <div className="space-y-2">
-                        <h3 className="text-xl font-semibold text-slate-900">{event.title}</h3>
-                        {dateLabel ? (
-                          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">{dateLabel}</p>
-                        ) : null}
-                        {event.location ? <p className="text-sm text-slate-600">{event.location}</p> : null}
-                        {event.eventType ? (
-                          <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
-                            {event.eventType}
-                          </span>
-                        ) : null}
-                      </div>
-                      <Link
-                        href={`/events/${event.slug}`}
-                        className="mt-auto text-sm font-semibold text-blue-600 hover:text-blue-700"
-                      >
-                        View details →
-                      </Link>
-                    </article>
-                  )
-                })}
+                {upcoming.docs.map((event) => (
+                  <EventCard key={event.id} event={event} href={`/events/${event.slug}`} />
+                ))}
               </div>
             )}
           </section>
@@ -178,34 +136,9 @@ export default async function EventsPage({
               </div>
             ) : (
               <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {past.docs.map((event) => {
-                  const dateLabel = formatDateRange(event.startDate, event.endDate)
-                  return (
-                    <article
-                      key={event.id}
-                      className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-                    >
-                      <div className="space-y-2">
-                        <h3 className="text-xl font-semibold text-slate-900">{event.title}</h3>
-                        {dateLabel ? (
-                          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">{dateLabel}</p>
-                        ) : null}
-                        {event.location ? <p className="text-sm text-slate-600">{event.location}</p> : null}
-                        {event.eventType ? (
-                          <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
-                            {event.eventType}
-                          </span>
-                        ) : null}
-                      </div>
-                      <Link
-                        href={`/events/${event.slug}`}
-                        className="mt-auto text-sm font-semibold text-blue-600 hover:text-blue-700"
-                      >
-                        View details →
-                      </Link>
-                    </article>
-                  )
-                })}
+                {past.docs.map((event) => (
+                  <EventCard key={event.id} event={event} href={`/events/${event.slug}`} />
+                ))}
               </div>
             )}
           </section>

@@ -239,10 +239,14 @@ export interface Page {
   id: number;
   title: string;
   slug: string;
+  /**
+   * Override content placeholder behavior for this page.
+   */
+  placeholderOverride?: ('default' | 'forceOn' | 'forceOff') | null;
   layout?:
     | (
         | {
-            headline: string;
+            headline?: string | null;
             subheadline?: string | null;
             eyebrow?: string | null;
             backgroundImage?: (number | null) | Media;
@@ -257,8 +261,8 @@ export interface Page {
             impactTitle?: string | null;
             impactItems?:
               | {
-                  value: string;
-                  label: string;
+                  value?: string | null;
+                  label?: string | null;
                   icon?:
                     | (
                         | 'academicCap'
@@ -376,6 +380,10 @@ export interface Page {
             };
             alignment?: ('left' | 'center' | 'right' | 'split') | null;
             /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
              * Show advanced layout settings.
              */
             enableAdvanced?: boolean | null;
@@ -408,6 +416,10 @@ export interface Page {
               };
               [k: string]: unknown;
             } | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -456,11 +468,11 @@ export interface Page {
             blockType: 'richText';
           }
         | {
-            sectionTitle: string;
+            sectionTitle?: string | null;
             sectionIntro?: string | null;
             cards?:
               | {
-                  title: string;
+                  title?: string | null;
                   description?: string | null;
                   icon?:
                     | (
@@ -574,6 +586,10 @@ export interface Page {
                 }[]
               | null;
             /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
              * Show advanced layout settings.
              */
             enableAdvanced?: boolean | null;
@@ -592,11 +608,15 @@ export interface Page {
             blockType: 'cards';
           }
         | {
-            title: string;
+            title?: string | null;
             description?: string | null;
             buttonLabel?: string | null;
             buttonURL?: string | null;
             theme?: ('light' | 'dark') | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -615,9 +635,13 @@ export interface Page {
             blockType: 'ctaSection';
           }
         | {
-            media: number | Media;
+            media?: (number | null) | Media;
             caption?: string | null;
             alignment?: ('left' | 'center' | 'right' | 'full') | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -640,7 +664,7 @@ export interface Page {
         | {
             items?:
               | {
-                  question: string;
+                  question?: string | null;
                   answer?: {
                     root: {
                       type: string;
@@ -660,6 +684,10 @@ export interface Page {
                 }[]
               | null;
             /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
              * Show advanced layout settings.
              */
             enableAdvanced?: boolean | null;
@@ -678,10 +706,14 @@ export interface Page {
             blockType: 'faq';
           }
         | {
-            source: 'inTheNews' | 'policyBriefs' | 'events';
+            source?: ('inTheNews' | 'policyBriefs' | 'events') | null;
             limit?: number | null;
             layout?: ('list' | 'grid') | null;
             filterTag?: string | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -707,7 +739,7 @@ export interface Page {
             columns?: ('2' | '3' | '4') | null;
             features?:
               | {
-                  title: string;
+                  title?: string | null;
                   description?: string | null;
                   icon?:
                     | (
@@ -820,6 +852,10 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -857,6 +893,10 @@ export interface Page {
             mediaPosition?: ('left' | 'right') | null;
             background?: ('none' | 'light' | 'dark') | null;
             /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
              * Show advanced layout settings.
              */
             enableAdvanced?: boolean | null;
@@ -880,12 +920,16 @@ export interface Page {
             layout?: ('grid' | 'row') | null;
             stats?:
               | {
-                  value: string;
-                  label: string;
+                  value?: string | null;
+                  label?: string | null;
                   detail?: string | null;
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -916,6 +960,10 @@ export interface Page {
                 }[]
               | null;
             /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
              * Show advanced layout settings.
              */
             enableAdvanced?: boolean | null;
@@ -937,14 +985,18 @@ export interface Page {
             headline?: string | null;
             items?:
               | {
-                  quote: string;
-                  name: string;
+                  quote?: string | null;
+                  name?: string | null;
                   role?: string | null;
                   organization?: string | null;
                   avatar?: (number | null) | Media;
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -966,12 +1018,16 @@ export interface Page {
             headline?: string | null;
             items?:
               | {
-                  title: string;
+                  title?: string | null;
                   date?: string | null;
                   description?: string | null;
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -998,6 +1054,10 @@ export interface Page {
             formAction?: string | null;
             finePrint?: string | null;
             /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
              * Show advanced layout settings.
              */
             enableAdvanced?: boolean | null;
@@ -1017,7 +1077,7 @@ export interface Page {
             blockType: 'newsletter';
           }
         | {
-            formType: 'newsletter' | 'contact' | 'media' | 'policyBrief' | 'event' | 'membership';
+            formType?: ('newsletter' | 'contact' | 'media' | 'policyBrief' | 'event' | 'membership') | null;
             headline?: string | null;
             description?: string | null;
             submitLabel?: string | null;
@@ -1027,7 +1087,7 @@ export interface Page {
                   /**
                    * Machine name (e.g. email, fullName). Used as the input name.
                    */
-                  name: string;
+                  name?: string | null;
                   label?: string | null;
                   type?: ('text' | 'email' | 'phone' | 'textarea' | 'select') | null;
                   placeholder?: string | null;
@@ -1035,7 +1095,7 @@ export interface Page {
                   span?: ('full' | 'half') | null;
                   options?:
                     | {
-                        label: string;
+                        label?: string | null;
                         value?: string | null;
                         id?: string | null;
                       }[]
@@ -1047,6 +1107,10 @@ export interface Page {
               mode?: ('cms' | 'external') | null;
               formAction?: string | null;
             };
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -1104,6 +1168,10 @@ export interface Page {
             } | null;
             background?: ('none' | 'light' | 'dark') | null;
             /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
              * Show advanced layout settings.
              */
             enableAdvanced?: boolean | null;
@@ -1126,7 +1194,7 @@ export interface Page {
             intro?: string | null;
             tiers?:
               | {
-                  name: string;
+                  name?: string | null;
                   price?: string | null;
                   description?: string | null;
                   features?:
@@ -1141,6 +1209,10 @@ export interface Page {
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -1162,9 +1234,13 @@ export interface Page {
           }
         | {
             headline?: string | null;
-            embedUrl: string;
+            embedUrl?: string | null;
             caption?: string | null;
             aspectRatio?: ('16:9' | '4:3' | '1:1') | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -1187,7 +1263,7 @@ export interface Page {
         | {
             headline?: string | null;
             description?: string | null;
-            dataset: number | Dataset;
+            dataset?: (number | null) | Dataset;
             viewMode?: ('chart' | 'table' | 'chartAndTable') | null;
             chartType?:
               | (
@@ -1218,6 +1294,10 @@ export interface Page {
             colorScheme?: ('nivo' | 'category10' | 'paired' | 'set3' | 'spectral') | null;
             height?: number | null;
             showLegend?: boolean | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
             /**
              * Show advanced layout settings.
              */
@@ -1321,6 +1401,7 @@ export interface Event {
   location?: string | null;
   eventType?: string | null;
   registrationLink?: string | null;
+  coverImage?: (number | null) | Media;
   description?: {
     root: {
       type: string;
@@ -1755,6 +1836,7 @@ export interface DatasetsSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  placeholderOverride?: T;
   layout?:
     | T
     | {
@@ -1794,6 +1876,7 @@ export interface PagesSelect<T extends boolean = true> {
                     url?: T;
                   };
               alignment?: T;
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -1813,6 +1896,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               content?: T;
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -1887,6 +1971,7 @@ export interface PagesSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -1911,6 +1996,7 @@ export interface PagesSelect<T extends boolean = true> {
               buttonLabel?: T;
               buttonURL?: T;
               theme?: T;
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -1932,6 +2018,7 @@ export interface PagesSelect<T extends boolean = true> {
               media?: T;
               caption?: T;
               alignment?: T;
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -1959,6 +2046,7 @@ export interface PagesSelect<T extends boolean = true> {
                     answer?: T;
                     id?: T;
                   };
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -1982,6 +2070,7 @@ export interface PagesSelect<T extends boolean = true> {
               limit?: T;
               layout?: T;
               filterTag?: T;
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2019,6 +2108,7 @@ export interface PagesSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2041,6 +2131,7 @@ export interface PagesSelect<T extends boolean = true> {
               media?: T;
               mediaPosition?: T;
               background?: T;
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2071,6 +2162,7 @@ export interface PagesSelect<T extends boolean = true> {
                     detail?: T;
                     id?: T;
                   };
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2100,6 +2192,7 @@ export interface PagesSelect<T extends boolean = true> {
                     url?: T;
                     id?: T;
                   };
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2130,6 +2223,7 @@ export interface PagesSelect<T extends boolean = true> {
                     avatar?: T;
                     id?: T;
                   };
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2157,6 +2251,7 @@ export interface PagesSelect<T extends boolean = true> {
                     description?: T;
                     id?: T;
                   };
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2182,6 +2277,7 @@ export interface PagesSelect<T extends boolean = true> {
               buttonLabel?: T;
               formAction?: T;
               finePrint?: T;
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2231,6 +2327,7 @@ export interface PagesSelect<T extends boolean = true> {
                     mode?: T;
                     formAction?: T;
                   };
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2259,6 +2356,7 @@ export interface PagesSelect<T extends boolean = true> {
               left?: T;
               right?: T;
               background?: T;
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2297,6 +2395,7 @@ export interface PagesSelect<T extends boolean = true> {
                     highlight?: T;
                     id?: T;
                   };
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2321,6 +2420,7 @@ export interface PagesSelect<T extends boolean = true> {
               embedUrl?: T;
               caption?: T;
               aspectRatio?: T;
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2360,6 +2460,7 @@ export interface PagesSelect<T extends boolean = true> {
               colorScheme?: T;
               height?: T;
               showLegend?: T;
+              showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:
                 | T
@@ -2442,6 +2543,7 @@ export interface EventsSelect<T extends boolean = true> {
   location?: T;
   eventType?: T;
   registrationLink?: T;
+  coverImage?: T;
   description?: T;
   eventStatus?: T;
   featured?: T;
@@ -2663,6 +2765,13 @@ export interface SiteSetting {
     description?: string | null;
     image?: (number | null) | Media;
   };
+  contentPlaceholders?: {
+    mode?: ('off' | 'on' | 'onlyWhenEmpty') | null;
+    /**
+     * Shown above placeholder sections when content is empty.
+     */
+    label?: string | null;
+  };
   socialLinks?:
     | {
         platform?: ('x' | 'facebook' | 'linkedin' | 'instagram' | 'youtube') | null;
@@ -2777,6 +2886,12 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+      };
+  contentPlaceholders?:
+    | T
+    | {
+        mode?: T;
+        label?: T;
       };
   socialLinks?:
     | T
