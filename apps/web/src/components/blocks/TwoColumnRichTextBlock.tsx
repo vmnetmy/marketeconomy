@@ -21,8 +21,8 @@ export function TwoColumnRichTextBlock({ block }: { block: TwoColumnRichTextBloc
   return (
     <SectionWrapper {...sectionProps}>
       <section className={`grid md:grid-cols-2 ${gapClass} ${alignClass}`}>
-        <div>{block.left ? <RichText content={block.left} className={isDark ? 'prose-invert' : ''} /> : null}</div>
-        <div>{block.right ? <RichText content={block.right} className={isDark ? 'prose-invert' : ''} /> : null}</div>
+        <div>{block.left ? <RichText content={block.left} className={isDark ? 'rt-prose-invert' : ''} /> : null}</div>
+        <div>{block.right ? <RichText content={block.right} className={isDark ? 'rt-prose-invert' : ''} /> : null}</div>
       </section>
     </SectionWrapper>
   )
