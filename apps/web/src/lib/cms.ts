@@ -793,6 +793,11 @@ export async function getContentList(
     limit: String(options.limit ?? 6),
   })
 
+  if (resolvedSource === 'events') {
+    params.set('where[eventStatus][equals]', 'upcoming')
+    params.set('sort', 'startDate')
+  }
+
   if (options.tag) {
     params.set('where[tags.tag][equals]', options.tag)
   }
