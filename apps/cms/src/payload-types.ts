@@ -734,6 +734,115 @@ export interface Page {
             blockType: 'contentList';
           }
         | {
+            sectionTitle?: string | null;
+            sectionIntro?: string | null;
+            status?: ('upcoming' | 'past' | 'all') | null;
+            sort?: ('dateAsc' | 'dateDesc') | null;
+            limit?: number | null;
+            layout?: ('list' | 'grid') | null;
+            filterTag?: string | null;
+            cta?: {
+              label?: string | null;
+              url?: string | null;
+            };
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              showImages?: boolean | null;
+              dense?: boolean | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'eventsFeed';
+          }
+        | {
+            sectionTitle?: string | null;
+            sectionIntro?: string | null;
+            sort?: ('latest' | 'oldest') | null;
+            limit?: number | null;
+            layout?: ('list' | 'grid') | null;
+            filterTag?: string | null;
+            showExcerpt?: boolean | null;
+            showDate?: boolean | null;
+            cta?: {
+              label?: string | null;
+              url?: string | null;
+            };
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              showImages?: boolean | null;
+              dense?: boolean | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'inTheNewsFeed';
+          }
+        | {
+            sectionTitle?: string | null;
+            sectionIntro?: string | null;
+            sort?: ('latest' | 'oldest') | null;
+            featuredOnly?: boolean | null;
+            limit?: number | null;
+            layout?: ('list' | 'grid') | null;
+            filterTag?: string | null;
+            showSummary?: boolean | null;
+            showDate?: boolean | null;
+            showTags?: boolean | null;
+            cta?: {
+              label?: string | null;
+              url?: string | null;
+            };
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              showImages?: boolean | null;
+              dense?: boolean | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'policyBriefFeed';
+          }
+        | {
             headline?: string | null;
             intro?: string | null;
             columns?: ('2' | '3' | '4') | null;
@@ -2070,6 +2179,112 @@ export interface PagesSelect<T extends boolean = true> {
               limit?: T;
               layout?: T;
               filterTag?: T;
+              showPlaceholder?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    cardStyle?: T;
+                    showImages?: T;
+                    dense?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        eventsFeed?:
+          | T
+          | {
+              sectionTitle?: T;
+              sectionIntro?: T;
+              status?: T;
+              sort?: T;
+              limit?: T;
+              layout?: T;
+              filterTag?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              showPlaceholder?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    cardStyle?: T;
+                    showImages?: T;
+                    dense?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        inTheNewsFeed?:
+          | T
+          | {
+              sectionTitle?: T;
+              sectionIntro?: T;
+              sort?: T;
+              limit?: T;
+              layout?: T;
+              filterTag?: T;
+              showExcerpt?: T;
+              showDate?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
+              showPlaceholder?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    cardStyle?: T;
+                    showImages?: T;
+                    dense?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        policyBriefFeed?:
+          | T
+          | {
+              sectionTitle?: T;
+              sectionIntro?: T;
+              sort?: T;
+              featuredOnly?: T;
+              limit?: T;
+              layout?: T;
+              filterTag?: T;
+              showSummary?: T;
+              showDate?: T;
+              showTags?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                  };
               showPlaceholder?: T;
               enableAdvanced?: T;
               advanced?:

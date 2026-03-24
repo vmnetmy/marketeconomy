@@ -5,13 +5,16 @@ import { CardsBlock } from './CardsBlock'
 import { CTASectionBlock } from './CTASectionBlock'
 import { ContentListBlock } from './ContentListBlock'
 import { DataVizBlock } from './DataVizBlock'
+import { EventsFeedBlock } from './EventsFeedBlock'
 import { FAQBlock } from './FAQBlock'
 import { FeatureGridBlock } from './FeatureGridBlock'
 import { FormBlock } from './FormBlock'
 import { HeroBlock } from './HeroBlock'
+import { InTheNewsFeedBlock } from './InTheNewsFeedBlock'
 import { LogoCloudBlock } from './LogoCloudBlock'
 import { MediaBlock } from './MediaBlock'
 import { NewsletterBlock } from './NewsletterBlock'
+import { PolicyBriefFeedBlock } from './PolicyBriefFeedBlock'
 import { PricingBlock } from './PricingBlock'
 import { RichTextBlock } from './RichTextBlock'
 import { SplitSectionBlock } from './SplitSectionBlock'
@@ -38,6 +41,9 @@ type CTASectionBlockType = Parameters<typeof CTASectionBlock>[0]['block']
 type MediaBlockType = Parameters<typeof MediaBlock>[0]['block']
 type FAQBlockType = Parameters<typeof FAQBlock>[0]['block']
 type ContentListBlockType = Parameters<typeof ContentListBlock>[0]['block']
+type EventsFeedBlockType = Parameters<typeof EventsFeedBlock>[0]['block']
+type InTheNewsFeedBlockType = Parameters<typeof InTheNewsFeedBlock>[0]['block']
+type PolicyBriefFeedBlockType = Parameters<typeof PolicyBriefFeedBlock>[0]['block']
 type DataVizBlockType = Parameters<typeof DataVizBlock>[0]['block']
 type FormBlockType = Parameters<typeof FormBlock>[0]['block']
 
@@ -62,6 +68,9 @@ const placeholderConfig: Record<
   mediaBlock: { title: 'Media', items: 1, columns: 1 },
   faq: { title: 'FAQ', items: 3, columns: 3 },
   contentList: { title: 'Content List', items: 3, columns: 3 },
+  eventsFeed: { title: 'Events Feed', items: 3, columns: 3 },
+  inTheNewsFeed: { title: 'In The News Feed', items: 3, columns: 3 },
+  policyBriefFeed: { title: 'Policy Brief Feed', items: 3, columns: 3 },
   dataViz: { title: 'Data Visualization', items: 1, columns: 1 },
   form: { title: 'Form', items: 1, columns: 1 },
 }
@@ -122,6 +131,12 @@ export function BlockRenderer({ blocks, placeholderLabel }: { blocks?: CMSBlock[
             return <FAQBlock key={key} block={block as FAQBlockType} />
           case 'contentList':
             return <ContentListBlock key={key} block={block as ContentListBlockType} />
+          case 'eventsFeed':
+            return <EventsFeedBlock key={key} block={block as EventsFeedBlockType} />
+          case 'inTheNewsFeed':
+            return <InTheNewsFeedBlock key={key} block={block as InTheNewsFeedBlockType} />
+          case 'policyBriefFeed':
+            return <PolicyBriefFeedBlock key={key} block={block as PolicyBriefFeedBlockType} />
           case 'dataViz':
             return <DataVizBlock key={key} block={block as DataVizBlockType} />
           case 'form':

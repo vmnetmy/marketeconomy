@@ -70,8 +70,8 @@ LIMIT 1;
 
 Compare the latest applied migration with the repo latest:
 
-- Repo latest migration name is `20260324_161500` (see `apps/cms/src/migrations/index.ts`).
-- If the latest applied migration is not `20260324_161500`, there are pending migrations.
+- Repo latest migration name is `20260325_095003` (see `apps/cms/src/migrations/index.ts`).
+- If the latest applied migration is not `20260325_095003`, there are pending migrations.
 
 ## Safe workflow (migrations + seeds)
 

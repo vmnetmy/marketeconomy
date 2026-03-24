@@ -735,6 +735,90 @@ export async function getInTheNewsTags(): Promise<string[]> {
   return Array.from(tagSet).sort()
 }
 
+export async function getEventsFeed({
+  limit = 6,
+  status = 'upcoming',
+  sort = 'dateAsc',
+  tag,
+}: {
+  limit?: number
+  status?: 'upcoming' | 'past' | 'all'
+  sort?: 'dateAsc' | 'dateDesc'
+  tag?: string
+}): Promise<EventDoc[]> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    depth: '1',
+    limit: String(limit),
+    sort: sort === 'dateDesc' ? '-startDate' : 'startDate',
+  })
+
+  if (status !== 'all') {
+    params.set('where[eventStatus][equals]', status)
+  }
+
+  if (tag) {
+    params.set('where[tags.tag][equals]', tag)
+  }
+
+  const data = await fetchJSON<CollectionResponse<EventDoc>>(`/api/events?${params.toString()}`)
+  return data.docs ?? []
+}
+
+export async function getInTheNewsFeed({
+  limit = 6,
+  sort = 'latest',
+  tag,
+}: {
+  limit?: number
+  sort?: 'latest' | 'oldest'
+  tag?: string
+}): Promise<InTheNewsListItem[]> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    depth: '1',
+    limit: String(limit),
+    sort: sort === 'oldest' ? 'publishedDate' : '-publishedDate',
+  })
+
+  if (tag) {
+    params.set('where[tags.tag][equals]', tag)
+  }
+
+  const data = await fetchJSON<CollectionResponse<InTheNewsListItem>>(`/api/inTheNews?${params.toString()}`)
+  return data.docs ?? []
+}
+
+export async function getPolicyBriefFeed({
+  limit = 6,
+  sort = 'latest',
+  tag,
+  featuredOnly = false,
+}: {
+  limit?: number
+  sort?: 'latest' | 'oldest'
+  tag?: string
+  featuredOnly?: boolean
+}): Promise<PolicyBriefListItem[]> {
+  const params = new URLSearchParams({
+    'where[_status][equals]': 'published',
+    depth: '1',
+    limit: String(limit),
+    sort: sort === 'oldest' ? 'publishedAt' : '-publishedAt',
+  })
+
+  if (tag) {
+    params.set('where[tags.tag][equals]', tag)
+  }
+
+  if (featuredOnly) {
+    params.set('where[featured][equals]', 'true')
+  }
+
+  const data = await fetchJSON<CollectionResponse<PolicyBriefListItem>>(`/api/policyBriefs?${params.toString()}`)
+  return data.docs ?? []
+}
+
 export async function getAllPageSlugs(): Promise<string[]> {
   const params = new URLSearchParams({
     'where[_status][equals]': 'published',
