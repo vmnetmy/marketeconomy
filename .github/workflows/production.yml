@@ -38,6 +38,7 @@ jobs:
         env:
           CMS_URL: https://cms.marketeconomy.org
           NEXT_PUBLIC_CMS_URL: https://cms.marketeconomy.org
+          NEXT_PUBLIC_MEDIA_URL: https://storage.googleapis.com/marketeconomy-media
         run: pnpm build
 
   deploy:

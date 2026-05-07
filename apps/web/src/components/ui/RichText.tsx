@@ -1,7 +1,7 @@
 import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
 import type { SerializedEditorState } from 'lexical'
 
-import { CMS_PUBLIC_URL } from '../../lib/cms'
+import { MEDIA_PUBLIC_URL } from '../../lib/cms'
 
 type RichTextProps = {
   content?: SerializedEditorState | null
@@ -12,18 +12,18 @@ export function RichText({ content, className = '' }: RichTextProps) {
   if (!content) return null
   const html = convertLexicalToHTML({ data: content })
   const resolvedHtml = html
-    .replace(/src="\/media\//g, `src="${CMS_PUBLIC_URL}/api/media/file/`)
-    .replace(/src='\/media\//g, `src='${CMS_PUBLIC_URL}/api/media/file/`)
-    .replace(/href="\/media\//g, `href="${CMS_PUBLIC_URL}/api/media/file/`)
-    .replace(/href='\/media\//g, `href='${CMS_PUBLIC_URL}/api/media/file/`)
-    .replace(/srcset="\/media\//g, `srcset="${CMS_PUBLIC_URL}/api/media/file/`)
-    .replace(/srcset='\/media\//g, `srcset='${CMS_PUBLIC_URL}/api/media/file/`)
-    .replace(/src="\/api\/media\//g, `src="${CMS_PUBLIC_URL}/api/media/`)
-    .replace(/src='\/api\/media\//g, `src='${CMS_PUBLIC_URL}/api/media/`)
-    .replace(/href="\/api\/media\//g, `href="${CMS_PUBLIC_URL}/api/media/`)
-    .replace(/href='\/api\/media\//g, `href='${CMS_PUBLIC_URL}/api/media/`)
-    .replace(/srcset="\/api\/media\//g, `srcset="${CMS_PUBLIC_URL}/api/media/`)
-    .replace(/srcset='\/api\/media\//g, `srcset='${CMS_PUBLIC_URL}/api/media/`)
+    .replace(/src="\/media\//g, `src="${MEDIA_PUBLIC_URL}/`)
+    .replace(/src='\/media\//g, `src='${MEDIA_PUBLIC_URL}/`)
+    .replace(/href="\/media\//g, `href="${MEDIA_PUBLIC_URL}/`)
+    .replace(/href='\/media\//g, `href='${MEDIA_PUBLIC_URL}/`)
+    .replace(/srcset="\/media\//g, `srcset="${MEDIA_PUBLIC_URL}/`)
+    .replace(/srcset='\/media\//g, `srcset='${MEDIA_PUBLIC_URL}/`)
+    .replace(/src="\/api\/media\/file\//g, `src="${MEDIA_PUBLIC_URL}/`)
+    .replace(/src='\/api\/media\/file\//g, `src='${MEDIA_PUBLIC_URL}/`)
+    .replace(/href="\/api\/media\/file\//g, `href="${MEDIA_PUBLIC_URL}/`)
+    .replace(/href='\/api\/media\/file\//g, `href='${MEDIA_PUBLIC_URL}/`)
+    .replace(/srcset="\/api\/media\/file\//g, `srcset="${MEDIA_PUBLIC_URL}/`)
+    .replace(/srcset='\/api\/media\/file\//g, `srcset='${MEDIA_PUBLIC_URL}/`)
   return (
     <div
       className={`rt-prose prose max-w-none ${className}`.trim()}

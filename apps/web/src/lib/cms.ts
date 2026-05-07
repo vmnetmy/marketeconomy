@@ -3,6 +3,8 @@ import type { SerializedEditorState } from 'lexical'
 const REVALIDATE_SECONDS = 60
 export const CMS_URL = process.env.CMS_URL || process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000'
 export const CMS_PUBLIC_URL = process.env.NEXT_PUBLIC_CMS_URL || CMS_URL
+export const MEDIA_PUBLIC_URL =
+  process.env.NEXT_PUBLIC_MEDIA_URL || 'https://storage.googleapis.com/marketeconomy-media'
 
 export type CMSMedia = {
   url?: string | null
@@ -384,6 +386,21 @@ function buildPublicUrl(path: string): string {
   return `${CMS_PUBLIC_URL}${path.startsWith('/') ? '' : '/'}${path}`
 }
 
+function buildMediaUrl(path: string): string | null {
+  const mediaFilePrefix = '/api/media/file/'
+  const legacyMediaPrefix = '/media/'
+
+  if (path.startsWith(mediaFilePrefix)) {
+    return `${MEDIA_PUBLIC_URL}/${path.slice(mediaFilePrefix.length)}`
+  }
+
+  if (path.startsWith(legacyMediaPrefix)) {
+    return `${MEDIA_PUBLIC_URL}/${path.slice(legacyMediaPrefix.length)}`
+  }
+
+  return null
+}
+
 async function fetchJSON<T>(
   path: string,
   init?: RequestInit & { next?: { revalidate?: number } },
@@ -406,9 +423,13 @@ export function resolveMediaUrl(media?: CMSMedia | string | null): string | null
   if (!media) return null
   if (typeof media === 'string') {
     if (media.startsWith('http://') || media.startsWith('https://')) return media
+    const mediaUrl = buildMediaUrl(media)
+    if (mediaUrl) return mediaUrl
     return null
   }
   if (!media.url) return null
+  const mediaUrl = buildMediaUrl(media.url)
+  if (mediaUrl) return mediaUrl
   return buildPublicUrl(media.url)
 }
 
