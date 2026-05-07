@@ -8,6 +8,10 @@
     "dev:web": "pnpm --filter @marketeconomy/web dev",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
+    "deploy:production": "bash scripts/deploy-production.sh",
+    "rollback:production": "bash scripts/rollback-production.sh",
+    "backup:production": "bash scripts/backup-production.sh",
+    "smoke:production": "node scripts/smoke-production.js",
     "ts-node": "node scripts/ts-node-wrapper.mjs"
   },
   "pnpm": {

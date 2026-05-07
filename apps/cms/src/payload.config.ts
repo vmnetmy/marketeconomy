@@ -24,11 +24,16 @@ import { createGatedDownload, downloadGatedFile } from './endpoints/gatedDownloa
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+const isProduction = process.env.NODE_ENV === 'production'
+const defaultUploadRoot = isProduction
+  ? '/srv/apps/marketeconomy/shared/uploads'
+  : path.resolve(dirname, '../uploads')
+const mediaUploadDir = process.env.MEDIA_UPLOAD_DIR || path.resolve(defaultUploadRoot, 'media')
 const gcsBucket = process.env.GCS_BUCKET || ''
 const gcsProjectId = process.env.GCS_PROJECT_ID || ''
 const gcsEndpoint = process.env.GCS_ENDPOINT
-const gcsEnabled = Boolean(gcsBucket && gcsProjectId)
-const isProduction = process.env.NODE_ENV === 'production'
+const mediaStorageDriver = process.env.MEDIA_STORAGE_DRIVER || 'local'
+const gcsEnabled = mediaStorageDriver === 'gcs' && Boolean(gcsBucket && gcsProjectId)
 const webOrigins = Array.from(
   new Set(
     [
@@ -108,11 +113,12 @@ export default buildConfig({
     }),
   ],
   onInit: async (payload) => {
-    if (isProduction && !gcsEnabled) {
-      payload.logger.error(
-        'GCS storage is not configured. Set GCS_BUCKET and GCS_PROJECT_ID to avoid local media uploads in production.',
-      )
-      throw new Error('Missing GCS_BUCKET/GCS_PROJECT_ID in production.')
+    if (mediaStorageDriver === 'gcs' && (!gcsBucket || !gcsProjectId)) {
+      throw new Error('Missing GCS_BUCKET/GCS_PROJECT_ID while MEDIA_STORAGE_DRIVER=gcs.')
+    }
+
+    if (isProduction && mediaStorageDriver === 'local') {
+      payload.logger.info(`Using local media uploads at ${mediaUploadDir}.`)
     }
   },
 })

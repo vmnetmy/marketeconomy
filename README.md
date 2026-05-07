@@ -33,9 +33,14 @@ Create `apps/cms/.env`:
 ```
 DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/DB
 PAYLOAD_SECRET=change_me
-GCS_BUCKET=your-bucket-name
-GCS_PROJECT_ID=your-gcp-project-id
-# Optional (custom endpoint for GCS-compatible storage)
+MEDIA_STORAGE_DRIVER=local
+MEDIA_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/media
+DATASET_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/datasets
+
+# Optional legacy GCS media storage
+# MEDIA_STORAGE_DRIVER=gcs
+# GCS_BUCKET=your-bucket-name
+# GCS_PROJECT_ID=your-gcp-project-id
 # GCS_ENDPOINT=https://storage.googleapis.com
 ```
 
@@ -90,9 +95,9 @@ From `apps/cms`:
 ## Notes
 
 - A pnpm patch is applied to `@payloadcms/next` to suppress a known admin hydration mismatch.
+- Media uploads use local storage by default.
+- Production local uploads should live under `/srv/apps/marketeconomy/shared/uploads` so releases and rollbacks do not remove uploaded files.
 - If the admin UI shows hydration errors after changes, run:
-  - Media uploads use Google Cloud Storage when `GCS_BUCKET` and `GCS_PROJECT_ID` are set.
-  - In production, the CMS refuses to start without these two values to avoid local uploads.
 
 ```bash
 pnpm -C apps/cms devsafe

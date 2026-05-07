@@ -1,6 +1,13 @@
 import type { CollectionConfig } from 'payload'
+import path from 'path'
 
 import { authenticated } from '../access'
+
+const defaultUploadRoot =
+  process.env.NODE_ENV === 'production'
+    ? '/srv/apps/marketeconomy/shared/uploads'
+    : path.resolve(process.cwd(), 'uploads')
+const mediaUploadDir = process.env.MEDIA_UPLOAD_DIR || path.resolve(defaultUploadRoot, 'media')
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -21,5 +28,7 @@ export const Media: CollectionConfig = {
       type: 'text',
     },
   ],
-  upload: true,
+  upload: {
+    staticDir: mediaUploadDir,
+  },
 }

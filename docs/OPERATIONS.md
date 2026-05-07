@@ -1,5 +1,17 @@
 # Operations
 
+## Current production
+
+The dedicated server deployment is documented in:
+
+- `docs/DEPLOYMENT.md`
+- `docs/BACKUP_AND_RESTORE.md`
+- `docs/DEDICATED_SERVER_MIGRATION_REPORT.md`
+
+Use `pnpm deploy:production`, `pnpm rollback:production`, `pnpm backup:production`, and `pnpm smoke:production` for current production operations.
+
+The Cloud Run notes below are retained as legacy migration reference only.
+
 ## Cloud Run services
 
 List services:

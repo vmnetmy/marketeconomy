@@ -6,3 +6,4 @@ uploads
 .firebase
 out
 apps/web/out
+smoke-results

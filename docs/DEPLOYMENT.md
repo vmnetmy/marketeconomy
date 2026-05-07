@@ -1,48 +1,95 @@
 # Deployment
 
-## Overview
-This project deploys two Cloud Run services.
+## Current production
 
-- CMS service: `marketeconomy-cms`
-- Web service: `marketeconomy-web`
+Production runs on the Yeahhost dedicated server:
 
-Builds are done with Cloud Build configs in the repo root.
+- Web: `https://marketeconomy.org`
+- CMS: `https://cms.marketeconomy.org/admin`
+- App root: `/srv/apps/marketeconomy`
+- Active app path: `/srv/apps/marketeconomy/current`
+- Source checkout: `/srv/apps/marketeconomy/repo`
+- Releases: `/srv/apps/marketeconomy/releases/<timestamp>`
+- Shared env and uploads: `/srv/apps/marketeconomy/shared`
 
-## CMS deploy
+The old Cloud Build, Firebase, and Cloud Run files are legacy migration artifacts. Do not use them for normal production deployment.
 
-From the repo root:
+## GitHub Actions deployment
+
+`.github/workflows/production.yml` runs `pnpm build` for pull requests and pushes. The CI build points the web app at `https://cms.marketeconomy.org` so static prerendering has a CMS API available.
+
+Pushes to `main` deploy over SSH to the dedicated server, then run production smoke tests on the server.
+
+Required GitHub environment or repository secrets:
+
+- `PROD_SSH_HOST`
+- `PROD_SSH_KEY`
+- `PROD_SSH_PORT` optional, defaults to `22`
+- `PROD_SSH_USER` optional, defaults to `marketeco`
+
+The SSH key should allow the deployment user to update the source checkout and run the production scripts. Store the private key only in GitHub secrets.
+
+## Manual production deploy
+
+Run this on the production server:
 
 ```bash
-# Build and push the CMS image
-
-gcloud builds submit --config cloudbuild.cms.yaml .
+cd /srv/apps/marketeconomy/current
+pnpm deploy:production
 ```
 
-The Cloud Build config builds the image and pushes to:
+The deployment script:
 
-- `us-central1-docker.pkg.dev/marketeconomy/cms/cms:latest`
+- Updates `/srv/apps/marketeconomy/repo` from `main`.
+- Creates a timestamped release under `/srv/apps/marketeconomy/releases`.
+- Installs dependencies from the lockfile.
+- Builds CMS and web.
+- Copies `.next/static` and `public` into each standalone runtime.
+- Runs Payload migrations.
+- Switches `/srv/apps/marketeconomy/current` to the new release.
+- Restarts `marketeconomy-cms.service` and `marketeconomy-web.service`.
 
-Cloud Run picks up the new image according to your current service settings.
-
-## Web deploy
-
-From the repo root:
+Run smoke tests after every deploy:
 
 ```bash
-# Build and push the Web image
-
-gcloud builds submit --config cloudbuild.web.yaml .
+cd /srv/apps/marketeconomy/current
+pnpm smoke:production
 ```
 
-The Cloud Build config builds the image and pushes to:
+Smoke artifacts are written to `smoke-results/` and must not be committed.
 
-- `us-central1-docker.pkg.dev/marketeconomy/web/web:latest`
+## Rollback
 
-Cloud Run picks up the new image according to your current service settings.
+Rollback switches the `current` symlink to the previous release and restarts the app services:
 
-## Confirm deploy
+```bash
+cd /srv/apps/marketeconomy/current
+pnpm rollback:production
+```
 
-- CMS URL: `https://cms.marketeconomy.org`
-- Web URL: `https://marketeconomy.org`
+To roll back to a specific release:
 
-Tip: allow a few minutes for Cloud Run to roll out and for cache to refresh.
+```bash
+pnpm rollback:production 20260507093000
+```
+
+Rollback does not reverse database migrations. For database rollback, restore from a tested PostgreSQL backup.
+
+## Local media storage
+
+Production media is moving to local server storage:
+
+```text
+/srv/apps/marketeconomy/shared/uploads/media
+/srv/apps/marketeconomy/shared/uploads/datasets
+```
+
+Use these environment variables when local storage is active:
+
+```bash
+MEDIA_STORAGE_DRIVER=local
+MEDIA_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/media
+DATASET_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/datasets
+```
+
+Keep legacy GCS variables only while migrating existing media. Once migration is complete, remove GCS credentials from production env unless they are still needed for reading legacy assets.
