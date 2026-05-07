@@ -22,6 +22,30 @@ log() {
   printf '[deploy-production] %s\n' "$*"
 }
 
+running_as_root() {
+  [ "$(id -u)" -eq 0 ]
+}
+
+ensure_dir() {
+  if running_as_root; then
+    install -d -o "${APP_USER}" -g "${APP_GROUP}" "$@"
+  else
+    install -d "$@"
+  fi
+}
+
+chown_if_root() {
+  if running_as_root; then
+    chown -R "${APP_USER}:${APP_GROUP}" "$@"
+  fi
+}
+
+chown_symlink_if_root() {
+  if running_as_root; then
+    chown -h "${APP_USER}:${APP_GROUP}" "$@"
+  fi
+}
+
 ensure_source_repo() {
   if [ -d "${SOURCE_DIR}/.git" ]; then
     return
@@ -29,10 +53,10 @@ ensure_source_repo() {
 
   if [ -d "${CURRENT_LINK}/.git" ]; then
     log "Creating source checkout at ${SOURCE_DIR} from existing current checkout."
-    install -d -o "${APP_USER}" -g "${APP_GROUP}" "${SOURCE_DIR}"
+    ensure_dir "${SOURCE_DIR}"
     rmdir "${SOURCE_DIR}"
     git clone "${CURRENT_LINK}" "${SOURCE_DIR}"
-    chown -R "${APP_USER}:${APP_GROUP}" "${SOURCE_DIR}"
+    chown_if_root "${SOURCE_DIR}"
     return
   fi
 
@@ -49,12 +73,12 @@ fetch_source() {
 }
 
 create_release() {
-  install -d -o "${APP_USER}" -g "${APP_GROUP}" "${RELEASES_DIR}" "${SHARED_DIR}/uploads/media" "${SHARED_DIR}/uploads/datasets"
-  install -d -o "${APP_USER}" -g "${APP_GROUP}" "${RELEASE_DIR}"
+  ensure_dir "${RELEASES_DIR}" "${SHARED_DIR}/uploads/media" "${SHARED_DIR}/uploads/datasets"
+  ensure_dir "${RELEASE_DIR}"
 
   cd "${SOURCE_DIR}"
   git archive "${DEPLOY_REF}" | tar -x -C "${RELEASE_DIR}"
-  chown -R "${APP_USER}:${APP_GROUP}" "${RELEASE_DIR}"
+  chown_if_root "${RELEASE_DIR}"
 }
 
 set -a
@@ -66,7 +90,7 @@ sync_next_standalone_assets() {
   local app_dir="${RELEASE_DIR}/apps/${app}"
   local standalone_dir="${app_dir}/.next/standalone/apps/${app}"
 
-  install -d -o "${APP_USER}" -g "${APP_GROUP}" "${standalone_dir}/.next"
+  ensure_dir "${standalone_dir}/.next"
   rm -rf "${standalone_dir}/.next/static"
   cp -a "${app_dir}/.next/static" "${standalone_dir}/.next/static"
 
@@ -75,8 +99,8 @@ sync_next_standalone_assets() {
     cp -a "${app_dir}/public" "${standalone_dir}/public"
   fi
 
-  chown -R "${APP_USER}:${APP_GROUP}" "${standalone_dir}/.next/static"
-  [ ! -d "${standalone_dir}/public" ] || chown -R "${APP_USER}:${APP_GROUP}" "${standalone_dir}/public"
+  chown_if_root "${standalone_dir}/.next/static"
+  [ ! -d "${standalone_dir}/public" ] || chown_if_root "${standalone_dir}/public"
 }
 
 activate_release() {
@@ -90,7 +114,7 @@ activate_release() {
   fi
 
   ln -sfn "${RELEASE_DIR}" "${CURRENT_LINK}"
-  chown -h "${APP_USER}:${APP_GROUP}" "${CURRENT_LINK}"
+  chown_symlink_if_root "${CURRENT_LINK}"
 
   log "Activated release ${RELEASE_DIR}."
   if [ -n "${previous}" ]; then

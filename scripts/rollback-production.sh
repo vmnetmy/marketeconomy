@@ -14,6 +14,12 @@ log() {
   printf '[rollback-production] %s\n' "$*"
 }
 
+chown_symlink_if_root() {
+  if [ "$(id -u)" -eq 0 ]; then
+    chown -h "${APP_USER}:${APP_GROUP}" "$@"
+  fi
+}
+
 if [ ! -d "${RELEASES_DIR}" ]; then
   echo "Release directory does not exist: ${RELEASES_DIR}" >&2
   exit 1
@@ -64,7 +70,7 @@ if [ ! -d "${TARGET_RELEASE}/apps/web/.next/standalone/apps/web" ]; then
 fi
 
 ln -sfn "${TARGET_RELEASE}" "${CURRENT_LINK}"
-chown -h "${APP_USER}:${APP_GROUP}" "${CURRENT_LINK}"
+chown_symlink_if_root "${CURRENT_LINK}"
 
 sudo /bin/systemctl restart marketeconomy-cms.service
 sudo /bin/systemctl restart marketeconomy-web.service
