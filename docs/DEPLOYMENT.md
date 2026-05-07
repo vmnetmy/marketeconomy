@@ -29,6 +29,8 @@ Required GitHub environment or repository secrets:
 
 The SSH key should allow the deployment user to update the source checkout and run the production scripts. Store the private key only in GitHub secrets.
 
+Before the first GitHub Actions deploy, bootstrap `/srv/apps/marketeconomy/repo` on the server. The legacy `/srv/apps/marketeconomy/current` checkout may not contain the deployment scripts yet.
+
 ## Manual production deploy
 
 Run this on the production server:

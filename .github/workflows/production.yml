@@ -69,7 +69,16 @@ jobs:
         run: |
           set -euo pipefail
           ssh -p "${PROD_SSH_PORT}" "${PROD_SSH_USER}@${PROD_SSH_HOST}" \
-            'if [ -d /srv/apps/marketeconomy/repo/.git ]; then cd /srv/apps/marketeconomy/repo && git fetch origin main && git checkout main && git pull --ff-only origin main; else cd /srv/apps/marketeconomy/current; fi && DEPLOY_BRANCH=main pnpm deploy:production'
+            'set -euo pipefail
+            if [ ! -d /srv/apps/marketeconomy/repo/.git ]; then
+              echo "Missing /srv/apps/marketeconomy/repo. Bootstrap the server source checkout before deploying."
+              exit 1
+            fi
+            cd /srv/apps/marketeconomy/repo
+            git fetch origin main
+            git checkout main
+            git pull --ff-only origin main
+            DEPLOY_BRANCH=main pnpm deploy:production'
 
       - name: Check out repository for smoke test
         uses: actions/checkout@v4

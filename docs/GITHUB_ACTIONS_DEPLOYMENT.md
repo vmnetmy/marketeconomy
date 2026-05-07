@@ -53,13 +53,14 @@ PROD_SSH_USER=marketeco
 PROD_SSH_KEY=<private SSH key used by GitHub Actions>
 ```
 
-`PROD_SSH_KEY` must be the private key whose public key exists in:
+`PROD_SSH_KEY` must be the private key whose public key has been installed in:
 
 ```text
 /home/marketeco/.ssh/authorized_keys
 ```
 
 Do not use the server root password in GitHub Actions.
+Do not use a root SSH key in GitHub Actions.
 
 ## One-Time SSH Key Setup
 
@@ -69,7 +70,19 @@ Generate a dedicated deploy key:
 ssh-keygen -t ed25519 -C "github-actions-marketeconomy-production" -f ~/.ssh/marketeconomy_github_actions
 ```
 
-Install the public key on the server for `marketeco`:
+Install the public key on the server for `marketeco`. The file may not exist yet.
+
+Preferred setup from a root shell on the server:
+
+```bash
+install -d -m 700 -o marketeco -g marketeco /home/marketeco/.ssh
+touch /home/marketeco/.ssh/authorized_keys
+chmod 600 /home/marketeco/.ssh/authorized_keys
+chown marketeco:marketeco /home/marketeco/.ssh/authorized_keys
+cat /path/to/marketeconomy_github_actions.pub >> /home/marketeco/.ssh/authorized_keys
+```
+
+If you have direct `marketeco` SSH access already, this also works:
 
 ```bash
 ssh-copy-id -i ~/.ssh/marketeconomy_github_actions.pub -p 6262 marketeco@218.208.89.59
@@ -96,6 +109,35 @@ cat ~/.ssh/marketeconomy_github_actions
 ```
 
 Paste the full private key into `PROD_SSH_KEY`.
+
+## First-Run Server Bootstrap
+
+Before the first GitHub Actions deploy, bootstrap the production source checkout once. The server's old `current` checkout may not contain `pnpm deploy:production`, so the workflow expects the source checkout to exist at `/srv/apps/marketeconomy/repo`.
+
+SSH to the server with an administrative account:
+
+```bash
+ssh -p 6262 root@218.208.89.59
+```
+
+Then run:
+
+```bash
+install -d -o marketeco -g marketeco /srv/apps/marketeconomy
+sudo -u marketeco git clone https://github.com/vmnetmy/marketeconomy /srv/apps/marketeconomy/repo
+sudo -u marketeco bash -lc 'cd /srv/apps/marketeconomy/repo && git checkout main'
+```
+
+Only rerun GitHub Actions after both first-run unblocks are complete:
+
+1. The dedicated deploy public key is installed in `/home/marketeco/.ssh/authorized_keys`.
+2. `/srv/apps/marketeconomy/repo` exists and is on `main`.
+
+Then rerun:
+
+```bash
+gh workflow run Production --repo vmnetmy/marketeconomy --ref main
+```
 
 ## Server Repository Access
 
