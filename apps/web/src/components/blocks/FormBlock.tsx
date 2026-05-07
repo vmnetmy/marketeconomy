@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 import type { CMSBlock, FormAdvancedSettings } from '../../lib/cms'
-import { CMS_URL } from '../../lib/cms'
+import { CMS_PUBLIC_URL } from '../../lib/cms'
 import { getFormStyles, getSectionProps } from '../../lib/blocks'
 import { SectionWrapper } from '../layout/SectionWrapper'
 
@@ -79,7 +79,7 @@ export function FormBlock({ block }: { block: FormBlock }) {
     }
 
     try {
-      const res = await fetch(`${CMS_URL}/api/form-submissions`, {
+      const res = await fetch(`${CMS_PUBLIC_URL}/api/form-submissions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

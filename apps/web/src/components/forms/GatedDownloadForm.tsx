@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { CMS_URL } from '../../lib/cms'
+import { CMS_PUBLIC_URL } from '../../lib/cms'
 
 type GatedDownloadFormProps = {
   resourceType: 'policyBrief' | 'eventReport'
@@ -25,7 +25,7 @@ export function GatedDownloadForm({ resourceType, resourceId, buttonLabel = 'Dow
     const email = String(formData.get('email') || '').trim()
 
     try {
-      const res = await fetch(`${CMS_URL}/api/gated-downloads`, {
+      const res = await fetch(`${CMS_PUBLIC_URL}/api/gated-downloads`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

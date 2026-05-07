@@ -2,6 +2,7 @@ import type { SerializedEditorState } from 'lexical'
 
 const REVALIDATE_SECONDS = 60
 export const CMS_URL = process.env.CMS_URL || process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000'
+export const CMS_PUBLIC_URL = process.env.NEXT_PUBLIC_CMS_URL || CMS_URL
 
 export type CMSMedia = {
   url?: string | null
@@ -378,6 +379,11 @@ function buildUrl(path: string): string {
   return `${CMS_URL}${path.startsWith('/') ? '' : '/'}${path}`
 }
 
+function buildPublicUrl(path: string): string {
+  if (path.startsWith('http://') || path.startsWith('https://')) return path
+  return `${CMS_PUBLIC_URL}${path.startsWith('/') ? '' : '/'}${path}`
+}
+
 async function fetchJSON<T>(
   path: string,
   init?: RequestInit & { next?: { revalidate?: number } },
@@ -403,7 +409,7 @@ export function resolveMediaUrl(media?: CMSMedia | string | null): string | null
     return null
   }
   if (!media.url) return null
-  return buildUrl(media.url)
+  return buildPublicUrl(media.url)
 }
 
 export async function getPageBySlug(slug: string): Promise<PageDoc | null> {

@@ -144,7 +144,7 @@ pnpm --filter @marketeconomy/cms build
 sync_next_standalone_assets cms
 pnpm --filter @marketeconomy/cms payload migrate
 
-CMS_URL=http://127.0.0.1:3010 pnpm --filter @marketeconomy/web build
+CMS_URL=http://127.0.0.1:3010 NEXT_PUBLIC_CMS_URL=https://cms.marketeconomy.org pnpm --filter @marketeconomy/web build
 sync_next_standalone_assets web
 
 activate_release

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { CMS_URL } from '../../lib/cms'
+import { CMS_PUBLIC_URL } from '../../lib/cms'
 
 type EventRegistrationFormProps = {
   eventId: string
@@ -40,7 +40,7 @@ export function EventRegistrationForm({ eventId, eventTitle, isClosed = false }:
     }
 
     try {
-      const res = await fetch(`${CMS_URL}/api/eventRegistrations`, {
+      const res = await fetch(`${CMS_PUBLIC_URL}/api/eventRegistrations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
