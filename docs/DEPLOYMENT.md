@@ -79,7 +79,7 @@ Rollback does not reverse database migrations. For database rollback, restore fr
 
 ## Local media storage
 
-Production media is moving to local server storage:
+Production has shared local upload directories available:
 
 ```text
 /srv/apps/marketeconomy/shared/uploads/media
@@ -94,4 +94,10 @@ MEDIA_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/media
 DATASET_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/datasets
 ```
 
-Keep legacy GCS variables only while migrating existing media. Once migration is complete, remove GCS credentials from production env unless they are still needed for reading legacy assets.
+Existing imported media is currently rendered from the public legacy bucket:
+
+```bash
+NEXT_PUBLIC_MEDIA_URL=https://storage.googleapis.com/marketeconomy-media
+```
+
+Do not remove `NEXT_PUBLIC_MEDIA_URL` until the CMS upload serving path has been fully tested and smoke tests pass without the legacy bucket.

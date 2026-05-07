@@ -10,6 +10,19 @@ The dedicated server deployment is documented in:
 
 Use `pnpm deploy:production`, `pnpm rollback:production`, `pnpm backup:production`, and `pnpm smoke:production` for current production operations.
 
+Root-only server administration helpers live in `scripts/server/`.
+These are for initial setup, mail setup, and diagnostics; normal deployments should use GitHub Actions or `pnpm deploy:production`.
+
+Useful helpers:
+
+- `scripts/server/bootstrap-github-actions.sh`: install the GitHub Actions deploy public key and bootstrap `/srv/apps/marketeconomy/repo`.
+- `scripts/server/setup-local-mailboxes.sh`: create local mailbox files for `marketeconomy.org`.
+- `scripts/server/setup-dkim.sh`: generate or verify DKIM key material and print the DNS value.
+- `scripts/server/configure-app-mail-env.sh`: configure CMS SMTP environment values from the server mailbox credential file.
+- `scripts/server/verify-local-mail.sh`: verify local routing, Dovecot auth, and local delivery.
+- `scripts/server/verify-outbound-mail.sh`: send the outbound Gmail verification message and inspect Exim logs.
+- `scripts/server/test-smtp-node.sh`: verify Node/Nodemailer SMTP connectivity from the deployed CMS runtime.
+
 The Cloud Run notes below are retained as legacy migration reference only.
 
 ## Cloud Run services
