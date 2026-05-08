@@ -3,14 +3,14 @@ import type { SerializedEditorState } from 'lexical'
 const REVALIDATE_SECONDS = 60
 export const CMS_URL = process.env.CMS_URL || process.env.NEXT_PUBLIC_CMS_URL || 'http://localhost:3000'
 export const CMS_PUBLIC_URL = process.env.NEXT_PUBLIC_CMS_URL || CMS_URL
-export const MEDIA_PUBLIC_URL =
-  process.env.NEXT_PUBLIC_MEDIA_URL || 'https://storage.googleapis.com/marketeconomy-media'
+export const MEDIA_PUBLIC_URL = process.env.NEXT_PUBLIC_MEDIA_URL
 
 export type CMSMedia = {
   url?: string | null
   alt?: string | null
   caption?: string | null
   filename?: string | null
+  mimeType?: string | null
 }
 
 export type NavItem = {
@@ -391,11 +391,13 @@ function buildMediaUrl(path: string): string | null {
   const legacyMediaPrefix = '/media/'
 
   if (path.startsWith(mediaFilePrefix)) {
-    return `${MEDIA_PUBLIC_URL}/${path.slice(mediaFilePrefix.length)}`
+    if (MEDIA_PUBLIC_URL) return `${MEDIA_PUBLIC_URL}/${path.slice(mediaFilePrefix.length)}`
+    return buildPublicUrl(path)
   }
 
   if (path.startsWith(legacyMediaPrefix)) {
-    return `${MEDIA_PUBLIC_URL}/${path.slice(legacyMediaPrefix.length)}`
+    if (MEDIA_PUBLIC_URL) return `${MEDIA_PUBLIC_URL}/${path.slice(legacyMediaPrefix.length)}`
+    return buildPublicUrl(`/api/media/file/${path.slice(legacyMediaPrefix.length)}`)
   }
 
   return null
