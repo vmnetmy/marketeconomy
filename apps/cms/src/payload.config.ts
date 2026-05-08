@@ -1,6 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { gcsStorage } from '@payloadcms/storage-gcs'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -29,11 +28,6 @@ const defaultUploadRoot = isProduction
   ? '/srv/apps/marketeconomy/shared/uploads'
   : path.resolve(dirname, '../uploads')
 const mediaUploadDir = process.env.MEDIA_UPLOAD_DIR || path.resolve(defaultUploadRoot, 'media')
-const gcsBucket = process.env.GCS_BUCKET || ''
-const gcsProjectId = process.env.GCS_PROJECT_ID || ''
-const gcsEndpoint = process.env.GCS_ENDPOINT
-const mediaStorageDriver = process.env.MEDIA_STORAGE_DRIVER || 'local'
-const gcsEnabled = mediaStorageDriver === 'gcs' && Boolean(gcsBucket && gcsProjectId)
 const webOrigins = Array.from(
   new Set(
     [
@@ -99,25 +93,9 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [
-    gcsStorage({
-      enabled: gcsEnabled,
-      bucket: gcsBucket,
-      options: {
-        projectId: gcsProjectId,
-        ...(gcsEndpoint ? { apiEndpoint: gcsEndpoint } : {}),
-      },
-      collections: {
-        media: true,
-      },
-    }),
-  ],
+  plugins: [],
   onInit: async (payload) => {
-    if (mediaStorageDriver === 'gcs' && (!gcsBucket || !gcsProjectId)) {
-      throw new Error('Missing GCS_BUCKET/GCS_PROJECT_ID while MEDIA_STORAGE_DRIVER=gcs.')
-    }
-
-    if (isProduction && mediaStorageDriver === 'local') {
+    if (isProduction) {
       payload.logger.info(`Using local media uploads at ${mediaUploadDir}.`)
     }
   },

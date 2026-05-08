@@ -1,7 +1,7 @@
 # Migrations
 
 ## Overview
-Payload migrations are created locally, then run on production using a Cloud Run Job.
+Payload migrations are created locally and run on the production VPS during deployment.
 
 ## Create a migration
 
@@ -19,26 +19,15 @@ Commit the migration files before deploying.
 
 ## Run migrations on production
 
-We use a Cloud Run Job named `cms-migrate`.
-
-### Build the migration image
-
-```bash
-# Build and push the migration image
-
-gcloud builds submit --config cloudbuild.migrate.yaml .
-```
-
-The job image is:
-
-- `us-central1-docker.pkg.dev/marketeconomy/cms/cms-migrate:latest`
-
-### Run the job
+Deployments run migrations automatically through `scripts/deploy-production.sh`.
+For a manual migration-only run, execute the Payload migration command on the production VPS:
 
 ```bash
-# Execute migrations on production
-
-gcloud run jobs execute cms-migrate --region us-central1 --project marketeconomy --wait
+cd /srv/apps/marketeconomy/current
+set -a
+. /srv/apps/marketeconomy/shared/.env
+set +a
+pnpm --filter @marketeconomy/cms payload migrate
 ```
 
 ## Verify migration state (production)
@@ -76,8 +65,8 @@ Compare the latest applied migration with the repo latest:
 ## Safe workflow (migrations + seeds)
 
 1. Backup production database.
-2. Run migrations in staging first (using the same migration image and env as prod).
-3. Run migrations in production via the `cms-migrate` Cloud Run Job.
+2. Run migrations in staging first using the same application code and environment shape as production.
+3. Run migrations in production through `pnpm deploy:production` or the manual VPS command above.
 4. Verify schema and migration state (queries above).
 5. Run seed scripts only after migrations are confirmed.
 
@@ -86,19 +75,6 @@ Compare the latest applied migration with the repo latest:
 Interactive "create/rename" prompts appear when the running schema does not match
 the migrations/code. Avoid them by:
 
-- Always running `pnpm payload migrate` (via `cms-migrate` job) before any seeds.
+- Always running `pnpm payload migrate` before any seeds.
 - Ensuring `payload_migrations` latest equals the repo latest.
 - Do not run seed scripts against a DB that has not been migrated to the current code.
-
-## Job configuration
-
-The `cms-migrate` job should match the CMS service in these areas:
-
-- `DATABASE_URL`
-- `PAYLOAD_SECRET`
-- `GCS_BUCKET`
-- `GCS_PROJECT_ID`
-- Cloud SQL instance attachment
-- Service account
-
-If the CMS service changes, update the job to match.

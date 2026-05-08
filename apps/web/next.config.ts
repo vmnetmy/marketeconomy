@@ -19,14 +19,6 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "storage.googleapis.com",
-      },
-      {
-        protocol: "https",
-        hostname: "marketeconomy-media.storage.googleapis.com",
-      },
-      {
-        protocol: "https",
         hostname: "images.unsplash.com",
       },
     ],

@@ -41,26 +41,16 @@ RETENTION_DAYS=30 pnpm backup:production
 
 Backups should also be copied off-server. The production server should not be the only copy.
 
-## Migrate existing GCS media
+## Upload storage
 
-Before switching fully to local media, copy existing bucket objects into shared uploads and verify that CMS media URLs resolve.
-
-Recommended sequence:
+Production media and dataset uploads live on the VPS under shared storage:
 
 ```bash
-mkdir -p /srv/apps/marketeconomy/shared/uploads/media
-gsutil -m rsync -r gs://<legacy-media-bucket> /srv/apps/marketeconomy/shared/uploads/media
-```
-
-Then set production env to local media:
-
-```bash
-MEDIA_STORAGE_DRIVER=local
 MEDIA_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/media
 DATASET_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/datasets
 ```
 
-Keep GCS credentials only while validating legacy media. Remove them from `/srv/apps/marketeconomy/shared/.env` after local media is confirmed and no code path needs bucket access.
+These directories are included in `uploads.tar.gz` during production backups.
 
 ## Restore database
 

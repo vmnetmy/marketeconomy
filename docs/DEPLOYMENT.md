@@ -12,7 +12,7 @@ Production runs on the Yeahhost dedicated server:
 - Releases: `/srv/apps/marketeconomy/releases/<timestamp>`
 - Shared env and uploads: `/srv/apps/marketeconomy/shared`
 
-The old Cloud Build, Firebase, and Cloud Run files are legacy migration artifacts. Do not use them for normal production deployment.
+GCP deployment paths have been retired. Production deploys only through GitHub Actions or the VPS deployment script.
 
 ## GitHub Actions deployment
 
@@ -89,15 +89,7 @@ Production has shared local upload directories available:
 Use these environment variables when local storage is active:
 
 ```bash
-MEDIA_STORAGE_DRIVER=local
 MEDIA_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/media
 DATASET_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/datasets
+NEXT_PUBLIC_MEDIA_URL=https://marketeconomy.org/media
 ```
-
-Existing imported media is currently rendered from the public legacy bucket:
-
-```bash
-NEXT_PUBLIC_MEDIA_URL=https://storage.googleapis.com/marketeconomy-media
-```
-
-Do not remove `NEXT_PUBLIC_MEDIA_URL` until the CMS upload serving path has been fully tested and smoke tests pass without the legacy bucket.

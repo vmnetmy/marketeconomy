@@ -38,6 +38,7 @@ This report summarizes the current `marketeconomy.org` migration to the Yeahhost
 - A Cloud SQL export was created and restored into the dedicated server PostgreSQL database.
 - Payload migrations were run successfully after restore.
 - CMS API checks confirm that pages and events are available from the migrated database.
+- GCP runtime resources have been retired; current production authority is the dedicated server.
 
 ## DNS and SSL Completed
 
@@ -175,10 +176,9 @@ After fixing standalone static asset deployment:
 
    - `DATABASE_URL`
    - `PAYLOAD_SECRET`
-   - `GCS_BUCKET`
-   - `GCS_PROJECT_ID`
    - `CMS_URL`
    - `NEXT_PUBLIC_CMS_URL`
+   - `NEXT_PUBLIC_MEDIA_URL`
    - `WEB_URL`
    - `NEXT_PUBLIC_WEB_URL`
    - `SMTP_HOST`
@@ -198,7 +198,7 @@ After fixing standalone static asset deployment:
    - Restore procedure.
    - Periodic restore test.
 
-6. Migrate media to local storage and include it in backups.
+6. Maintain local media storage and include it in backups.
 
    Decision: migrate CMS media to local server storage under shared production storage:
 
@@ -207,7 +207,7 @@ After fixing standalone static asset deployment:
    /srv/apps/marketeconomy/shared/uploads/datasets
    ```
 
-   Production backups must include both the PostgreSQL dump and shared uploads. Keep GCS only as a temporary legacy source while existing media is migrated.
+   Production backups must include both the PostgreSQL dump and shared uploads.
 
 7. Complete mail deliverability hardening.
 
@@ -234,6 +234,6 @@ After fixing standalone static asset deployment:
 
    Confirm who owns the initial Payload admin account and password recovery process. Do not store admin credentials in Git or shared docs.
 
-10. Retire or archive obsolete GCP deployment files when the team is confident.
+10. Keep GCP retired.
 
-   The repo still contains Cloud Build and Firebase deployment files. Keep them during the migration stabilization window, then either remove them or mark them clearly as legacy.
+   Cloud Build, Firebase, Cloud Run, Artifact Registry, and GCS deployment paths have been removed from this repository. Future production deployment should remain on the VPS workflow unless a new migration plan is explicitly approved.

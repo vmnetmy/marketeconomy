@@ -33,15 +33,8 @@ Create `apps/cms/.env`:
 ```
 DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/DB
 PAYLOAD_SECRET=change_me
-MEDIA_STORAGE_DRIVER=local
 MEDIA_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/media
 DATASET_UPLOAD_DIR=/srv/apps/marketeconomy/shared/uploads/datasets
-
-# Optional legacy GCS media storage
-# MEDIA_STORAGE_DRIVER=gcs
-# GCS_BUCKET=your-bucket-name
-# GCS_PROJECT_ID=your-gcp-project-id
-# GCS_ENDPOINT=https://storage.googleapis.com
 ```
 
 Optional (web app, defaults to `http://localhost:3000`):
