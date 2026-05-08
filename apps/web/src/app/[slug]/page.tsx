@@ -10,13 +10,16 @@ import {
 import { notFound } from 'next/navigation'
 
 type PageProps = {
-  params: { slug: string }
+  params: Promise<{ slug?: string | string[] }> | { slug?: string | string[] }
 }
 
 export const dynamic = 'force-dynamic'
 
 export default async function Page({ params }: PageProps) {
-  const { slug } = params
+  const resolvedParams = await Promise.resolve(params)
+  const slug = Array.isArray(resolvedParams?.slug) ? resolvedParams.slug[0] : resolvedParams?.slug
+  if (!slug) return notFound()
+
   if (['updates', 'policy-briefs'].includes(slug)) return notFound()
   const [page, site] = await Promise.all([getPageBySlug(slug), getSiteSettings()])
 
