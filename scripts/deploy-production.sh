@@ -22,6 +22,17 @@ log() {
   printf '[deploy-production] %s\n' "$*"
 }
 
+run_pnpm() {
+  if [ -n "${PNPM_RUNNER:-}" ]; then
+    local -a pnpm_runner
+    read -r -a pnpm_runner <<< "${PNPM_RUNNER}"
+    "${pnpm_runner[@]}" "$@"
+    return
+  fi
+
+  pnpm "$@"
+}
+
 running_as_root() {
   [ "$(id -u)" -eq 0 ]
 }
@@ -137,14 +148,14 @@ fetch_source
 create_release
 
 cd "${RELEASE_DIR}"
-CI=true pnpm install --frozen-lockfile --prod=false
+CI=true run_pnpm install --frozen-lockfile --prod=false
 
-pnpm --filter @marketeconomy/cms generate:importmap
-pnpm --filter @marketeconomy/cms build
+run_pnpm --filter @marketeconomy/cms generate:importmap
+run_pnpm --filter @marketeconomy/cms build
 sync_next_standalone_assets cms
-pnpm --filter @marketeconomy/cms payload migrate
+run_pnpm --filter @marketeconomy/cms payload migrate
 
-CMS_URL=http://127.0.0.1:3010 NEXT_PUBLIC_CMS_URL=https://cms.marketeconomy.org NEXT_PUBLIC_MEDIA_URL=https://marketeconomy.org/media pnpm --filter @marketeconomy/web build
+CMS_URL=http://127.0.0.1:3010 NEXT_PUBLIC_CMS_URL=https://cms.marketeconomy.org NEXT_PUBLIC_MEDIA_URL=https://marketeconomy.org/media run_pnpm --filter @marketeconomy/web build
 sync_next_standalone_assets web
 
 activate_release
