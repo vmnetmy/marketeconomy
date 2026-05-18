@@ -63,7 +63,10 @@ const interestingRequest = (url) => {
 
 const ignoredRequestFailure = (request) => {
   const failure = request.failure()
-  return Boolean(failure && failure.errorText === 'net::ERR_ABORTED' && request.url().includes('_rsc='))
+  if (!failure || failure.errorText !== 'net::ERR_ABORTED') return false
+
+  const url = request.url()
+  return url.includes('_rsc=') || /\.(mp4|webm|mov)(?:[?#]|$)/i.test(url)
 }
 
 async function inspectPage(browser, spec) {
