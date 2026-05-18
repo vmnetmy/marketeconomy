@@ -60,6 +60,32 @@ pnpm smoke:production
 
 Smoke artifacts are written to `smoke-results/` and must not be committed.
 
+## Server runtime limits
+
+The server's cPanel shell profile can impose low process, file, memory, or data-size limits on app users. Node and pnpm may abort with worker thread or core dump errors if the `marketeco` user limits are too low.
+
+Deployment users should have sufficient limits for Node builds:
+
+- Processes: at least `4096`
+- Open files: at least `4096`
+- Data size: `unlimited`
+- Memory: `unlimited`
+
+Check limits from the deployment user shell before debugging Node or pnpm as an application problem:
+
+```bash
+ulimit -u
+ulimit -n
+ulimit -d
+ulimit -m
+```
+
+## Smoke test media requests
+
+Browser smoke tests should ignore expected `net::ERR_ABORTED` requests for media files such as `.mp4`, `.webm`, and `.mov`.
+
+Chromium can intentionally abort video loads after reading metadata or when navigation finishes. These aborted media requests should not fail deployment when the page, API, images, and console checks are clean.
+
 ## Rollback
 
 Rollback switches the `current` symlink to the previous release and restarts the app services:

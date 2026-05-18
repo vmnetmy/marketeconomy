@@ -59,8 +59,80 @@ LIMIT 1;
 
 Compare the latest applied migration with the repo latest:
 
-- Repo latest migration name is `20260325_095003` (see `apps/cms/src/migrations/index.ts`).
-- If the latest applied migration is not `20260325_095003`, there are pending migrations.
+- Check the latest migration name in `apps/cms/src/migrations/index.ts`.
+- If the latest applied migration is not the repo latest, there are pending migrations.
+
+## Payload migration rule
+
+Do not mix schema DDL and Payload content operations in the same migration.
+
+Bad pattern:
+
+```ts
+export async function up({ db, payload }) {
+  await db.execute(sql`
+    CREATE TABLE ...
+    ALTER TABLE ...
+  `)
+
+  await payload.create(...)
+  await payload.update(...)
+}
+```
+
+Why this can fail:
+
+- Payload/Drizzle runs the migration inside a database transaction.
+- The schema migration holds PostgreSQL locks until the transaction commits.
+- `payload.create()` and `payload.update()` can open another database connection.
+- That second connection may wait on tables locked by the same migration transaction.
+- The result can be a deploy that hangs until SSH or GitHub Actions times out.
+
+Correct pattern:
+
+```ts
+// 20260518_130900.ts
+export async function up({ db }) {
+  await db.execute(sql`
+    CREATE TABLE ...
+    ALTER TABLE ...
+  `)
+}
+```
+
+```ts
+// 20260518_131000.ts
+export async function up({ payload }) {
+  await payload.create(...)
+  await payload.update(...)
+}
+```
+
+Operational notes:
+
+- Keep schema migrations and content/data migrations as separate ordered migrations.
+- If a migration creates tables used by Payload APIs, run Payload API writes only in the next migration.
+- Make content migrations idempotent: check if records already exist before creating them.
+- Avoid long-running media/file operations inside schema migrations.
+- Do not recombine split schema/content migrations during cleanup.
+
+If deploy hangs at `payload migrate`, check PostgreSQL locks:
+
+```sql
+select
+  pid,
+  usename,
+  state,
+  wait_event_type,
+  wait_event,
+  now() - query_start as age,
+  left(query, 160) as query
+from pg_stat_activity
+where datname = current_database()
+order by query_start nulls last;
+```
+
+If one migration connection is `idle in transaction` and another is `active` waiting on `Lock`, suspect schema/content mixing.
 
 ## Safe workflow (migrations + seeds)
 

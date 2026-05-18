@@ -311,6 +311,8 @@ brokenImages                       0
 
 Some aborted `_rsc=` prefetch requests can appear in Chromium. These are ignored by the script when they are normal Next.js navigation prefetch aborts.
 
+Browser smoke tests should also ignore expected `net::ERR_ABORTED` requests for media files such as `.mp4`, `.webm`, and `.mov`. Video loads can be intentionally aborted by the browser after metadata is available, so they should not fail deployment when page responses, API responses, images, and console checks are clean.
+
 If smoke test reports `404` for `/_next/static/...`, check `scripts/deploy-production.sh`. The standalone runtime must include:
 
 ```text
@@ -325,6 +327,26 @@ apps/web/.next/standalone/apps/web/.next/static
 - Do not give developer teams access to unrelated project users or mailboxes.
 - Do not place secrets in GitHub workflow YAML.
 - Store secrets only in GitHub Secrets, the server `.env`, or another approved secret store.
+
+## Server Runtime Limits
+
+The server's cPanel shell profile can impose low limits on app users. Node and pnpm may abort with worker thread errors or core dumps if `ulimit -u`, `ulimit -n`, memory, or data-size limits are too low.
+
+Deployment users should have enough headroom for Node builds:
+
+- Processes: at least `4096`
+- Open files: at least `4096`
+- Data size: `unlimited`
+- Memory: `unlimited`
+
+Check limits as the deployment user:
+
+```bash
+ulimit -u
+ulimit -n
+ulimit -d
+ulimit -m
+```
 
 ## Emergency Commands
 
