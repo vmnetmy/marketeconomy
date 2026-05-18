@@ -81,7 +81,7 @@ jobs:
             git fetch origin main
             git checkout main
             git pull --ff-only origin main
-            DEPLOY_BRANCH=main pnpm deploy:production
+            DEPLOY_BRANCH=main bash scripts/deploy-production.sh
             '"'"
 
       - name: Check out repository for smoke test
