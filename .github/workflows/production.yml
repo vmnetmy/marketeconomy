@@ -81,7 +81,7 @@ jobs:
             git fetch origin main
             git checkout main
             git pull --ff-only origin main
-            NODE_OPTIONS="--max-old-space-size=2048" PNPM_RUNNER="npx --yes pnpm@9.15.0" DEPLOY_BRANCH=main bash scripts/deploy-production.sh
+            NODE_OPTIONS="--max-old-space-size=2048" DEPLOY_BRANCH=main bash scripts/deploy-production.sh
             '"'"
 
       - name: Check out repository for smoke test
