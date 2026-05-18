@@ -1370,6 +1370,43 @@ export interface Page {
             blockType: 'videoEmbed';
           }
         | {
+            sectionTitle?: string | null;
+            sectionIntro?: string | null;
+            videos?:
+              | {
+                  title?: string | null;
+                  description?: string | null;
+                  video?: (number | null) | Media;
+                  /**
+                   * Recommended 16:9 image shown before playback.
+                   */
+                  poster?: (number | null) | Media;
+                  duration?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            /**
+             * Show a placeholder for this block and allow empty required fields.
+             */
+            showPlaceholder?: boolean | null;
+            /**
+             * Show advanced layout settings.
+             */
+            enableAdvanced?: boolean | null;
+            advanced?: {
+              anchorId?: string | null;
+              background?: ('none' | 'light' | 'dark') | null;
+              padding?: ('none' | 'compact' | 'standard' | 'large') | null;
+              width?: ('standard' | 'wide' | 'full') | null;
+              cardStyle?: ('flat' | 'raised') | null;
+              hideOnMobile?: boolean | null;
+              hideOnDesktop?: boolean | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'videoGallery';
+          }
+        | {
             headline?: string | null;
             description?: string | null;
             dataset?: (number | null) | Dataset;
@@ -2647,6 +2684,37 @@ export interface PagesSelect<T extends boolean = true> {
                     frameStyle?: T;
                     radius?: T;
                     shadow?: T;
+                    hideOnMobile?: T;
+                    hideOnDesktop?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        videoGallery?:
+          | T
+          | {
+              sectionTitle?: T;
+              sectionIntro?: T;
+              videos?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    video?: T;
+                    poster?: T;
+                    duration?: T;
+                    id?: T;
+                  };
+              showPlaceholder?: T;
+              enableAdvanced?: T;
+              advanced?:
+                | T
+                | {
+                    anchorId?: T;
+                    background?: T;
+                    padding?: T;
+                    width?: T;
+                    cardStyle?: T;
                     hideOnMobile?: T;
                     hideOnDesktop?: T;
                   };

@@ -23,6 +23,7 @@ import {
   Timeline,
   TwoColumnRichText,
   VideoEmbed,
+  VideoGallery,
 } from '../blocks'
 import { authenticated, publishedOrAuthenticated } from '../access'
 import { formatSlug } from '../hooks/formatSlug'
@@ -100,6 +101,7 @@ export const Pages: CollectionConfig = {
         TwoColumnRichText,
         Pricing,
         VideoEmbed,
+        VideoGallery,
         DataViz,
       ],
     },

@@ -86,6 +86,10 @@ export type VideoEmbedAdvancedSettings = AdvancedSettings & {
   shadow?: 'none' | 'soft' | 'medium' | null
 }
 
+export type VideoGalleryAdvancedSettings = AdvancedSettings & {
+  cardStyle?: 'flat' | 'raised' | null
+}
+
 export type NewsletterAdvancedSettings = AdvancedSettings & {
   tone?: 'light' | 'dark' | null
   layout?: 'inline' | 'stacked' | null

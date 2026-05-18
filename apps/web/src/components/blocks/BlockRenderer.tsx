@@ -23,6 +23,7 @@ import { TestimonialsBlock } from './TestimonialsBlock'
 import { TimelineBlock } from './TimelineBlock'
 import { TwoColumnRichTextBlock } from './TwoColumnRichTextBlock'
 import { VideoEmbedBlock } from './VideoEmbedBlock'
+import { VideoGalleryBlock } from './VideoGalleryBlock'
 
 type HeroBlockType = Parameters<typeof HeroBlock>[0]['block']
 type RichTextBlockType = Parameters<typeof RichTextBlock>[0]['block']
@@ -37,6 +38,7 @@ type NewsletterBlockType = Parameters<typeof NewsletterBlock>[0]['block']
 type TwoColumnRichTextBlockType = Parameters<typeof TwoColumnRichTextBlock>[0]['block']
 type PricingBlockType = Parameters<typeof PricingBlock>[0]['block']
 type VideoEmbedBlockType = Parameters<typeof VideoEmbedBlock>[0]['block']
+type VideoGalleryBlockType = Parameters<typeof VideoGalleryBlock>[0]['block']
 type CTASectionBlockType = Parameters<typeof CTASectionBlock>[0]['block']
 type MediaBlockType = Parameters<typeof MediaBlock>[0]['block']
 type FAQBlockType = Parameters<typeof FAQBlock>[0]['block']
@@ -64,6 +66,7 @@ const placeholderConfig: Record<
   twoColumnRichText: { title: 'Two Column Content', items: 2, columns: 2 },
   pricing: { title: 'Pricing', items: 3, columns: 3 },
   videoEmbed: { title: 'Video', items: 1, columns: 1 },
+  videoGallery: { title: 'Video Gallery', items: 2, columns: 2 },
   ctaSection: { title: 'Call To Action', items: 1, columns: 1 },
   mediaBlock: { title: 'Media', items: 1, columns: 1 },
   faq: { title: 'FAQ', items: 3, columns: 3 },
@@ -123,6 +126,8 @@ export function BlockRenderer({ blocks, placeholderLabel }: { blocks?: CMSBlock[
             return <PricingBlock key={key} block={block as PricingBlockType} />
           case 'videoEmbed':
             return <VideoEmbedBlock key={key} block={block as VideoEmbedBlockType} />
+          case 'videoGallery':
+            return <VideoGalleryBlock key={key} block={block as VideoGalleryBlockType} />
           case 'ctaSection':
             return <CTASectionBlock key={key} block={block as CTASectionBlockType} />
           case 'mediaBlock':
