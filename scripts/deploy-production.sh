@@ -2,7 +2,7 @@
 set -euo pipefail
 
 export PATH=/usr/local/bin:/usr/bin:/bin
-export NODE_OPTIONS=--max-old-space-size=8192
+export NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=4096}"
 
 APP_ROOT="${APP_ROOT:-/srv/apps/marketeconomy}"
 APP_USER="${APP_USER:-marketeco}"
